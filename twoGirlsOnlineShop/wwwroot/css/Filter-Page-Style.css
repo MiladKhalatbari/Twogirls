@@ -1,0 +1,110 @@
+﻿body {
+}
+.row{
+    margin:0;
+}
+.page-header {
+    width: 100%;
+    max-height: 50vh;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.page-title {
+    font-size: 52px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    margin-top: 27px;
+}
+
+.breadcrumb {
+    margin: 18px auto 10px;
+    font-size: 18px;
+}
+
+    .breadcrumb span {
+        color: #9a9a9a;
+    }
+
+    .breadcrumb a:hover {
+        color: #d39d4e;
+        text-decoration: underline;
+    }
+    .breadcrumb em, .breadcrumb i {
+        font-style: normal;
+    }
+
+.sort-by{
+    padding:0px;
+    border :none;
+    outline:none;
+}
+.accordion-button:not(.collapsed) {
+    color: black;
+    background-color: transparent;
+    box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color);
+   
+}
+.accordion-button:focus {
+        box-shadow: none;
+}
+.partial-banner {
+    display: block;
+    height: 120px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+    margin: 18px 0px 36px 0px;
+    overflow: hidden;
+}
+main .custom-carousel-image {
+    padding:0;
+}
+main .card .sunglasses-title {
+    font-size: 0.9vw;
+    white-space: nowrap;
+    margin: 0 !important;
+}
+.favoriteIcon {
+    font-size: 1.3vw;
+    margin-right: .8vw;
+
+}
+.discountedPrice {
+    font-size: .8vw;
+}
+.Price {
+    font-size: 1vw;
+}
+.rate input {
+    width: .6vw;
+    height: 1.5vw;
+}
+.rate {
+    margin-right: 0;
+    bottom: 0px; 
+}
+
+.rate input::before {
+        font-size: 1vw;
+}
+.information {
+    width: .6vw;
+    height: 1.5vw;
+    font-size: 1vw;
+    color: #f8e59f;
+    left: 0px;
+    transition: 0.5s;
+}
+.add-to-cart {
+    font-size: .8vw;
+    padding: .2vw 0.4vw;
+}
+.favorite-item{
+    margin:1vw;
+    padding:1vw;
+    width:calc( calc(100% / 3) - 2vw);
+}
+.favorite-container {
+    background-color: #F5F5F5;
+}

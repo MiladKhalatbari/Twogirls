@@ -1,0 +1,72 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "loginView";
+}
+@section style{
+    <link rel="stylesheet" href="~/css/Login-Register-Style.css" asp-append-version="true">
+}
+<img src="~/image/loginheader.jpg" alt="" class="login-banner">
+<div class="container-xl my-5">
+    <div class=" row">
+        <section class="col-12 col-md-7 mb-5">
+            @if (Model?.Email!=null)
+            {
+                <div class="alert alert-success">Your registration is successful you can You can now login</div>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="alert alert-danger">You don't have the Access!</div>
+            }
+            <p class="h1">Login</p>
+            <form asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label asp-for=Email class="form-label">E-mail address *</label>
+                    <input asp-for=Email type="email" class="form-control" id="user-email">
+                    <span asp-validation-for="Email" class="text-tomato"></span>
+
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+
+                    <label asp-for=Password class="form-label">Password *</label>
+                    <input asp-for=Password type="password" class="form-control" id="user-pass">
+                    <span asp-validation-for="Password" class="text-tomato"></span>
+
+                    <a href="#">Forgot your password?</a>
+
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input asp-for=RememberMe type="checkbox" class="form-check-input" id="remember-me"><label asp-for=RememberMe>Remember me</label>
+                </div>
+                <button type="submit" class="btn-login" > LOGIN</button>
+
+            </form>
+
+        </section>
+        <section class="col-12 col-md-5">
+            <p class="h2">Are you not registered?</p>
+            <p class="fw-bolder">Register now to enjoy a unique shopping experience.</p>
+            <ul class="sign-in-benefit">
+                <li>
+                    <i class="fa-regular fa-user"></i>
+                    <p>Check the details and monitor the status of your orders and returns</p>
+                </li>
+                <li>
+                    <i class="fa-regular fa-heart"></i>
+                    <p>Create wishlists to save and share your favorite items</p>
+                </li>
+                <li>
+                    <i class="fa-regular fa-star"></i>
+                    <p>View your private appointments and repairs requests </p>
+                </li>
+            </ul>
+            <a class="btn-create-new-account" asp-area="" asp-controller="Account" asp-action="Register">CREATE NEW ACCOUNT</a>
+        </section>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+}

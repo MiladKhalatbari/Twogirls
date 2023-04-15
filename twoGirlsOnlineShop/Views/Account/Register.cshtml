@@ -1,0 +1,99 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "registerView";
+}
+@section style{
+    <link rel="stylesheet" href="~/css/Login-Register-Style.css" asp-append-version="true">
+}
+<img src="~/image/loginheader.jpg" alt="" class="login-banner">
+
+<div class="container-xl my-5">
+    <div class=" row">
+        <section class="col-12 col-md-7 mb-5">
+            <p class="h1">Registration</p>
+            <p>Register now to enjoy a unique shopping experience</p>
+            <ul class="sign-in-benefit my-4">
+                <li>
+                    <i class="fa-regular fa-user"></i>
+                    <p>Check the details and monitor the status of your orders and returns</p>
+                </li>
+                <li>
+                    <i class="fa-regular fa-heart"></i>
+                    <p>Create wishlists to save and share your favorite items</p>
+                </li>
+                <li>
+                    <i class="fa-regular fa-star"></i>
+                    <p>View your private appointments and repairs requests </p>
+                </li>
+            </ul>
+            <small class="my-3 d-block">* Mandatory field</small>
+            <form asp-action="Register">
+                <div class="row">
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label asp-for=FirstName for="user-first-name" class="form-label">First name *</label>
+                        <input asp-for=FirstName type="text" placeholder="First name *" class="form-control col-6" id="user-first-name">
+                        <span asp-validation-for="FirstName" class="text-tomato"></span>
+                    </div>
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label asp-for=lastName  class="form-label">Last name *</label>
+                        <input asp-for=lastName type="text" placeholder="Last name *" class="form-control col-6" id="user-last-name">
+                        <span asp-validation-for="lastName" class="text-tomato"></span>
+                    </div>
+                </div>
+                <input asp-for="PrivacyPolicyChecked" class=" d-none" checked />
+
+                <div class="row">
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label asp-for=Email class="form-label">Email *</label>
+                        <input asp-for=Email type="email" placeholder="Email *" class="form-control col-6" id="email">
+                        <span asp-validation-for="Email" class="text-tomato"></span>
+                    </div>
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label asp-for=PhoneNumber class="form-label">Phone number </label>
+                        <input asp-for=PhoneNumber type="text" placeholder="Phone number " class="form-control col-6" id="phone-number">
+                        <span asp-validation-for="PhoneNumber" class="text-tomato"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label asp-for=Password class="form-label">Password *</label>
+                        <input asp-for=Password type="password" placeholder="Password *" class="form-control col-6"id="password">
+                        <span asp-validation-for="Password" class="text-tomato"></span>
+
+                    </div>
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label asp-for =ConfirmPassword for="confirm-password" class="form-label">Confirm password *</label>
+                        <input asp-for=ConfirmPassword type="password" placeholder="Confirm password *" class="form-control col-6" id="confirm-password">
+                        <span asp-validation-for="ConfirmPassword" class="text-tomato"></span>
+
+                    </div>
+                </div>
+                <div class="mb-3 form-check">
+                    <input asp-for="PrivacyPolicy" type="checkbox" class="form-check-input btn-dark" id="remember-me"><label for="">
+                        Confirm that you have read and understood our
+                        <a href="#" class="text-danger"> Privacy Policy </a>
+                        , and that you want to register.
+                    </label>
+                    <br /> 
+                    <span asp-validation-for="PrivacyPolicy" class="text-tomato"></span>
+
+                </div>
+                <button type="submit" class="btn-login"> Registration </button>
+
+            </form>
+
+        </section>
+        <section class="col-12 col-md-5">
+            <p class="h2">Already registered?</p>
+            <p>Sign in to your account to make the checkout process quicker</p>
+
+            <a class="btn-create-new-account" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

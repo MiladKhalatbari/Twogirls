@@ -1,0 +1,56 @@
+.login-banner {
+    height: 40vh;
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.btn-login {
+    outline: none;
+    border: none;
+    background-color: #f3ca20;
+    padding: .5vw 3vw;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    .btn-login {
+        width: 100%;
+        padding: 1vw 2vw;
+    }
+}
+
+.sign-in-benefit {
+    list-style: none;
+    padding: 0;
+}
+
+.sign-in-benefit li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.sign-in-benefit li i {
+    font-size: 21px;
+    padding: 4px;
+    margin-right: 18px;
+}
+
+.sign-in-benefit li p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.btn-create-new-account {
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: .5vw 3vw;
+    font-weight: 700;
+    font-size: 14px;
+    background-color: transparent;
+}

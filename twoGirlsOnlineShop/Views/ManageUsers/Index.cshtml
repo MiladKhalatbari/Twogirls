@@ -1,0 +1,84 @@
+﻿@model IEnumerable<twoGirlsOnlineShop.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@{
+    int i = 1;
+}
+<br />
+<br />
+<br />
+<div class="table-responsive">
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    #
+                </th>
+                <th class="text-center">
+                    FirstName
+                </th>
+                <th class="text-center">
+                    lastName
+                </th>
+                <th class="text-center">
+                    Email
+                </th>
+                <th class="text-center">
+                    PhoneNumber
+                </th>
+                <th class="text-center">
+                    Password
+                </th>
+                <th class="text-center">
+                    ConfirmPassword
+                </th>
+                <th class="text-center">
+                    IsAdmin
+                </th>
+                <th class="text-center">
+                    <a class="btn btn-success" asp-action="Create">Create New</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th class="text-center">
+                        @i
+                    </th>
+                    <td class="text-center">
+                        @item.FirstName
+                    </td>
+                    <td class="text-center">
+                        @item.lastName
+                    </td>
+                    <td class="text-center">
+                        @item.Email
+                    </td>
+                    <td class="text-center">
+                        @item.PhoneNumber
+                    </td>
+                    <td class="text-center">
+                        @item.Password
+                    </td>
+                    <td class="text-center">
+                        @item.ConfirmPassword
+                    </td>
+                    <td class="text-center">
+                        @item.IsAdmin
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>

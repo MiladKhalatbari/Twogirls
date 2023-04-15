@@ -1,0 +1,234 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Favorite";
+}
+@section style{
+    <link rel="stylesheet" href="~/css/Filter-Page-Style.css" asp-append-version="true">
+}
+<img src="~/image/Favorite-Banner.jpg" alt="" class="page-header">
+
+<div class="container-lg">
+    <div class="breadcrumb">
+        <p><span><a asp-action="Index" asp-controller="Home"><em> Home </em></a></span><i>&gt;</i><span><a asp-action="Favorite" asp-controller="Home"><em> Favorite </em></a></span><i>&gt;</i></p>
+    </div>
+    <h1 class="page-title">My Wishlist</h1>
+    <div class="d-flex justify-content-between align-items-center filtered-sort js-filtered-sort">
+
+        <div class="d-inline-flex filtered js-filtered-list">
+            <div class="total fw-bold">Filters <span class="total-filter">(0)</span></div>
+            <div class="item filter-item"></div>
+            <div class="more js-more d-none">+3 more</div>
+            <div class="cancel js-clear-filter" data-event-cate="Category" data-event-name="Filters" data-event-label="Clear filters" style="visibility: hidden;">Clear filters</div>
+        </div>
+        <div class="d-inline-flex">
+            <span>Sort by:</span>
+            <select class="sort-by d-inline" aria-label=".form-select-sm example">
+                <option selected>Relevance</option>
+                <option value="best">Popularity</option>
+                <option value="arrivals">Newest Arrivals</option>
+                <option value="recently-view">Recently Viewed</option>
+                <option value="top_rated">Top Rated</option>
+                <option value="high">Price Highest</option>
+                <option value="low">Price Lowest</option>
+            </select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+
+        <aside class="d-none d-md-block col col-md-3">
+            <div class="accordion accordion-flush" id="accordion-filter-Panel">
+                <div class="accordion-item">
+                    <h2 class="">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            Brands
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <ul class="list-group list-unstyled text-secondary">
+                                <li>
+                                    <input type="checkbox" id="checkbox1">
+                                    <label class="checkbox-label" for="checkbox1"> Ray-Ban (67)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox2">
+                                    <label class="checkbox-label" for="checkbox1"> Fendi (42)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox3">
+                                    <label class="checkbox-label" for="checkbox1"> Gucci (13)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox4">
+                                    <label class="checkbox-label" for="checkbox1"> Chanel (104)</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            Men's
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <ul class="list-group list-unstyled text-secondary">
+                                <li>
+                                    <input type="checkbox" id="checkbox1">
+                                    <label class="checkbox-label" for="checkbox1"> New Collection (35) </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox2">
+                                    <label class="checkbox-label" for="checkbox1">  Most Visited (519)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox3">
+                                    <label class="checkbox-label" for="checkbox1"> Best Sellers (289)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox4">
+                                    <label class="checkbox-label" for="checkbox1"> Discounted (74)</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsethree" aria-expanded="true" aria-controls="panelsStayOpen-collapsethree">
+                            Women's
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapsethree" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <ul class="list-group list-unstyled text-secondary">
+                                <li>
+                                    <input type="checkbox" id="checkbox1">
+                                    <label class="checkbox-label" for="checkbox1"> New Collection (35) </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox2">
+                                    <label class="checkbox-label" for="checkbox1">  Most Visited (519)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox3">
+                                    <label class="checkbox-label" for="checkbox1"> Best Sellers (289)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox4">
+                                    <label class="checkbox-label" for="checkbox1"> Discounted (74)</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefour" aria-expanded="true" aria-controls="panelsStayOpen-collapsefour">
+                            Featured Categories
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapsefour" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <ul class="list-group list-unstyled text-secondary">
+                                <li>
+                                    <input type="checkbox" id="checkbox1">
+                                    <label class="checkbox-label" for="checkbox1"> Fashion and Trends (35) </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox2">
+                                    <label class="checkbox-label" for="checkbox1">  Most Visited (519)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox3">
+                                    <label class="checkbox-label" for="checkbox1"> Sports Glasses (289)</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="checkbox4">
+                                    <label class="checkbox-label" for="checkbox1"> Glasses for Couples (74)</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefive" aria-expanded="true" aria-controls="panelsStayOpen-collapsefive">
+                            Price
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapsefive" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <label for="customRange1" class="form-label">0$-9999$</label>
+                            <input type="range" class="form-range" id="customRange1" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <main class="col col-md-9 p-0">
+            <img src="~/image/240754050858m.png" class="partial-banner" />
+            <div class="row favorite-container">
+                @foreach(var product in Model)
+                {
+                    <div class="card position-relative favorite-item border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="sunglasses-title">@product.Title</p>
+
+                            <i class="favoriteIcon fa-regular nav-icon fa-heart  text-warning"></i>
+
+                        </div>
+                        <div>
+                            <img src=@product.ImagePaths.FirstOrDefault().Url.ToString() onmouseover="secondImg(this,'@product.ImagePaths.Skip(1).FirstOrDefault().Url.ToString()')"
+                                 onmouseleave="FirstImg(this,'@product.ImagePaths.FirstOrDefault().Url')"
+                                 class="card-img-top custom-carousel-image img-fluid rounded-2" alt="...">
+                        </div>
+
+                        <div class="card-body p-0 d-flex justify-content-between align-items-center border-1">
+
+                            <div class="align-items-end">
+                                <small class="discountedPrice">$11400</small>
+                                <p class="Price"><small>$</small>9845</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-end">
+                                <button class="add-to-cart btn btn-outline-secondary">
+                                    Buy now
+                                </button>
+                                
+
+                            </div>
+
+                        </div>
+                        <div class="card-footer p-0 pt-1 bg-transparent d-flex justify-content-between align-items-center">
+                            <a class="information"><i class="fa-solid fa-circle-info"></i>
+
+                    </a>
+                            <div class="rate d-inline-flex flex-nowrap align-items-start justify-content-start">
+
+                                <input type="radio" name="rate-@product.Id" value="5" />
+                                <input type="radio" name="rate-@product.Id" value="4.5" />
+                                <input type="radio" name="rate-@product.Id" value="4" />
+                                <input type="radio" name="rate-@product.Id" value="3.5" />
+                                <input type="radio" name="rate-@product.Id" value="3" />
+                                <input type="radio" name="rate-@product.Id" value="2.5" />
+                                <input type="radio" name="rate-@product.Id" value="2" />
+                                <input type="radio" name="rate-@product.Id" value="1.5" />
+                                <input type="radio" name="rate-@product.Id" value="1" />
+                                <input type="radio" name="rate-@product.Id" value="0.5" />
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </main>
+    </div>
+
+</div>
+

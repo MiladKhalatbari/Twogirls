@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Product>;
+
+
+    <i class="fa-solid fa-angle-left rounded-circle position-absolute top-50 start-0 translate-middle-y text-warning arrow"></i>
+    <div class="overflow-hidden  custom-carousel flex-nowrap row m-0 ">
+
+
+        @foreach(var item in Model){
+            string firstImageSrc = item?.ImagePaths.FirstOrDefault()?.Url.ToString();
+            string secoundImageSrc = item?.ImagePaths.Skip(1).Take(1).FirstOrDefault()?.Url.ToString();
+            Guid guid = Guid.NewGuid();
+
+            <div class="card custom-carousel-item position-relative border-0">
+            <div class="d-flex justify-content-between">
+                <p class="ms-4 sunglasses-title">@item.Title</p>
+                    <i class="favoriteIcon fa-regular nav-icon fa-heart  text-warning"></i>
+
+                 
+            </div>
+            <div class="">
+                <img src='@firstImageSrc' onmouseover="secondImg(this,'@secoundImageSrc')"
+                     onmouseleave="FirstImg(this,'@firstImageSrc')"
+                     class="card-img-top custom-carousel-image img-fluid rounded-2" alt="...">
+
+            </div>
+            <img src="@ViewData["cornerImage"]" class="position-absolute top-0 start-0 " style="width: 3vw;"></img>
+
+            <div class="card-body p-0 d-flex justify-content-between border-1">
+
+                <div class="align-items-end">
+                    <small class="discountedPrice">$@item.SalesPrice</small>
+                    <p class="Price"><small>$</small>@item.DiscountedPrice</p>
+                </div>
+                <div>
+
+                        <div class="rate d-inline-flex flex-nowrap align-items-start justify-content-start">
+                            @for (double rating = 5; rating >= 0.5; rating -= 0.5)
+                            {
+                                <input type="radio" name="@guid" value="@rating" @(item.Rate() == rating ? "checked" : "") />
+                            }
+                        </div>
+
+                </div>
+
+            </div>
+                <a asp-action="AddToCard" asp-controller="Basket" asp-route-id="@item.Id" class="add-to-cart">
+                    <span>Add to cart</span>
+                <i class="fa-solid fa-cart-arrow-down"></i>
+            </a>
+        </div>
+
+        }
+    </div>
+    <i class="fa-solid fa-angle-right rounded-circle position-absolute top-50 end-0 text-warning translate-middle-y arrow"></i>
+
