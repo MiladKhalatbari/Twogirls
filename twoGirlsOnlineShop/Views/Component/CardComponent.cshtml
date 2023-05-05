@@ -1,4 +1,5 @@
-﻿@model Card ;
+﻿@using TwoGirls.DataLayer.Entities;
+@model Card ;
 
 
 <div class="">
@@ -33,9 +34,9 @@
                     <div class="name">@name</div>
                     <div class="price">$@price</div>
                     <div class="count">
-                        <a asp-controller="Basket" asp-action="AddToCard" asp-route-id="@item.Product.Id" class="button"><i class="fa-solid fa-plus"></i></a>
+                        <a onclick="addToCart(@item.Product.Id)" class="button" data-ajax="true"><i class="fa-solid fa-plus"></i></a>
                         <div class="number">@quantity</div>
-                        <a asp-controller="Basket" asp-action="RemoveFromCard" asp-route-id="@item.Product.Id" class="button"><i class="fa-solid fa-minus"></i></a>
+                        <a onclick="removeFromCart(@item.Product.Id)" class="button" data-ajax="true"><i class="fa-solid fa-minus"></i></a>
                     </div>
                 </div>
             </div>

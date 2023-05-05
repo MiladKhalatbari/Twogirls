@@ -1,0 +1,95 @@
+﻿@section style{
+    <link rel="stylesheet" href="~/css/Account-Style.css" asp-append-version="true">
+}
+@{
+
+    ViewData["Title"] = "Edit Profile";
+    var alertStatus = ViewBag.isSuccess;
+    var alertText = ViewBag.alertText;
+}
+
+<img src="~/image/loginheader.jpg" alt="" class="Page_banner">
+<div class="container-xxl mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <div id="User-Avatar">
+                @await Html.PartialAsync("UserPanel/_UserAvatar", ViewData["UserAvatarViewModel"])
+                </div>
+                <ul class="list-group list-group-flush">
+                    <a asp-action="TransactionList" asp-controller="Account" class="list-group-item">Wallet Transactions </a>
+                    <a asp-action="TransactionList" asp-controller="Account" class="list-group-item"> Charge Wallet </a>
+                    <a href="#form-ChangePassword" class="list-group-item"> Change Passwrod </a>
+                    <a asp-action="Logout" asp-controller="Account" class="list-group-item">Logout </a>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-5 ">
+            <div class="px-3 py-5">
+                <div id="edit-user-info">
+                @await Html.PartialAsync("UserPanel/_UserEditInfo", ViewData["EditProfileViewModel"])
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="px-3">
+                    <div id="FailedAddressRemove" class="alert alert-danger d-none">
+                        <h4 class="alert-heading">Oops!</h4>
+                        Something is wrong, try again!
+                    </div>
+                    <p class="h4">Your Addresses</p>
+                    <br>
+                    <div id="addressesList">
+                    @await Html.PartialAsync("UserPanel/_UserAddresses", ViewData["UserAddressesViewModel"])
+                    </div>
+                    <p>
+                        <a class="btn btn-warning w-100" data-bs-toggle="collapse" href="#AddAddressPartial" role="button"
+                           aria-expanded="false" aria-controls="AddAddressPartial">
+                            Add new Address
+                        </a>
+                    </p>
+                    <div class="collapse" id="AddAddressPartial">
+
+                        @await Html.PartialAsync("UserPanel/_AddUserAddress", ViewData["AddUserAddressViewModel"])
+
+                    </div>
+
+                    <div id="FailedCardRemove" class="alert alert-danger d-none">
+                        <h4 class="alert-heading">Oops!</h4>
+                        Something is wrong, try again!
+                    </div>
+                    <p class="h4 mt-5">Peyment Method</p>
+                    <div id="creditCardsList">
+                    @await Html.PartialAsync("UserPanel/_UserCreditCards", ViewData["UserCreditCardsViewModel"])
+                    </div>
+                    <p>
+                        <a class="btn btn-warning w-100" data-bs-toggle="collapse" href="#AddcreditCardPartial" role="button"
+                           aria-expanded="false" aria-controls="AddcreditCardPartial">
+                            Add new card
+                        </a>
+                    </p>
+                    <div class="collapse" id="AddcreditCardPartial">
+                        @await Html.PartialAsync("UserPanel/_AddUserCreditCard", ViewData["AddUserCreditCardViewModel"])
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            @await Html.PartialAsync("UserPanel/_ChangePasswordForm", ViewData["ChangePasswordViewModel"])
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

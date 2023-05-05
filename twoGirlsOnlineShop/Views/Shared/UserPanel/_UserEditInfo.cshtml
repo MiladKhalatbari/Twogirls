@@ -1,0 +1,47 @@
+﻿@using TwoGirls.Core.DTOs;
+@model EditProfileViewModel
+
+@{
+    Layout = null;
+}
+
+<div id="succsessChangeUserInfo" class="alert alert-success d-none">
+    Congratulations! Your Information has been successfully changed.
+</div>
+<form method="post" asp-action="EditUser" asp-controller="UserPanel" onsubmit="return jQueryAjaxPostEditUserInfo(this);">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-right">Personal Information </h4>
+    </div>
+    <input type="hidden" asp-for="Id" />
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <label class="form-label" asp-for="FirstName">First name *</label>
+            <input type="text" asp-for="FirstName" class="form-control" placeholder="First name *">
+            <span asp-validation-for="FirstName" class="text-tomato"></span>
+
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" asp-for="LastName">Last name *</label>
+            <input type="text" class="form-control" asp-for="LastName" placeholder="Last name *">    
+            <span asp-validation-for="LastName" class="text-tomato"></span>
+
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <label class="form-label" asp-for="PhoneNumber">Mobile Number</label>
+            <input type="text" class="form-control" placeholder="Phone Number *" asp-for="PhoneNumber">   
+            <span asp-validation-for="PhoneNumber" class="text-tomato"></span>
+
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" asp-for="Email">Email *</label>
+            <input type="email" class="form-control" placeholder="Email *" asp-for="Email">   
+            <span asp-validation-for="Email" class="text-tomato"></span>
+
+        </div>
+    </div>
+    <div class=" text-center mt-3">
+        <button class="btn btn-warning w-100" type="submit">Change Profile</button>
+    </div>
+</form>

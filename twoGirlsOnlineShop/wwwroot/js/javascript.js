@@ -183,8 +183,317 @@ function addItemToCard() {
     document.getElementById("basketDropdown").classList.add("show");
 }
 
-//document.getElementById('myNavbar').addEventListener('click', function () {
-//    if (document.getElementById("basketDropdown").classList.contains("show")) {
-//        document.getElementById("basketDropdown").classList.remove("show")
-//    }
-//})
+let ShowInPopup = (url, rating) => {
+    $.ajax({
+        type: "GET",
+        url: url + "&rating=" + rating,
+        success: function (res) {
+            $("#form-modal .modal-body").html(res);
+            $("#form-modal").modal('show');
+        }
+    })
+}
+
+function AddFavorite(productId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Product/AddFavorite?id=" + productId);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                location.reload();
+            } else {
+                //Error: handle the error
+                console.error(xhr.status, xhr.statusText);
+            }
+        }
+    };
+    xhr.send();
+}
+
+let jQueryAjaxPost = form => {
+    try {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.success) {
+                    $("#form-modal").modal("hide");
+                } else {
+                    $("#form-modal .modal-body").html(res.html);
+                    // Display validation errors
+                    $("#form-modal").find(".text-danger").each(function () {
+                        $(this).closest(".form-group").addClass("has-error");
+                    });
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return false;
+}
+let jQueryAjaxChangePassword = form => {
+    try {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result.success) {
+                    $('#FailedChangePass').addClass('d-none');
+                    $('#succsessChangePass').removeClass('d-none');
+                    $('#form-ChangePassword')[0].reset();
+                }
+                else if (result.isIncorrect) {
+
+                    $('#changePasswordModal').html(result.html);
+                    $('#FailedChangePass').removeClass('d-none');
+                    $('#succsessChangePass').addClass('d-none');
+                }
+                else {
+                    $('#changePasswordModal').html(result.html);
+                    $('#succsessChangePass').addClass('d-none');
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return false;
+}
+
+let jQueryAjaxAddress = form => {
+    try {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result.success) {
+                    $('#FailedAddressRemove').addClass('d-none');
+                    $('#form-AddAddress')[0].reset();
+                    $('#addressesList').html(result.html);
+                }
+                else {
+
+                    $('#AddAddressPartial').html(result.html);
+                    $('#FailedAddressRemove').removeClass('d-none');
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return false;
+}
+let jQueryAjaxCreditCard = form => {
+    try {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result.success) {
+                    $('#FailedCardRemove').addClass('d-none');
+                    $('#form-AddcreditCard')[0].reset();
+                    $('#creditCardsList').html(result.html);
+                }
+                else {
+
+                    $('#AddcreditCardPartial').html(result.html);
+                    $('#FailedCardRemove').removeClass('d-none');
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return false;
+}
+
+function removeCard(CardId) {
+    if (confirm('Are you sure you want to remove this credit card?')) {
+        $.ajax({
+            url: "/UserPanel/RemoveCreditCard?creditCardId=" + CardId,
+            type: "POST",
+            contentType: "application/json",
+            success: function (result) {
+                if (result.success) {
+                    $('#FailedCardRemove').addClass('d-none');
+                    $('#creditCardsList').html(result.html);
+                }
+                else {
+
+                    $('#creditCardsList').html(result.html);
+                    $('#FailedCardRemove').removeClass('d-none');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(status + ": " + error);
+            }
+        });
+    }
+}
+function removeAddress(addressId) {
+    if (confirm('Are you sure you want to remove this Address?')) {
+        $.ajax({
+            url: "/UserPanel/RemoveAddress?addressId=" + addressId,
+            type: "POST",
+            contentType: "application/json",
+            success: function (result) {
+                if (result.success) {
+                    $('#FailedAddressRemove').addClass('d-none');
+                    $('#addressesList').html(result.html);
+                }
+                else {
+                    $('#addressesList').html(result.html);
+                    $('#FailedAddressRemove').removeClass('d-none');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(status + ": " + error);
+            }
+        });
+    }
+}
+function addToCart(productId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Basket/AddToCard?id=" + productId);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Success: update the UI
+                var cartComponent = document.querySelector("#update-card-component");
+                cartComponent.innerHTML = xhr.responseText;
+            } else {
+                // Error: handle the error
+                console.error(xhr.status, xhr.statusText);
+            }
+        }
+    };
+    xhr.send();
+}
+
+function removeFromCart(productId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Basket/RemoveFromCard?id=" + productId);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Success: update the UI
+                var cartComponent = document.querySelector("#update-card-component");
+                cartComponent.innerHTML = xhr.responseText;
+            } else {
+                // Error: handle the error
+                console.error(xhr.status, xhr.statusText);
+            }
+        }
+    };
+    xhr.send();
+}
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#user-avatar-image').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#avatar-user-input").change(function () {
+    readURL(this);
+    $("#user-avatar-btn-submit").removeClass("d-none")
+})
+
+
+let jQueryAjaxPostAvatar = form => {
+    try {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result.success) {
+                    $('#form-AddAvatar')[0].reset();
+                    $('#User-Avatar').html(result.html);
+                    $('#succsessChangeAvatar').removeClass('d-none');
+                }
+                else {
+                    $('#User-Avatar').html(result.html);
+                    $('#succsessChangeAvatar').addClass('d-none');
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return false;
+}
+let jQueryAjaxPostEditUserInfo = form => {
+    try {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result.success) {
+
+                    $('#edit-user-info').html(result.html);
+                    $('#succsessChangeUserInfo').removeClass('d-none');
+                }
+                else {
+
+                    $('#edit-user-info').html(result.html);
+                    $('#succsessChangeUserInfo').addClass('d-none');
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return false;
+}

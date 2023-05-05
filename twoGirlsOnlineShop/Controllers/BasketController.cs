@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Security.Claims;
-using twoGirlsOnlineShop.Data;
+using TwoGirls.DataLayer.Context;
+using TwoGirls.DataLayer.Entities;
 using twoGirlsOnlineShop.Models;
 
 namespace twoGirlsOnlineShop.Controllers
@@ -13,13 +15,10 @@ namespace twoGirlsOnlineShop.Controllers
     {
         private TwogirsContext _myContext;
         private readonly ILogger<HomeController> _logger;
-        private User? _user;
         public BasketController(ILogger<HomeController> logger, TwogirsContext myContex)
         {
             _logger = logger;
             _myContext = myContex;
-           _user = _myContext.Users.FirstOrDefault(x => x.Id == 1);
-
         }
         public IActionResult Index()
         {
@@ -28,16 +27,28 @@ namespace twoGirlsOnlineShop.Controllers
         [Authorize]
         public IActionResult AddToCard(int id)
         {
-            int userId= Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier.ToString()));
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier.ToString()));
             var product = _myContext.Products.Find(id);
-            var card = _myContext.Cards.Include(x => x.CardItems).ThenInclude(x => x.Product).FirstOrDefault(x => x.UserId == userId && x.IsClose == false);
-            if (product != null && card != null)
+            var card = _myContext.Cards
+                .Include(x => x.CardItems)
+                .ThenInclude(x => x.Product)
+                .FirstOrDefault(x => x.UserId == userId && x.IsClose == false);
+            if (card == null)
             {
-                card.AddCardItem(product);
-                _myContext.Update(card);
+                card = new Card()
+                {
+                    IsClose = false,
+                    UserId = userId,
+                    CreateDate = DateTime.Now
+                };
+
+                _myContext.Cards.Add(card);
                 _myContext.SaveChanges();
+                card = _myContext.Cards.Include(i => i.CardItems).ThenInclude(x => x.Product).ThenInclude(p => p.ImagePaths).FirstOrDefault(x => x.UserId == userId && x.IsClose == false);
             }
-            return View("Views/Home/Index.cshtml");
+            card.AddCardItem(product);
+            _myContext.SaveChanges();
+            return ViewComponent("CardComponent");
         }
         [Authorize]
         public IActionResult RemoveFromCard(int id)
@@ -51,7 +62,7 @@ namespace twoGirlsOnlineShop.Controllers
                 _myContext.Update(card);
                 _myContext.SaveChanges();
             }
-            return View("Views/Home/Index.cshtml");
+            return ViewComponent("CardComponent");
         }
         public IActionResult PaymentAndAddress (int id) 
         {

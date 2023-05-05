@@ -1,0 +1,35 @@
+﻿@using TwoGirls.DataLayer.Entities;
+@model Review
+
+@{
+    ViewData["Title"] = "Add Review";
+    Layout = null;
+}
+
+
+    <div class="text-center">
+    <h1 class="modal-header-text ">Your opinion matters to us.</h1>
+    <h4 class="modal-title-text m-0">How was the quality of the product?</h4>
+    <form asp-action="AddReview" asp-controller="Product" method="post" onsubmit="return jQueryAjaxPost(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="UserId" />
+
+            <div class="rate d-inline-flex flex-nowrap align-items-start justify-content-start">
+                @for (double rating = 5; rating >= 0.5; rating -= 0.5)
+                {
+                    <input type="radio" name="Rate" value="@rating" @(rating == Model.Rate ? "checked" : "") />
+                }
+            </div>
+            <div class="form-group">
+                <textarea asp-for="Comment" rows="3" class="form-control modal-review-textarea"></textarea>
+                <span asp-validation-for="Comment" class="text-danger review-modal-error"></span>
+            </div>
+            <input type="submit" value="Add Review" class="btn modal-review-btn btn-warning" />
+        </form>
+    </div>
+
+
+@*@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}*@

@@ -5,6 +5,10 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "twoGirlsOnlineShop", "twoGirlsOnlineShop\twoGirlsOnlineShop.csproj", "{F11DFDB2-C3E9-44E7-9560-A5969CD04354}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoGirls.DataLayer", "TwoGirls.DataLayer\TwoGirls.DataLayer.csproj", "{D0E16F66-C9F0-4A20-A2E6-7C08F5B31A4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoGirls.Core", "TwoGirls.Core\TwoGirls.Core.csproj", "{FAB0B0AA-1441-4FCA-BCD3-2567847B4A49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{F11DFDB2-C3E9-44E7-9560-A5969CD04354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F11DFDB2-C3E9-44E7-9560-A5969CD04354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F11DFDB2-C3E9-44E7-9560-A5969CD04354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0E16F66-C9F0-4A20-A2E6-7C08F5B31A4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0E16F66-C9F0-4A20-A2E6-7C08F5B31A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0E16F66-C9F0-4A20-A2E6-7C08F5B31A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0E16F66-C9F0-4A20-A2E6-7C08F5B31A4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAB0B0AA-1441-4FCA-BCD3-2567847B4A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB0B0AA-1441-4FCA-BCD3-2567847B4A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB0B0AA-1441-4FCA-BCD3-2567847B4A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB0B0AA-1441-4FCA-BCD3-2567847B4A49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,12 @@
-﻿@model IEnumerable<twoGirlsOnlineShop.Models.User>
+﻿@using TwoGirls.DataLayer.Entities;
 
+@model IEnumerable<User>
 @{
     ViewData["Title"] = "Index";
 }
 @{
     int i = 1;
+    var roles = ViewBag["Roles"] as List<Role>;
 }
 <br />
 <br />
@@ -54,7 +56,7 @@
                         @item.FirstName
                     </td>
                     <td class="text-center">
-                        @item.lastName
+                        @item.LastName
                     </td>
                     <td class="text-center">
                         @item.Email
@@ -65,11 +67,12 @@
                     <td class="text-center">
                         @item.Password
                     </td>
+  
                     <td class="text-center">
-                        @item.ConfirmPassword
-                    </td>
-                    <td class="text-center">
-                        @item.IsAdmin
+                        @foreach(var role in @item.UserRoles)
+                        {
+                            <p>@roles.FirstOrDefault(x=>x.RoleId== @role.RoleId).RoleTitle.ToString()</p>
+                        }
                     </td>
                     <td class="text-center">
                         <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,0 +1,37 @@
+﻿@using TwoGirls.DataLayer.Entities;
+@model List<Address>
+
+@{
+    Layout = null;
+}
+
+@if (Model.Count == 0)
+{
+    <div class="border rounded p-3 d-flex align-items-center mb-2">
+        you currently don't have any address, you can add one with the button below
+    </div>
+
+}
+else
+{
+    @foreach (var address in Model)
+    {
+        string unitNumber = string.IsNullOrEmpty(address.UnitNumber) ? "" : $"Unit {address.UnitNumber} ";
+        string buildingNumber = string.IsNullOrEmpty(address.BuildingNumber) ? "" : $"Building {address.BuildingNumber}, ";
+        string description = string.IsNullOrEmpty(address.Description) ? "" : $"{address.Description}, ";
+        string fullAddress = $"{address.Country} {unitNumber}{buildingNumber}{description}{address.Street}, {address.PostCode} {address.City}";
+
+        <div class="border rounded p-3 d-flex align-items-center mb-2" role="alert">
+            <div class="pe-3 d-none">
+                <input type="radio" name="" id="">
+            </div>
+            <div class="w-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="text-muted ">@address.Name</h5>
+                    <a onclick="removeAddress(@address.Id)" class="text-tomato Pointer">Remove card</a>
+                </div>
+                <p class="text-dark m-0"> @fullAddress</p>
+            </div>
+        </div>
+    }
+}

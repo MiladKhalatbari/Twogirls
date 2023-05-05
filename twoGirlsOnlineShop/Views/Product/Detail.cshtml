@@ -1,5 +1,346 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@using TwoGirls.DataLayer.Entities;
+@model Product;
+
+@section style{
+    <link rel="stylesheet" href="~/css/Detail-Page-Style.css" asp-append-version="true">
 }
+
+<img src="~/image/Detail-Banner.jpg" alt="" class="page-header" />
+<section id="product-detail" class="container-lg mt-1">
+    <div class="row">
+        <div class="col-md-6 col-lg-5 gallery mt-3">
+            <div class="detail-product-card align-middle">
+                <img src="/img/b1.webp" alt="" class="detail-product-card-img" id="myimage">
+                <div class="gallery__data">
+                </div>
+            </div>
+            <!-- Gallery overflow -->
+            <div id="detail-product-slider" class="overflow-hidden wrapper position-relative">
+                <div class="overflow-hidden custom-carousel flex-nowrap row m-0 ">
+                    <div class="card custom-carousel-item">
+                        <div class="gallery__thumbnail">
+                            <img src="/img/b1.webp" alt="image" class="" onclick="img('./img/b1.webp')">
+                        </div>
+                    </div>
+                    <div class="card custom-carousel-item">
+                        <div class="gallery__thumbnail">
+                            <img src="/img/a2.webp" alt="image" class="" onclick="img('./img/a2.webp')">
+                        </div>
+                    </div>
+                    <div class="card custom-carousel-item">
+                        <div class="gallery__thumbnail">
+                            <img src="/img/f1.webp" alt="image" class="gallery__thumbnail-img"
+                                 onclick="img('./img/f1.webp')">
+                        </div>
+                    </div>
+                    <div class="card custom-carousel-item">
+                        <div class="gallery__thumbnail">
+                            <img src="/img/q1.webp" alt="image" class="gallery__thumbnail-img"
+                                 onclick="img('./img/q1.webp')">
+                        </div>
+                    </div>
+                    <div class="card custom-carousel-item">
+                        <div class="gallery__thumbnail">
+                            <img src="/img/q2.webp" alt="image" class="gallery__thumbnail-img"
+                                 onclick="img('./img/q2.webp')">
+                        </div>
+                    </div>
+                    <div class="card custom-carousel-item">
+                        <div class="gallery__thumbnail">
+                            <img src="/img/f1.webp" alt="image" class="gallery__thumbnail-img"
+                                 onclick="img('./img/f1.webp')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="detail-product-info" class="col-md-6 col-lg-7 d-flex flex-column justify-content-between">
+            <div>
+                <div>
+                    <p>
+                        <span class="alert alert-danger p-1 my-1 d-none">This product is no longer in stock</span>
+                    </p>
+                    <p>
+                        <span class="alert alert-info p-1 my-1 d-none">10 Items is avalible</span>
+                    </p>
+                    <p> <span class="alert alert-warning p-1 my-1 d-none"> its Last items in stock!</span></p>
+                </div>
+                <p class="m-0">
+                    Item number:<span>00102</span> <i class="fa-regular fa-heart favoriteicon text-warning"></i>
+
+                </p>
+
+                <p class="h1 fw-bold">Bear Toy With DVD</p>
+
+                <div class="d-flex justify-content-start align-items-end">
+                    <div class="rate d-inline-flex flex-nowrap align-items-start justify-content-start">
+
+                        <input type="radio" name="rateV" value="5" />
+                        <input type="radio" name="rateV" value="4.5" />
+                        <input type="radio" name="rateV" value="4" />
+                        <input type="radio" name="rateV" value="3.5" />
+                        <input type="radio" name="rateV" value="3" />
+                        <input type="radio" name="rateV" value="2.5" />
+                        <input type="radio" name="rateV" value="2" />
+                        <input type="radio" name="rateV" value="1.5" />
+                        <input type="radio" name="rateV" value="1" />
+                        <input type="radio" name="rateV" value="0.5" />
+                    </div>
+                    <a href="#">Read reviews</a>
+                </div>
+
+                <p class="my-2 text-muted detail-product-descriptions">
+                    Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Modi, eum beatae iste
+                    magni fugiat qui nostrum, ea illo dolore iure impedit alias ipsum at perspiciatis earum culpa
+                    aliquid. Reprehenderit quos natus deserunt fuga quas commodi velit pariatur quibusdam nemo fugit
+                    doloremque molestias aspernatur, obcaecati veritatis harum, ducimus porro animi accusantium, ut
+                    at
+                    tempore! Hic quo optio magni eligendi quam, incidunt doloribus doloremque et autem!
+                </p>
+            </div>
+            <div class="d-flex justify-content-between ">
+                <div class="align-items-end">
+                    <small class="discountedPrice">$10110</small>
+                    <p class="Price"><small>$</small>9675</p>
+                </div>
+                <button class="align-self-end btn add-to-cart">
+                    <span>Add to cart</span>
+                    <i class="fa-solid fa-cart-arrow-down"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>
+   @*    <div class="overflow-hidden wrapper position-relative">
+        <div class="headerslider"><img src="~/image/back4.jpg" alt=""></div>
+        @await Component.InvokeAsync("SliderComponent", new { id = "NewCollection" })
+    </div>*@
+    <div class="container-lg">
+        <div class="review-header row">
+            <div class="col-12 col-md-6">
+                <div class="col-12 d-flex justify-content-around align-items-center">
+                    <div>
+                        <h4 class="">Reviews</h4>
+                        <div class="text-muted">
+                            <span>Based on 3 reviews</span>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="text-center h4"> 3.4</div>
+                        <div class="text-warning d-flex justify-content-start align-items-center">
+                            <i class="fas fa-star star-1"></i>
+                            <i class="fas fa-star star-2"></i>
+                            <i class="fas fa-star star-3"></i>
+                            <i class="fas fa-star star-4"></i>
+                            <i class="fas fa-star star-5"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-end flex-nowrap fs-14">
+                    <div class="text-muted  col-auto p-0">
+                        5 <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <div class="progress col-10 p-0">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"
+                             aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <div class="text-muted ms-1 col-auto p-0">
+                        65%
+                    </div>
+                </div>
+
+                <div class="row align-items-center justify-content-end flex-nowrap fs-14">
+                    <div class="text-muted col-auto p-0">
+                        4 <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <div class="progress col-10 p-0">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 10%"
+                             aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <div class="text-muted ms-1 col-auto p-0">
+                        10%
+                    </div>
+                </div>
+
+                <div class="row align-items-center justify-content-end flex-nowrap fs-14">
+                    <div class="text-muted  col-auto p-0">
+                        3 <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <div class="progress col-10 p-0">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 5%" aria-valuenow="5"
+                             aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <div class="text-muted ms-1 col-auto p-0">
+                        5%
+                    </div>
+                </div>
+
+                <div class="row align-items-center justify-content-end flex-nowrap fs-14">
+                    <div class="text-muted  col-auto p-0">
+                        2 <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <div class="progress col-10 p-0">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%"
+                             aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <div class="text-muted ms-1 col-auto p-0">
+                        15%
+                    </div>
+                </div>
+
+                <div class="row align-items-center justify-content-end flex-nowrap fs-14">
+                    <div class="text-muted  col-auto p-0">
+                        .1 <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <div class="progress col-10 p-0">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 5%" aria-valuenow="5"
+                             aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <div class="text-muted ms-1 col-auto p-0">
+                        5%
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex ">
+                <img class="m-2"
+                     src="https://cdn.shopify.com/s/files/1/0769/0373/files/reviews-banner_8dcea80a-a3c2-465b-83bd-bd2b94bd9d20.gif?v=1651869287"
+                     alt="">
+            </div>
+
+        </div>
+    <div class="review-content">
+        <div class="d-flex align-items-end justify-content-between">
+            <div class="d-flex">
+                <div class="d-inline-flex sort-by-container">
+                    <span>Rating:</span>
+
+                    <select class="sort-by">
+                        <option selected>All</option>
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Star</option>
+                        <option value="3">3 Star</option>
+                        <option value="4">4 Star</option>
+                        <option value="5">5 Star</option>
+                    </select>
+                </div>
+                <p class="m-0">
+            </div>
+            <a class="btn btn-warning btn-write"> <i class="fa-solid fa-pencil"></i> Write a Review</a>
+        </div>
+        <div class="user-review">
+            <div class=" d-flex justify-content-between">
+                <div class="fw-bold">Milad</div>
+                <div class="text-warning">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="text-muted my-2 ">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit harum quod quidem doloremque dolor
+                repellendus repudiandae dignissimos officia. Fugit, cumque!
+            </div>
+            <small class="comment-time fs-14">April 17, 2023</small>
+        </div>
+
+        <div class="user-review">
+            <div class=" d-flex justify-content-between">
+                <div class="fw-bold">Milad</div>
+                <div class="text-warning">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="text-muted my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit harum quod quidem doloremque dolor
+                repellendus repudiandae dignissimos officia. Fugit, cumque!
+            </div>
+            <small class="comment-time fs-14">April 17, 2023</small>
+        </div>
+
+        <div class="user-review">
+            <div class=" d-flex justify-content-between">
+                <div class="fw-bold">Milad</div>
+                <div class="text-warning">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="text-muted my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit harum quod quidem doloremque dolor
+                repellendus repudiandae dignissimos officia. Fugit, cumque!
+            </div>
+            <small class="comment-time fs-14">April 17, 2023</small>
+        </div>
+
+        <div class="user-review">
+            <div class=" d-flex justify-content-between">
+                <div class="fw-bold">Milad</div>
+                <div class="text-warning">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="text-muted my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit harum quod quidem doloremque dolor
+                repellendus repudiandae dignissimos officia. Fugit, cumque!
+            </div>
+            <small class="comment-time fs-14">April 17, 2023</small>
+        </div>
+
+        <div class="user-review">
+            <div class=" d-flex justify-content-between">
+                <div class="fw-bold">Milad</div>
+                <div class="text-warning">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="text-muted my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit harum quod quidem doloremque dolor
+                repellendus repudiandae dignissimos officia. Fugit, cumque!
+            </div>
+            <small class="comment-time fs-14">April 17, 2023</small>
+        </div>
+
+        <div class="user-review">
+            <div class=" d-flex justify-content-between">
+                <div class="fw-bold">Milad</div>
+                <div class="text-warning">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="text-muted my-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit harum quod quidem doloremque dolor
+                repellendus repudiandae dignissimos officia. Fugit, cumque!
+            </div>
+            <small class="comment-time fs-14">April 17, 2023</small>
+        </div>
+    </div>
+</div>
+

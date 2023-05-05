@@ -1,0 +1,62 @@
+﻿@using TwoGirls.DataLayer.Entities;
+@model List<CreditCard>
+
+@{
+    Layout = null;
+    string WalletAmount = ViewBag.WalletAmount +" $";
+}
+<div class="border rounded p-3 d-flex align-items-center mb-2">
+    <div class="pe-3">
+        <img src="https://img.icons8.com/color/48/null/wallet--v1.png" />
+    </div>
+    <div>
+        <p class="text-dark h5 m-0 fw-bold">
+            TwoGirls Wallet:
+        </p>
+    </div>
+    <div class="ms-auto">
+        <p class="text-dark h5 m-0 fw-bold"> @WalletAmount </p>
+    </div>
+</div>
+@if (Model.Count == 0)
+{
+    <div class="border rounded p-3 d-flex align-items-center mb-2" role="alert">
+        you currently don't have any Credit card, you can add one with the button below
+    </div>
+}
+else
+{
+    <span>Saved cards:</span>
+    @foreach (var card in Model)
+    {
+        string MasterCardSrc = "https://img.icons8.com/color/48/000000/mastercard-logo.png";
+        string VisaCardSrc = "https://img.icons8.com/color/48/000000/visa.png";
+
+        string cardnumber = card.CreditCardNumber;
+        string maskedNumber = $"**** **** **** {cardnumber.Substring(cardnumber.Length - 4)}";
+        <div class="border rounded p-3 d-flex align-items-center mb-2">
+            <div class="pe-3">
+                @if (card.CreditCardNumber.StartsWith("4"))
+                {
+                    <img class="img-fluid" src="@VisaCardSrc" />
+                }
+                else if (card.CreditCardNumber.StartsWith("51") || card.CreditCardNumber.StartsWith("52") || card.CreditCardNumber.StartsWith("53") || card.CreditCardNumber.StartsWith("54") || card.CreditCardNumber.StartsWith("55"))
+                {
+                    <img class="img-fluid" src="@MasterCardSrc" />
+                }
+                else
+                {
+                    <img src="https://img.icons8.com/color/48/null/bank-card-missing.png" />
+                }
+            </div>
+            <div>
+                <p class="text-dark h5 m-0 fw-bold">
+                    @maskedNumber
+                </p>
+            </div>
+            <div class="ms-auto">
+                <a onclick="removeCard(@card.Id)" class="text-tomato">Remove card</a>
+            </div>
+        </div>
+    }
+}

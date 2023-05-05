@@ -1,3 +1,17 @@
+/*@font-face {
+    font-family: 'bilage_regular';
+    src: url('/font/bilage-regular-webfont.woff2') format('woff2'), url('font/bilage-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.body, p, h5 {
+    font-family: "bilage_regular";
+}*/
+/*body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}*/
+
 :root {
     --red: #ff0000;
 }
@@ -13,8 +27,9 @@ html {
     min-height: 100%;
 }
 
-body {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+.form-control:focus {
+    box-shadow: 0 4px 8px 0 rgba(168, 165, 0, 0.2), 0 6px 20px 0 rgba(255, 251, 2, 0.19);
+    border-color: #ffee00
 }
 
 a {
@@ -207,12 +222,12 @@ a {
     margin-right: 34px;
 }
 
-    .cart-image > .image-wrapper > .image {
-        display: block;
-        width: 140%;
-        transform: rotate(-5deg) translateX(-15px)translateY(15px);
-        filter: drop-shadow(0 30px 20px rgba(0, 0, 0, 0.2));
-    }
+.cart-image > .image-wrapper > .image {
+    display: block;
+    width: 140%;
+    transform: rotate(-5deg) translateX(-15px)translateY(15px);
+    filter: drop-shadow(0 30px 20px rgba(0, 0, 0, 0.2));
+}
 
 .cart-item > .right > .name {
     font-size: 14px;
@@ -337,7 +352,124 @@ a {
 
 /* header carousel end  */
 
+/* Review modal form */
+@media only screen and (min-width: 200px) {
+    .review-modal-dialog {
+        max-width: 45%;
+        margin: 0 auto;
+    }
 
+    .review-modal-content {
+        height: auto !important;
+    }
+
+    .modal-review-textarea {
+        padding: .2em;
+        margin: .3em 0;
+        font-family: "Rubik", sans-serif;
+    }
+
+    .modal-review-btn {
+        width: 100%;
+        font-size: 2vw;
+        padding: .2em 0;
+        height: auto !important;
+    }
+
+    .review-modal-body {
+        padding: 1vw;
+    }
+
+    .review-modal-dialog .rate input {
+        width: 1.8vw;
+        height: 4vw;
+    }
+
+    .review-modal-dialog .rate {
+        margin-right: 0;
+        bottom: 0px;
+    }
+
+    .review-modal-dialog .rate input::before {
+        font-size: 3vw;
+    }
+    .review-modal-error {
+        font-size: 1.8vw;
+    }
+    .modal-title-text {
+        font-weight: 500;
+        white-space: nowrap;
+        font-size: 2vw;
+    }
+    
+    .modal-header-text {
+        white-space: nowrap;
+        font-weight: 700;
+        font-size: 2.5vw;
+        padding: 1.5vw 0;
+        border-bottom: solid .1vw black;
+        margin: 0.8vw 0;
+    }
+}
+
+
+@media only screen and (min-width: 768px) {
+    .modal-title-text {
+        font-size: 2.3vw;
+    }
+    .modal-review-textarea {
+        font-size: 1.4vw;
+    }
+    .modal-header-text {
+        font-weight: 800;
+        font-size: 2.8vw;
+        padding: 1vw 0;
+        border-bottom: solid .01vw black;
+        margin: 0.5vw 0;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .review-modal-dialog {
+        max-width: 30%;
+    }
+
+    .modal-title-text {
+        font-size: 1.8vw;
+    }
+
+    .modal-header-text {
+        font-size: 2.3vw;
+    }
+    .review-modal-error {
+        font-size: 1.4vw;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .review-modal-dialog {
+        max-width: 22%;
+    }
+
+    .modal-title-text {
+        font-size: 1vw;
+    }
+    .modal-review-textarea {
+        font-size: 1vw;
+    }
+    .modal-header-text 
+    {
+        font-size: 1.5vw;
+    }
+
+    .modal-review-btn {
+        font-size: 1.3vw;
+    }
+    .review-modal-error {
+        font-size: 1.2vw;
+    }
+}
+/* Review modal form end */
 
 /* category Menu */
 
@@ -538,6 +670,7 @@ main .custom-carousel-image {
     width: 100%;
     padding: 0 .5vw;
     text-align: center;
+    cursor:pointer;
 }
 
     .add-to-cart:hover {

@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using twoGirlsOnlineShop.Data;
+using TwoGirls.DataLayer.Context;
 using twoGirlsOnlineShop.Models;
 
 namespace twoGirlsOnlineShop.Controllers
@@ -16,24 +16,10 @@ namespace twoGirlsOnlineShop.Controllers
         {
             _logger = logger;
             _myContext = myContex;
-
-           //var _user = _myContext.Users.Include(x=> x.Cards).FirstOrDefault(x => x.Id == 1);
-           // if (!_user.Cards.Any(x => x.IsClose == false))
-           // {
-           //     Card card1 = new Card()
-           //     {
-           //         IsClose = false,
-           //         UserId = _user.Id,
-           //        CreateDate=DateTime.Now
-           //     };
-           //     _user.Cards.Add(card1);
-           //     _myContext.SaveChanges();
-           // }
         }
 
         public IActionResult Index()
         {
-
             return View();
         }
 
@@ -41,6 +27,15 @@ namespace twoGirlsOnlineShop.Controllers
         {
             return View();
         }
-
+        [Route("Success")]
+        public IActionResult Success()
+        {
+            return View();
+        }
+        [Route("Failed")]
+        public IActionResult Failed()
+        {
+            return View();
+        }
     }
 }

@@ -84,6 +84,45 @@
                     <a id="searchIcon" class="btn text-white d-sm-none">
                         <i class="fa-sharp fa-solid fa-magnifying-glass nav-icon text-light  fa-search"></i>
                     </a>
+                    <div>
+                        <a class="btn text-white " href="#" role="button" id="languageBtn" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <img src="~/image/flag/cz.webp" class="lang-logo" alt="">
+                        </a>
+                        <ul id="languageDropdown" class="dropdown-menu dropdown-menu-dark bg-verydark"
+                            aria-labelledby="languageBtn">
+                            <li>
+                                <a class="dropdown-item active" href="#">
+                                    <img src="~/image/flag/cz.webp"
+                                         class="lang-logo" alt="">
+                                    Czech Republic(CZK)
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <img src="~/image/flag/gb.webp" class="lang-logo"
+                                         alt="">
+                                    United
+                                    Kingdom(ENG)
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <img src="~/image/flag/um.webp" class="lang-logo"
+                                         alt="">
+                                    United
+                                    States(ENG)
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <img src="~/image/flag/ir.webp" class="lang-logo"
+                                         alt="">
+                                    Iran(PER)
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <div>
@@ -126,55 +165,32 @@
                         </a>
                     }
                     <img class="d-lg-none order-sm-1 nav-logo" src="~/image/twogirls.png" alt="imagelogo">
-                    <a asp-area="" asp-controller="Product" asp-action="Filter" asp-route-id="8" asp-route-name="9" class="btn text-white position-relative">
+                    <a asp-area="" asp-controller="Product" asp-action="Favorite" class="btn text-white position-relative">
                         <i class="fa-regular fa-heart nav-icon text-light"></i>
                         <span class="rounded-pill badge text-white">1+</span>
                     </a>
-                    <div>
-                        <a href="#basketDropdown" class="position-relative btn text-white" role="button" id="basketBtn"
-                           data-bs-toggle="collapse" aria-expanded="false" aria-controls="dropdownEYEGLASSES">
+                   
+              
+                    <div class="collapse-container">
+                        <a href="#basketDropdown" class="position-relative btn text-white collapse-toggle" role="button">
                             <i class="fa-brands fa-shopify nav-icon text-light"></i>
                             <span class="rounded-pill badge text-white">1+</span>
                         </a>
-                    </div>
-                    <div>
-                        <a class="btn text-white " href="#" role="button" id="languageBtn" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            <img src="~/image/flag/cz.webp" class="lang-logo" alt="">
-                        </a>
-                        <ul id="languageDropdown" class="dropdown-menu dropdown-menu-dark bg-verydark"
-                            aria-labelledby="languageBtn">
-                            <li>
-                                <a class="dropdown-item active" href="#">
-                                    <img src="~/image/flag/cz.webp"
-                                         class="lang-logo" alt="">
-                                    Czech Republic(CZK)
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <img src="~/image/flag/gb.webp" class="lang-logo"
-                                         alt="">
-                                    United
-                                    Kingdom(ENG)
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <img src="~/image/flag/um.webp" class="lang-logo"
-                                         alt="">
-                                    United
-                                    States(ENG)
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <img src="~/image/flag/ir.webp" class="lang-logo"
-                                         alt="">
-                                    Iran(PER)
-                                </a>
-                            </li>
-                        </ul>
+                        <div id="basketDropdown" class="position-absolute top-100 collapse-content collapse" aria-labelledby="basketBtn">
+                            <div class="d-flex justify-content-between">
+                                <div></div>
+                                <div class="basket">
+                                    <div class="app-bar">
+                                        <img src="~/image/Twogirls-logo-dark.PNG" class="logo">
+                                    </div>
+                                    <span class="title">Your cart</span>
+                                    <div id="update-card-component">
+                                        @await Component.InvokeAsync("CardComponent")
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- navbar Icons end -->
@@ -205,7 +221,6 @@
                             Women's<i class="fa-solid fa-caret-down d-sm-none ms-2"></i>
                         </a>
                         <ul class="list-group  p-0 list-group-flush collapscontent">
-
                             <li class="list-group-item "><a href=""> New Collection</a></li>
                             <li class="list-group-item"><a href=""> Most Visited</a></li>
                             <li class="list-group-item"><a href=""> Best Sellers</a></li>
@@ -392,25 +407,19 @@
 
                 </div>
             </div>
-
-            <div id="basketDropdown" class="collapse " aria-labelledby="basketBtn">
-                <div class="d-flex justify-content-between">
-                    <div></div>
-                    <div class="basket">
-                        <div class="app-bar">
-                            <img src="~/image/Twogirls-logo-dark.PNG" class="logo">
-                        </div>
-                        <div class="title">Your cart</div>
-                       @await Component.InvokeAsync("CardComponent")
-                    </div>
-                </div>
-            </div>
         </div>
         <!-- navbar dropdowns end -->
     </div>
     <!-- navbar end  -->
-
-    <main role="main" class="pb-3">
+    <div id="form-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <main role="main">
         @RenderBody()
     </main>
 

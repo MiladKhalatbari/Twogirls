@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using twoGirlsOnlineShop.Data;
+using System.Security.Claims;
+using TwoGirls.Core.DTOs;
+using TwoGirls.DataLayer.Context;
 
 namespace twoGirlsOnlineShop.Components
 {
@@ -15,6 +17,11 @@ namespace twoGirlsOnlineShop.Components
 
         public async Task<IViewComponentResult> InvokeAsync(string id)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                int userId = int.Parse(HttpContext.User.FindFirstValue(claimType: ClaimTypes.NameIdentifier));
+                ViewData["Favorites"] = _myContext.Users.Where(x => x.Id == userId).Include(x => x.Favorites).SelectMany(x => x.Favorites).ToList();
+            }
             switch (id)
             {
                 case "Discounted":

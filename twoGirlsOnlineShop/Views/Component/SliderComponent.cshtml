@@ -1,5 +1,8 @@
-﻿@model IEnumerable<Product>;
-
+﻿@using TwoGirls.DataLayer.Entities;
+@model IEnumerable<Product>;
+@{
+    var favorites = ViewData["Favorites"] as List<Favorite>;
+}
 
     <i class="fa-solid fa-angle-left rounded-circle position-absolute top-50 start-0 translate-middle-y text-warning arrow"></i>
     <div class="overflow-hidden  custom-carousel flex-nowrap row m-0 ">
@@ -13,9 +16,17 @@
             <div class="card custom-carousel-item position-relative border-0">
             <div class="d-flex justify-content-between">
                 <p class="ms-4 sunglasses-title">@item.Title</p>
-                    <i class="favoriteIcon fa-regular nav-icon fa-heart  text-warning"></i>
+                @{
+                    if (favorites != null)
+                    {
+                        <i onclick="AddFavorite(@item.Id)" class="favoriteIcon nav-icon fa-heart text-warning @(favorites.Any(x => x.ProductId == item.Id) ? "fa-solid" :"fa-regular" )"></i>
+                    }
+                    else
+                    {
+                        <i onclick="AddFavorite(@item.Id)" class="favoriteIcon nav-icon fa-heart text-warning fa-regular "></i>
 
-                 
+                    }
+                }        
             </div>
             <div class="">
                 <img src='@firstImageSrc' onmouseover="secondImg(this,'@secoundImageSrc')"
@@ -36,17 +47,18 @@
                         <div class="rate d-inline-flex flex-nowrap align-items-start justify-content-start">
                             @for (double rating = 5; rating >= 0.5; rating -= 0.5)
                             {
-                                <input type="radio" name="@guid" value="@rating" @(item.Rate() == rating ? "checked" : "") />
+                            <input onclick="ShowInPopup('@Url.Action("AddReview", "Product", new { productId = item.Id }, Context.Request.Scheme)', @rating)"
+                            type="radio" name="@guid" value="@rating" @(item.Rate() == rating ? "checked" : "") />
                             }
                         </div>
 
                 </div>
 
             </div>
-                <a asp-action="AddToCard" asp-controller="Basket" asp-route-id="@item.Id" class="add-to-cart">
-                    <span>Add to cart</span>
-                <i class="fa-solid fa-cart-arrow-down"></i>
+            <a onclick="addToCart(@item.Id)" class="add-to-cart pe-auto">
+                Add to cart <i class="fa-solid fa-cart-arrow-down"></i>
             </a>
+
         </div>
 
         }

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using twoGirlsOnlineShop.Data;
+using TwoGirls.DataLayer.Entities;
+using TwoGirls.DataLayer.Context;
 using twoGirlsOnlineShop.Models;
 
 namespace twoGirlsOnlineShop.Controllers
@@ -22,6 +23,7 @@ namespace twoGirlsOnlineShop.Controllers
         // GET: ManageUsers
         public async Task<IActionResult> Index()
         {
+              ViewBag["Roles"]=_context.Roles.ToList();
               return _context.Users != null ? 
                           View(await _context.Users.ToListAsync()) :
                           Problem("Entity set 'TwogirsContext.Users'  is null.");

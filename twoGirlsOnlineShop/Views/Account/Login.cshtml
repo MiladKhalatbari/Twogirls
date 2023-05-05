@@ -1,17 +1,46 @@
-﻿@model UserViewModel
-@{
-    ViewData["Title"] = "loginView";
-}
+﻿@model TwoGirls.Core.DTOs.LoginViewModel
 @section style{
-    <link rel="stylesheet" href="~/css/Login-Register-Style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/Account-Style.css" asp-append-version="true">
 }
-<img src="~/image/loginheader.jpg" alt="" class="login-banner">
+@{
+    ViewData["Title"] = "Login";
+    var alertStatus = ViewBag.isSuccess;
+    var alertText = ViewBag.alertText;
+}
+<img src="~/image/loginheader.jpg" alt="" class="Page_banner">
 <div class="container-xl my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Login</li>
+        </ol>
+    </nav>
     <div class=" row">
         <section class="col-12 col-md-7 mb-5">
-            @if (Model?.Email!=null)
+            @if (alertStatus != null)
             {
-                <div class="alert alert-success">Your registration is successful you can You can now login</div>
+                @if (alertStatus)
+                {
+                    <div class="alert alert-success">
+                        @alertText
+                    </div>
+                    @if ( ViewBag.isLogin != null && ViewBag.isLogin )
+                    {
+                        <script>
+                            var delay = 3000;
+                            setTimeout(() => {
+                                window.location = "https://localhost:7185/";
+                            }, delay);
+                        </script>
+                    }
+                }
+                else if (alertStatus == false)
+                {
+                    <div class="alert alert-danger">
+                        <h4 class="alert-heading">Oops!</h4>
+                        @alertText
+                    </div>
+                }
             }
             @if (User.Identity.IsAuthenticated)
             {
@@ -20,26 +49,26 @@
             <p class="h1">Login</p>
             <form asp-action="Login" method="post">
                 <div class="mb-3">
-                    <label asp-for=Email class="form-label">E-mail address *</label>
-                    <input asp-for=Email type="email" class="form-control" id="user-email">
+                    <label asp-for="Email" class="form-label">E-mail address *</label>
+                    <input asp-for="Email" type="email" placeholder="Email *" class="form-control">
                     <span asp-validation-for="Email" class="text-tomato"></span>
 
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div class="mb-3">
 
-                    <label asp-for=Password class="form-label">Password *</label>
-                    <input asp-for=Password type="password" class="form-control" id="user-pass">
+                    <label asp-for="Password" class="form-label">Password *</label>
+                    <input asp-for="Password" type="password" placeholder="Password *" class="form-control" >
                     <span asp-validation-for="Password" class="text-tomato"></span>
 
-                    <a href="#">Forgot your password?</a>
+                    <a asp-action="ForgotPassword" asp-controller="Account">Forgot your password?</a>
 
                 </div>
 
                 <div class="mb-3 form-check">
                     <input asp-for=RememberMe type="checkbox" class="form-check-input" id="remember-me"><label asp-for=RememberMe>Remember me</label>
                 </div>
-                <button type="submit" class="btn-login" > LOGIN</button>
+                <button type="submit" class="btn-login"> Login </button>
 
             </form>
 

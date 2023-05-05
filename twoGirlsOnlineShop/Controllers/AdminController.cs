@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using twoGirlsOnlineShop.Data;
-using Microsoft.CodeAnalysis;
+using TwoGirls.DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using twoGirlsOnlineShop.Models;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
+using TwoGirls.Core.DTOs;
+using TwoGirls.DataLayer.Entities;
+using TwoGirls.Core.Generator;
 
 namespace twoGirlsOnlineShop.Controllers
 {
@@ -13,8 +13,8 @@ namespace twoGirlsOnlineShop.Controllers
     {
 
         private TwogirsContext _myContext;
-        private Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment;
-        public AdminController(TwogirsContext myContext, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+        private IWebHostEnvironment _hostingEnvironment;
+        public AdminController(TwogirsContext myContext, IWebHostEnvironment hostingEnvironment)
         {
             _myContext = myContext;
             _hostingEnvironment = hostingEnvironment;
@@ -64,7 +64,7 @@ namespace twoGirlsOnlineShop.Controllers
                 
                     var fileName = Path.GetFileNameWithoutExtension(img.FileName);
                     var extension = Path.GetExtension(img.FileName);
-                    var uniqueFileName = $"{fileName}_{Guid.NewGuid().ToString()}{extension}";
+                    var uniqueFileName = $"{fileName}_{NameGenerator.GenerateUniqueCode()}{extension}";
                     string filePath = Path.Combine(_hostingEnvironment.WebRootPath, "image" ,"sunglasses", uniqueFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
