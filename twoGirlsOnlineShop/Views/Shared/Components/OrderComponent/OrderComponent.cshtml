@@ -1,0 +1,84 @@
+﻿@using TwoGirls.DataLayer.Entities;
+@model Cart ;
+
+<div class="cart-items">
+
+    @foreach (var item in Model.CartItems)
+    {
+        string src = item.Product.ImagePaths.Skip(1).Take(1).FirstOrDefault().Url.ToString();
+        string name = item.Product.Title.ToString();
+        string price = item.Product.CardItems.FirstOrDefault(x => x.CartId == Model.Id && x.ProductId == item.ProductId).TotalPrice().ToString();
+        int quantity = Convert.ToInt32(item.Quantity.ToString());
+        <div class="cart-item">
+            <div class="left">
+                <div class="cart-image">
+                    <div class="image-wrapper"><img src='@src' class="image"></div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="name">@name</div>
+                <div class="price">$@price</div>
+                <div class="count">
+                    @if (!Model.IsClose)
+                    {
+                        <a onclick="addToOrder(@item.Product.Id)" class="button" data-ajax="true"><i class="fa-solid fa-plus"></i></a>
+                        <div class="number">@quantity</div>
+                        <a onclick="removeFromOrder(@item.Product.Id)" class="button" data-ajax="true"><i class="fa-solid fa-minus"></i></a>
+                    }
+                    else
+                    {
+                        <a href="#" class="button"><i class="fa-solid fa-plus"></i></a>
+                        <div class="number">@quantity</div>
+                        <a href="#" class="button"><i class="fa-solid fa-minus"></i></a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@if (Model.CartItems.Count() > 0)
+{
+
+    <div id="payment-bar" class="payment-bar  mt-3">
+        @if (!Model.IsClose)
+        {
+            <form asp-action="UseDiscountCode" asp-controller="Basket" class="form-group">
+                <input type="hidden" name="cartId" value="@Model.Id">
+                <label for="DiscountCode" class="control-label">Have coupon?</label>
+                <div class="input-group">
+                    <input class="form-control" name="discountCode" placeholder="Discount Code" />
+                    <input type="submit" value="Apply" class="btn btn-warning filter-control">
+                </div>
+                @if (ViewBag.showDiscountError == true)
+                {
+                    <span for="DiscountCode" class="text-tomato">@ViewBag.DiscountError</span>
+                }
+            </form>
+        }
+        <hr>
+        @if (Model.TotalOrderPrice() == Model.Order.OrderPrice)
+        {
+            <div class="d-flex justify-content-between">
+                <p class="fw-bolder m-0">Total</p>
+                <p class="m-0">@Model.TotalOrderPrice() $</p>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-between">
+                <p class="fw-bolder m-0">Total</p>
+                <p class="m-0"><s class="text-tomato">@Model.TotalOrderPrice() $</s> @Model.Order.OrderPrice $</p>
+            </div>
+        }
+        @if (!Model.IsClose)
+        {   <form asp-action="Order" asp-controller="Basket" class="form-group">
+            <input type="hidden" name="cartId" value="@Model.Id">
+            <div id="addressIdForOrder"></div>
+            <input type="submit" value="Payment" class="btn btn-warning w-100">
+            </form>
+
+        }
+    </div>
+}

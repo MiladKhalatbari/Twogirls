@@ -26,11 +26,15 @@ using Product = TwoGirls.DataLayer.Entities.Product;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Hosting.Server;
 using static System.Net.WebRequestMethods;
+using Microsoft.Extensions.Logging;
+using Stripe.Issuing;
 
 namespace twoGirlsOnlineShop.Controllers
 {
     public class AccountController : Controller
     {
+
+
         private static string s_wasmClientURL = string.Empty;
         private readonly IConfiguration _configuration;
         private readonly ILogger<HomeController> _logger;
@@ -145,26 +149,21 @@ namespace twoGirlsOnlineShop.Controllers
             },
         },
                 Mode = "payment", // One-time payment. Stripe supports recurring 'subscription' payments.
-                SuccessUrl = "https://localhost:7185/Success", // Customer paid.
-                CancelUrl = "https://localhost:7185/Failed",  // Checkout cancelled.
+                SuccessUrl = "https://Twogirls.somee.com/Success", // Customer paid.
+                CancelUrl = "https://Twogirls.somee.com/Failed",  // Checkout cancelled.
+                PaymentIntentData = new SessionPaymentIntentDataOptions()
+                {
+                    Metadata = new Dictionary<string, string>
+                    {
+                        {"userId",userId.ToString()},
+                        {"amount",chargeWallet.Amount.ToString()},
+                        {"gatewayType","wallet"},
+                    }
+                }
             };
-
             var service = new Stripe.Checkout.SessionService();
             var session = await service.CreateAsync(options);
-            if (session.PaymentStatus == "paid")
-            {
-                var Transaction = new Transaction()
-                {
-                    TypeId = 1,
-                    UserId = userId,
-                    Amount = chargeWallet.Amount,
-                    Date = DateTime.Now,
-                    Description = "Wallet Deposit",
-                    Finaly = true
-                };
-                _userService.AddTransaction(Transaction);
-
-            }
+            
             return Redirect(session.Url);
         }
         #endregion
@@ -198,7 +197,8 @@ namespace twoGirlsOnlineShop.Controllers
                     ImagePath = "/image/user-avatar/Default-Avatar.png",
                     IsActive = false,
                     ActiveCode = NameGenerator.GenerateUniqueCode(),
-                    RegisterDate = DateTime.Now
+                    RegisterDate = DateTime.Now,
+                    RoleId = 4
                 };
                 _userService.AddUser(newUser);
                 #region Send activation Email
@@ -270,7 +270,7 @@ namespace twoGirlsOnlineShop.Controllers
                         new Claim(ClaimTypes.Surname,userForCookie.LastName),
                        // new Claim("RoleId", userForCookie.UserRoles.RoleId.ToString())
                         };
-                     
+
                         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principal = new ClaimsPrincipal(identity);
                         var Properties = new AuthenticationProperties() { IsPersistent = user.RememberMe };
@@ -367,10 +367,8 @@ namespace twoGirlsOnlineShop.Controllers
         }
         #endregion
 
-   
 
-
-
+       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -378,4 +376,3 @@ namespace twoGirlsOnlineShop.Controllers
         }
     }
 }
-//return PartialView("", changePassword);

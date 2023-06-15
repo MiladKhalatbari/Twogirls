@@ -1,0 +1,59 @@
+*{
+    margin: 0px;
+    padding: 0;
+}
+.radio-dark,
+.checkbox-dark {
+    accent-color: #232323 !important;
+    transform: scale(1.3) !important;
+}
+.row{
+    margin: 0;
+}
+.collapse-content{
+    display: none;
+}
+.collapse-toggle{
+    cursor: pointer;
+    padding: 4px;
+}
+a{
+    text-decoration: none;
+    outline: none;
+    border: none;
+    color: #444;
+}
+.bg-gray{
+    background-color: #404E67;
+    color: #dcdcdc;
+}
+.bg-red{
+    background-color: red;
+}
+.bg-custom-skyblue{
+    background: linear-gradient(to right, #01dbdf, #01a9ac);
+}
+.bg-custom-orange {
+    background: linear-gradient(to right, #feb798, #fe9365);
+}
+.bg-custom-yellow {
+    background: linear-gradient(to right, #d4d22d, #f9fd04);
+}
+.bg-custom-green {
+    background: linear-gradient(to right, #0df3a3, #0ac282);
+}
+
+.bg-custom-pink {
+    background: linear-gradient(to right, #fe90dd, #f741b1);
+}
+
+.bg-custom-blue {
+    background: linear-gradient(to right,#1578fa,  #1304df);
+}
+
+.bg-custom-purple {
+    background: linear-gradient(to right,#df15fa,  #6a04df);
+}
+.bg-custom-red {
+    background: linear-gradient(to right,#ee4066,  #e91348);
+}

@@ -8,12 +8,12 @@
     Congratulations! Your Avatar has been successfully changed.
 </div>
 <form id="form-AddAvatar" method="post" asp-action="ChangeAvatar" asp-controller="UserPanel" onsubmit=" return jQueryAjaxPostAvatar(this)">
-    <input type="hidden" asp-for="ImagePath" />
+    <input type="hidden" asp-for="ImagePath"/>
     <div class="container mt-4">
         <div class="user-profile">
             <img id="user-avatar-image" class="rounded-circle border" width="200" height="200" src="@Model.ImagePath">
             <div class="overlay">
-                <input class="Pointer" id="avatar-user-input" asp-for="NewImage" accept="image/jpeg, image/png, image/gif" type="file">
+                <input class="Pointer" id="avatar-user-input" asp-for="NewImage" accept="image/*" type="file">
                 <p class="Pointer">ChangePicture</p>
             </div>
         </div>

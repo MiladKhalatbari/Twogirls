@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TwoGirls.DataLayer.Entities;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -7,6 +8,8 @@ namespace TwoGirls.DataLayer.Entities
         [Required]
         public int Id { get; set; }
 
+        [Required]
+        public int ItemNumber { get; set; }
         [Required]
         [MaxLength(32)]
         public string Title { get; set; }
@@ -33,19 +36,22 @@ namespace TwoGirls.DataLayer.Entities
 
         [Required]
         public int QuantityInStock { get; set; }
-
+        public bool IsDelete { get; set; }
         public double Rate()
         {
-            if (Reviews != null)
-            {
-                return Reviews.Average(x => x.Rate);
-            }
-            else
-            {
-                return 5;
-            }
-        }
 
+                if (Reviews.Count != 0)
+                {
+                    return Reviews.Average(x => x.Rate);
+                }
+                else
+                {
+                    return 5;
+                }
+           
+
+        }
+        public int ProductTypeId { get; set; }
         #region Relation
         public ICollection<ImagePath>? ImagePaths { get; set; }
 
@@ -54,7 +60,8 @@ namespace TwoGirls.DataLayer.Entities
 
         public ICollection<Review>? Reviews { get; set; }
 
-        public List<CardItem>? CardItems { get; set; }
+        public List<CartItem>? CardItems { get; set; }
+        public ProductType? ProductType { get; set; }
         #endregion
     }
 }

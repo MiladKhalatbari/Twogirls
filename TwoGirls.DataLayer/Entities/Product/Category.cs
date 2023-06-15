@@ -7,9 +7,11 @@ namespace TwoGirls.DataLayer.Entities
         [Required]
         public int  Id { get; set; }
         [Required]
+        [MaxLength(200)]
         public string Name { get; set; }
         public string? Description { get; set; }
-
+        public int? ParentId { get; set; }
+        public bool IsDeleted { get; set; }
         #region Relation
         public ICollection<CategoryToProduct>? Categories { get; set;}
         #endregion

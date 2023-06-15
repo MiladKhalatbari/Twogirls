@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TwoGirls.DataLayer.Entities
 {
     public class User
@@ -25,21 +27,24 @@ namespace TwoGirls.DataLayer.Entities
 
         [Required]
         public bool IsActive { get; set; }
-        [Required]
         [MaxLength(50)]
-        public string ActiveCode { get; set; }
+        public string? ActiveCode { get; set; }
         [Required]
         public DateTime RegisterDate { get; set; }
+        public int RoleId { get; set; }
+        public bool IsDelete { get; set; }
 
         #region Relation
         public ICollection<Address>? Addresses { get; set; }
         public ICollection<CreditCard>? CreditCards { get; set; }
-        public ICollection<Card>? Cards { get; set; }
+        public ICollection<Cart>? Cards { get; set; }
         public ICollection<Favorite>? Favorites { get; set; }
         public ICollection<Review>? Reviews { get; set; }
-        public ICollection<UserRole> UserRoles { get; set; }
-        public List<Transaction> Transactions { get; set; }
-
+        public ICollection<Order>? Orders { get; set; }
+        public ICollection<Transaction>? Transactions { get; set; }
+        public ICollection<UserDiscountCodes>? UserDiscountCodes { get; set; }
+        [ForeignKey("RoleId")]
+        public Role? UserRole { get; set; }
         #endregion
 
     }

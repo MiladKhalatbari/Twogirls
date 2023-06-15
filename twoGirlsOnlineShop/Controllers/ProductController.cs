@@ -7,28 +7,35 @@ using TwoGirls.DataLayer.Entities;
 using System.Security.Claims;
 using twoGirlsOnlineShop.Models;
 using TwoGirls.Core.Convertors;
+using TwoGirls.Core.DTOs;
+using TwoGirls.Core.Services.Interfaces;
+using System.Numerics;
 
 namespace twoGirlsOnlineShop.Controllers
 {
     public class ProductController : Controller
     {
         TwogirsContext _myContext { get; set; }
-        private readonly ILogger<HomeController> _logger;
+        private readonly IProductService _productService;
 
-        public ProductController(TwogirsContext myContext, ILogger<HomeController> logger)
+        public ProductController(TwogirsContext myContext, IProductService productService)
         {
             _myContext = myContext;
-            _logger = logger;
+            _productService = productService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Detail(int id =1)
-        {
-            var model = _myContext.Products.Find(id);
 
+        #region Detail Product
+
+        public IActionResult Detail(int id)
+        {
+            var model = _myContext.Products.Include(x=> x.ImagePaths).Include(x=> x.Reviews).ThenInclude(r=> r.User).FirstOrDefault(p=> p.Id == id);
+            int userId = int.Parse(HttpContext.User.FindFirstValue(claimType: ClaimTypes.NameIdentifier));
+            ViewData["Favorites"] = _myContext.Users.Where(x => x.Id == userId).Include(x => x.Favorites).SelectMany(x => x.Favorites).ToList();
             if (model == null)
             {
                 return NotFound();
@@ -36,23 +43,33 @@ namespace twoGirlsOnlineShop.Controllers
 
             return View(model);
         }
-        [Route("Filter/{id}/{name}")]
-        public IActionResult Filter(int id, int name)
+        #endregion
+
+        #region Filter Product
+
+        [HttpGet]
+        public IActionResult Filter(string filter = "",int pageId=1, int startPrice=0, int endPrice = 0, int prodcutTypeId = 0, string orderBY="",List<int>? selectedCategories=null)
         {
-            //List<Product> model = new List<Product>();
-            if (User.Identity.IsAuthenticated) {
-                int userId = int.Parse(User.FindFirstValue(claimType: ClaimTypes.NameIdentifier));
-                ViewData["Favorites"] = _myContext.Users.Where(x => x.Id == userId).Include(x=> x.Favorites).SelectMany(x=> x.Favorites).ToList();
-            }
-            var model = _myContext.Products.
-            Include(x => x.ImagePaths).
-            Where(p => p.categoryToProdycts.
-            Any(c => c.CategoryId == id) && p.categoryToProdycts.
-            Any(c => c.CategoryId == name)).
-            ToList();
+
+            var model = _productService.GetProductsByFilter(filter, pageId, startPrice, endPrice, prodcutTypeId, orderBY, selectedCategories);
 
             return View(model);
         }
+        
+        [HttpGet]
+        public IActionResult AjaxFilter(string filter = "", int pageId = 1, int startPrice = 0, int endPrice = 0, int prodcutTypeId = 0, string orderBY = "", List<int>? selectedCategories = null)
+        {
+
+            var model = _productService.GetProductsByFilter(filter, pageId, startPrice, endPrice, prodcutTypeId, orderBY, selectedCategories);
+            var productListPartialView = RenderViewToString.RenderRazorViewToString(this, "FilterProductPage/_ProductsBox", model.Products);
+            var paginationPartialView = RenderViewToString.RenderRazorViewToString(this, "FilterProductPage/_Pagination",model.PaginationViewModel);
+            var categorySelectionPartialView = RenderViewToString.RenderRazorViewToString(this, "FilterProductPage/_CategorySelection", model);
+
+            return Json(new{ success = true,productListPartialView, paginationPartialView , categorySelectionPartialView });
+
+        }
+        #endregion
+
         #region Add Review
         public IActionResult AddReview(int productId, double rating)
         {
@@ -71,6 +88,7 @@ namespace twoGirlsOnlineShop.Controllers
         {
             if (ModelState.IsValid)
             {
+                review.Date= DateTime.Now;
                 _myContext.Review.Add(review);
                 _myContext.SaveChanges();
                 return Json(new { success = true });
@@ -84,7 +102,7 @@ namespace twoGirlsOnlineShop.Controllers
         }
         #endregion
 
-        #region add favorite
+        #region Favorite Product
         public IActionResult AddFavorite(int id)
         {
             int userId = int.Parse(User.FindFirstValue(claimType: ClaimTypes.NameIdentifier));
@@ -117,26 +135,27 @@ namespace twoGirlsOnlineShop.Controllers
                 return Ok();
             }
         }
-        public IActionResult Favorite()
+
+        [HttpGet]
+        public IActionResult Favorite(string filter="", int pageId=1, int startPrice=0, int endPrice=0, string orderBY="")
         {
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-           IEnumerable<Product> favorites = _myContext.Favorites
-                .Where(f => f.UserId == userId)
-                .Include(f => f.Product.ImagePaths)
-                .Select(f => f.Product)
-                .ToList();
 
-            ViewData["Favorites"] = ViewData["Favorites"] = _myContext.Users.Where(x => x.Id == userId).Include(x => x.Favorites).SelectMany(x => x.Favorites).ToList();
-            return View("Filter", favorites);
+            FavoriteProductViewModel viewModel = _productService.GetFavoriteProductsByFilter(userId, filter,pageId,startPrice,endPrice,orderBY);
+            return View(viewModel);
+        }
+        [HttpGet]
+        public IActionResult AjaxFavoriteFilter(string filter = "", int pageId = 1, int startPrice = 0, int endPrice = 0, string orderBY = "")
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var model = _productService.GetFavoriteProductsByFilter(userId,filter, pageId, startPrice, endPrice, orderBY);     
+            var productListPartialView = RenderViewToString.RenderRazorViewToString(this, "FilterProductPage/_ProductsBox", model.Products);
+            var paginationPartialView = RenderViewToString.RenderRazorViewToString(this, "FilterProductPage/_Pagination", model.PaginationViewModel);
+                return Json(new { success = true, productListPartialView, paginationPartialView});
         }
         #endregion
+                
 
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

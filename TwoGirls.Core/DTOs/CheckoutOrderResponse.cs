@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TwoGirls.Core.DTOs
 {
-    public class CheckoutOrderResponse
-    {
-        public string? SessionId { get; set; }
-        public string? PubKey { get; set; }
+    //public class CheckoutOrderResponse
+    //{
+    //    public string? SessionId { get; set; }
+    //    public string? PubKey { get; set; }
 
-    }
+    //}
 }

@@ -28,11 +28,12 @@ namespace TwoGirls.DataLayer.Entities
         [MaxLength(16)]
         [Required]
         public string PostCode { get; set; }
-
         public string? location { get; set; }
         public int UserId { get; set; }
+
         #region Relation
         public User? User { get; set; }
+        public ICollection<Order>? Orders { get; set; }
         #endregion
 
     }

@@ -384,13 +384,13 @@ function removeAddress(addressId) {
 }
 function addToCart(productId) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/Basket/AddToCard?id=" + productId);
+    xhr.open("POST", "/Basket/AddToCart?id=" + productId);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 // Success: update the UI
-                var cartComponent = document.querySelector("#update-card-component");
+                var cartComponent = document.querySelector("#update-cart-component");
                 cartComponent.innerHTML = xhr.responseText;
             } else {
                 // Error: handle the error
@@ -403,13 +403,13 @@ function addToCart(productId) {
 
 function removeFromCart(productId) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/Basket/RemoveFromCard?id=" + productId);
+    xhr.open("POST", "/Basket/RemoveFromCart?id=" + productId);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 // Success: update the UI
-                var cartComponent = document.querySelector("#update-card-component");
+                var cartComponent = document.querySelector("#update-cart-component");
                 cartComponent.innerHTML = xhr.responseText;
             } else {
                 // Error: handle the error
@@ -419,6 +419,45 @@ function removeFromCart(productId) {
     };
     xhr.send();
 }
+
+function addToOrder(productId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Basket/AddToOrder?id=" + productId);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Success: update the UI
+                var cartComponent = document.querySelector("#update-Basket-component");
+                cartComponent.innerHTML = xhr.responseText;
+            } else {
+                // Error: handle the error
+                console.error(xhr.status, xhr.statusText);
+            }
+        }
+    };
+    xhr.send();
+}
+
+function removeFromOrder(productId) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Basket/RemoveFromOrder?id=" + productId);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Success: update the UI
+                var cartComponent = document.querySelector("#update-Basket-component");
+                cartComponent.innerHTML = xhr.responseText;
+            } else {
+                // Error: handle the error
+                console.error(xhr.status, xhr.statusText);
+            }
+        }
+    };
+    xhr.send();
+}
+
 function readURL(input) {
 
     if (input.files && input.files[0]) {

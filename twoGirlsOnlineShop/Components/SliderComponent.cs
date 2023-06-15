@@ -26,25 +26,25 @@ namespace twoGirlsOnlineShop.Components
             {
                 case "Discounted":
                     {
-                        var model = _myContext.Products.Include(x => x.ImagePaths).Where(y => y.DiscountedPrice < y.SalesPrice).ToList();
+                        var model = _myContext.Products.Include(x => x.ImagePaths).Include(x => x.Reviews).Where(y => y.DiscountedPrice < y.SalesPrice).ToList();
                         ViewData["cornerImage"] = "/image/for-sale.png";
-                        return View("/Views/Component/SliderComponent.cshtml", model);
+                        return View("SliderComponent", model);
                         
                     }
                 case "NewArrival":
                     {
                         DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
-                        var model = _myContext.Products.Include(x => x.ImagePaths).Where(y => y.PurchaseDate >= oneMonthAgo).ToList();
+                        var model = _myContext.Products.Include(x => x.ImagePaths).Include(x => x.Reviews).Where(y => y.PurchaseDate >= oneMonthAgo).ToList();
                         ViewData["cornerImage"] = "/image/new-arrical.png";
-                        return View("/Views/Component/SliderComponent.cshtml", model);
+                        return View("SliderComponent", model);
 
                     }
                 case "NewCollection":
                     {
                         DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
-                        var model = _myContext.Products.Include(x => x.ImagePaths).Where(y => y.ReleaseDate >= oneMonthAgo).ToList();
+                        var model = _myContext.Products.Include(x => x.ImagePaths).Include(x => x.Reviews).Where(y => y.ReleaseDate >= oneMonthAgo).ToList();
                         ViewData["cornerImage"] = "/image/new-collection.png";
-                        return View("/Views/Component/SliderComponent.cshtml", model);
+                        return View("SliderComponent", model);
 
                     }
                 default: throw new NotImplementedException();

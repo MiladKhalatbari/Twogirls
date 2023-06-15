@@ -1,0 +1,68 @@
+﻿@using System.Security.Claims;
+@using TwoGirls.Core.Services.Interfaces;
+@using TwoGirls.DataLayer.Entities;
+@model List<Product>
+@inject IUserService _userService
+@{
+    List<Favorite> favorites;
+    if (User.Identity.IsAuthenticated)
+    {
+        int userId = int.Parse(User.FindFirstValue(claimType: ClaimTypes.NameIdentifier));
+        favorites = _userService.GetUserFavorites(userId);
+    }
+    else
+    {
+        favorites = new List<Favorite>();
+    }
+}
+@if(Model != null && Model.Count >= 1)
+{
+@foreach (var product in Model)
+{
+    <div class="card position-relative favorite-item border-0">
+        <div class="d-flex justify-content-between align-items-center">
+            <p class="sunglasses-title">@product.Title</p>
+            <i onclick="AddFavorite(@product.Id)" class="favoriteIcon nav-icon fa-heart text-warning
+                             @(favorites != null && favorites.Any(x => x.ProductId == product.Id) ? "fa-solid" :"fa-regular" )"></i>
+
+        </div>
+        <div>
+            <img src=@product.ImagePaths.FirstOrDefault().Url.ToString() onmouseover="secondImg(this,'@product.ImagePaths.Skip(1).FirstOrDefault().Url.ToString()')"
+                 onmouseleave="FirstImg(this,'@product.ImagePaths.FirstOrDefault().Url')"
+                 class="card-img-top custom-carousel-image img-fluid rounded-2" alt="...">
+        </div>
+
+        <div class="card-body p-0 d-flex justify-content-between align-items-center border-1">
+
+            <div class="align-items-end">
+                <small class="discountedPrice">@product.SalesPrice</small>
+                <p class="Price"><small>$</small>@product.DiscountedPrice</p>
+            </div>
+            <div class="d-flex flex-column align-items-end">
+                <a onclick="addToCart(@product.Id)" class="add-to-cart btn btn-outline-secondary">
+                    Buy now
+                </a>
+
+
+            </div>
+
+        </div>
+        <div class="card-footer p-0 pt-1 bg-transparent d-flex justify-content-between align-items-center">
+            <a class="information"><i class="fa-solid fa-circle-info"></i></a>
+
+            <div class="rate d-inline-flex flex-nowrap align-items-start justify-content-start">
+                @for (double rating = 5; rating >= 0.5; rating -= 0.5)
+                {
+                    <input onclick="ShowInPopup('@Url.Action("AddReview", "Product", new { productId = product.Id }, Context.Request.Scheme)', @rating)"
+                           type="radio" name="@product.Id" value="@rating" @(product.Rate() == rating ? "checked" : "") />
+                }
+            </div>
+
+        </div>
+    </div>
+}}
+else{
+    <div class="alert alert-warning m-0">
+        <strong>Oops!</strong> It seems like our unicorns couldn't find any matching products for your search. Please try again with different keywords or take a magical journey through our other categories. Happy shopping!
+   </div>
+}

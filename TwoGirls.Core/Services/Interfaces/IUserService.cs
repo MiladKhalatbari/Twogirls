@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,15 +19,21 @@ namespace TwoGirls.Core.Services.Interfaces
         public bool ChangePassword(int id, string oldPassword, string password);
         public User GetUserByEmail(string email);
         public User GetUserById(int userId);
-
+        public User GetUserByIdIncludeRole(int userId);
+        public User GetUserByIdIgnoreQueryFilters(int userId);
         public User GetUserByEmailAndPassword(string email, string password);
         public int AddUser(User user);
         public void UpdateUser(EditProfileViewModel user);
         #endregion
 
+        #region User Favorites
+        public List<Favorite> GetUserFavorites(int userId);
+        #endregion
+
         #region User Address   
-        public IEnumerable<Address> GetUserAddresses(int id);
+        public List<Address> GetUserAddresses(int id);
         public int AddUserAddress(Address address);
+        public bool CheckAddressId(int userId,int addressId);
         public bool RemoveUserAddress(int userId, int addressId);
         #endregion
 
@@ -46,5 +53,13 @@ namespace TwoGirls.Core.Services.Interfaces
         public void AddTransaction(Transaction transaction);
         #endregion
 
+        #region User for Admin
+        public UsersForAdminViewModel GetUsersByFilterForAdminViewModel(int pageId = 1, string filter = "");
+        public UsersForAdminViewModel GetDeletedUsersByFilterForAdminViewModel(int pageId = 1, string filter = "");
+        public bool EditUserForAdmin(User user);
+        public bool DeleteUserForAdmin(int userId);
+        public bool RecoverUserForAdmin(int userId);
+        public List<Role> GetAllRoles();
+        #endregion
     }
 }

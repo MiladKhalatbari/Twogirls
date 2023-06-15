@@ -88,7 +88,7 @@
                 <img src="~/image/mens.webp" class="card-img img-fluid" alt="...">
                 <div class="card-img-overlay">
                     <p class="card-title d-inline-flex p-2 h1 text-white">Men's</p>
-                    <button type="button" class=" border-0 text-light">Shop This</button>
+                    <a href="@Url.Action("Filter","Product",new {prodcutTypeId = 0, SelectedCategories = 1 })" class="btn border-0 text-light">Shop This</a>
 
                 </div>
             </div>
@@ -98,7 +98,7 @@
                 <img src="~/image/womens.webp" class="card-img img-fluid" alt="...">
                 <div class="card-img-overlay">
                     <p class="card-title d-inline-flex h1 p-2 text-white ">Women's</p>
-                    <button type="button" class=" border-0 text-light">Shop This</button>
+                    <a href="@Url.Action("Filter","Product",new {prodcutTypeId = 0, SelectedCategories = 2 })" class="btn border-0 text-light">Shop This</a>
                 </div>
             </div>
 
@@ -107,7 +107,7 @@
                 <img src="~/image/couple.jpg" class="card-img img-fluid" alt="...">
                 <div class="card-img-overlay">
                     <p class="card-title d-inline-flex p-2 text-white h1 ">Couples</p>
-                    <button type="button" class=" border-0 text-light">Shop This</button>
+                    <a href="@Url.Action("Filter","Product",new {prodcutTypeId = 0, SelectedCategories = 15 })" class="btn border-0 text-light">Shop This</a>
                 </div>
             </div>
 

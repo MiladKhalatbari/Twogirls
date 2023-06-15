@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.ComponentModel.Design;
+using System.Drawing;
 using System.Numerics;
 using System.Reflection.Emit;
 using TwoGirls.DataLayer.Entities;
@@ -26,14 +27,18 @@ namespace TwoGirls.DataLayer.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<CategoryToProduct> CategoryToProducts { get; set; }
-        public DbSet<CardItem> CardItems { get; set; }
-        public DbSet<Card> Cards { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Cart> Carts { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Review>? Review { get; set; }
+        public DbSet<Review> Review { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<TransactionType>? TransactionTypes { get; set; }
-
+        public DbSet<TransactionType> TransactionTypes { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<DiscountCode> DiscountCodes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<UserDiscountCodes>  UserDiscountCodes { get; set; }
+        public DbSet<ProductType> productTypes  { get; set; }
 
         public override int SaveChanges()
         {
@@ -52,17 +57,32 @@ namespace TwoGirls.DataLayer.Context
 
         protected override void OnModelCreating(ModelBuilder Builder)
         {
+            Builder.Entity<User>().HasQueryFilter(x => x.IsDelete == false);
+            Builder.Entity<Role>().HasQueryFilter(x => x.IsDelete == false);
+            Builder.Entity<Product>().HasQueryFilter(x => x.IsDelete == false);
+
             Random random = new Random();
             Builder.Entity<CategoryToProduct>().HasKey(t => new { t.CategoryId, t.ProductId });
             Builder.Entity<Favorite>().HasKey(t => new { t.UserId, t.ProductId });
-
+            Builder.Entity<Product>().HasMany(p => p.ImagePaths).WithOne(ip => ip.Product).HasForeignKey(ip => ip.ProductId).OnDelete(DeleteBehavior.Restrict);
+            Builder.Entity<Order>().HasOne(o => o.Cart).WithMany().HasForeignKey(o => o.CartId).OnDelete(DeleteBehavior.NoAction); 
+            Builder.Entity<Order>().HasOne(o => o.User).WithMany().HasForeignKey(o => o.UserId).OnDelete(DeleteBehavior.NoAction);
+            Builder.Entity<Order>().Property(o => o.AddressId).IsRequired(false);
             base.OnModelCreating(Builder);
 
-            Builder.Entity<Product>()
-           .HasMany(p => p.ImagePaths)
-           .WithOne(ip => ip.Product)
-           .HasForeignKey(ip => ip.ProductId)
-           .OnDelete(DeleteBehavior.Restrict);
+            #region Add Product Type
+            Builder.Entity<ProductType>().HasData(
+               new ProductType()
+               {
+                   Id = 1,
+                   Title = "Sunglasses"
+               }, new TransactionType()
+               {
+                   Id = 2,
+                   Title = "Eyeglasses"
+               });
+            #endregion
+
             #region Add Transaction Type
             Builder.Entity<TransactionType>().HasData(
                 new TransactionType()
@@ -80,7 +100,130 @@ namespace TwoGirls.DataLayer.Context
             Builder.Entity<Role>().HasData(new Role()
             {
                 RoleId = 1,
-                RoleTitle = "Leader"
+                RoleTitle = "Owner"
+            });
+            Builder.Entity<Role>().HasData(new Role()
+            {
+                RoleId = 2,
+                RoleTitle = "Admin"
+            });
+            Builder.Entity<Role>().HasData(new Role()
+            {
+                RoleId = 3,
+                RoleTitle = "Staff"
+            });
+            Builder.Entity<Role>().HasData(new Role()
+            {
+                RoleId = 4,
+                RoleTitle = "User"
+            });
+            #endregion
+
+            #region Add Permission
+            Builder.Entity<Permission>().HasData(new Permission()
+            {
+                Id = 1,
+                Title = "Admin Panel",
+            }, new Permission()
+            {
+                Id = 2,
+                Title = "Manage Users",
+                ParentId = 1
+            }, new Permission()
+            {
+                Id = 3,
+                Title = "Manage Permissions",
+                ParentId = 1
+            }, new Permission()
+            {
+                Id = 4,
+                Title = "Manage Products",
+                ParentId = 1
+            }, new Permission()
+            {
+                Id = 5,
+                Title = "Manage Orders",
+                ParentId = 1
+            }, new Permission()
+            {
+                Id = 6,
+                Title = "Add or Edit",
+                ParentId = 2
+            }, new Permission()
+            {
+                Id = 7,
+                Title = "Delete",
+                ParentId = 2
+            }, new Permission()
+            {
+                Id = 8,
+                Title = "Recover",
+                ParentId = 2
+            }, new Permission()
+            {
+                Id = 9,
+                Title = "Watch the list",
+                ParentId = 2
+            }, new Permission()
+            {
+                Id = 10,
+                Title = "Add or Edit",
+                ParentId = 3
+            }, new Permission()
+            {
+                Id = 11,
+                Title = "Delete",
+                ParentId = 3
+            }, new Permission()
+            {
+                Id = 12,
+                Title = "Recover",
+                ParentId = 3
+            }, new Permission()
+            {
+                Id = 13,
+                Title = "Watch the list",
+                ParentId = 3
+            }, new Permission()
+            {
+                Id = 14,
+                Title = "Add",
+                ParentId = 4
+            }, new Permission()
+            {
+                Id = 15,
+                Title = "Edit",
+                ParentId = 4
+            }, new Permission()
+            {
+                Id = 16,
+                Title = "Delete",
+                ParentId = 4
+            }, new Permission()
+            {
+                Id = 17,
+                Title = "Recover",
+                ParentId = 4
+            }, new Permission()
+            {
+                Id = 18,
+                Title = "Watch the list",
+                ParentId = 4
+            }, new Permission()
+            {
+                Id = 19,
+                Title = "Send",
+                ParentId = 5
+            }, new Permission()
+            {
+                Id = 20,
+                Title = "Unsend",
+                ParentId = 5
+            }, new Permission()
+            {
+                Id = 21,
+                Title = "Watch the list",
+                ParentId = 5
             });
             #endregion
 
@@ -127,6 +270,7 @@ namespace TwoGirls.DataLayer.Context
                     RegisterDate = DateTime.Now,
                     ImagePath = "/image/user-avatar/Milad_profile.jpg",
                     ActiveCode = "50975f6e0555441db20afedb3fd1e02f",
+                    RoleId = 1,
                 }, new User()
                 {
                     FirstName = "saman",
@@ -139,17 +283,12 @@ namespace TwoGirls.DataLayer.Context
                     RegisterDate = DateTime.Now,
                     ImagePath = "/image/user-avatar/saman_profile.jpg",
                     ActiveCode = "90e2b14b48cc40deafcd275d96c50b94",
+                    RoleId = 1,
                 });
             #endregion
 
             #region Add UserRole
-            Builder.Entity<UserRole>().HasData(
-            new UserRole()
-            {
-                Id = 1,
-                UserId = 1,
-                RoleId = 1
-            });
+
             #endregion
 
             #region add product
@@ -158,210 +297,258 @@ namespace TwoGirls.DataLayer.Context
                 {
                     Title = "Reyban Genwux 941",
                     Id = 1,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 2,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 3,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 4,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 5,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 6,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 7,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 8,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 9,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 10,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 11,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
 
 
                 }, new Product
                 {
                     Title = "Reyban Genwux 941",
                     Id = 12,
+                    ItemNumber = random.Next(19865, 88888),
                     DiscountedPrice = random.Next(1000, 1500),
                     Description = "",
                     ReleaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     PurchasePrice = random.Next(1000, 1501),
                     SalesPrice = random.Next(1000, 1501),
                     QuantityInStock = random.Next(10, 51),
-                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1))
-
-
-                });
+                    PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
+                    ProductTypeId = 1
+                }) ;
             #endregion
 
             #region add Category
 
-            Builder.Entity<Category>().HasData(new Category
-            {
-                Id = 8,
-                Name = "favorite"
-            }, new Category
+            Builder.Entity<Category>().HasData(
+
+            new Category
             {
                 Id = 1,
-                Name = "Men's"
+                Name = "Men's",
             }, new Category
             {
                 Id = 2,
-                Name = "Women's"
+                Name = "Women's",
             }, new Category
             {
                 Id = 3,
-                Name = "New Collection"
+                Name = "Featured Categories",
             }, new Category
             {
                 Id = 4,
-                Name = "Designer Outlet"
+                Name = "New Collection",
+                ParentId = 1
+
             }, new Category
             {
                 Id = 5,
-                Name = "Fashion and Trends"
+                Name = "Most Visited",
+                ParentId = 1
             }, new Category
             {
                 Id = 6,
-                Name = "Sports Glasses"
+                Name = "Best Sellers",
+                ParentId = 1
             }, new Category
             {
                 Id = 7,
-                Name = "Best Sellers"
+                Name = "Discounted",
+                ParentId = 1
             }, new Category
             {
-                Id = 12,
-                Name = "Most Visited"
+                Id = 8,
+                Name = "New Collection",
+                ParentId = 2
             }, new Category
             {
                 Id = 9,
-                Name = "Fashion and Trends"
+                Name = "Most Visited",
+                ParentId = 2
             }, new Category
             {
                 Id = 10,
-                Name = "Glasses for Couples"
-            },
-            new Category
+                Name = "Best Sellers",
+                ParentId = 2
+            }, new Category
             {
                 Id = 11,
-                Name = "Discounted"
+                Name = "Discounted",
+                ParentId = 2
+            }, new Category
+            {
+                Id = 12,
+                Name = "Fashion and Trends",
+                ParentId = 3
+            }, new Category
+            {
+                Id = 13,
+                Name = "Designer Outlet",
+                ParentId = 3
+            }, new Category
+            {
+                Id = 14,
+                Name = "Sports Glasses",
+                ParentId = 3
+            }, new Category
+            {
+                Id = 15,
+                Name = "Glasses for Couples",
+                ParentId = 3
             });
 
             #endregion
@@ -418,7 +605,8 @@ namespace TwoGirls.DataLayer.Context
                     UserId = 1,
                     Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
                     ProductId = 1,
-                    Rate = 1
+                    Rate = 1,
+                    Date = DateTime.Now.AddDays(random.Next(-50, 1))
 
                 }, new Review()
                 {
@@ -426,7 +614,8 @@ namespace TwoGirls.DataLayer.Context
                     UserId = 1,
                     Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
                     ProductId = 2,
-                    Rate = 2
+                    Rate = 2,
+                    Date = DateTime.Now.AddDays(random.Next(-50, 1))
 
                 }, new Review()
                 {
@@ -434,7 +623,8 @@ namespace TwoGirls.DataLayer.Context
                     UserId = 1,
                     Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
                     ProductId = 5,
-                    Rate = 3
+                    Rate = 3,
+                    Date = DateTime.Now.AddDays(random.Next(-50, 1))
 
                 }, new Review()
                 {
@@ -442,7 +632,8 @@ namespace TwoGirls.DataLayer.Context
                     UserId = 1,
                     Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
                     ProductId = 6,
-                    Rate = 2
+                    Rate = 2,
+                    Date = DateTime.Now.AddDays(random.Next(-50, 1))
 
                 }, new Review()
                 {
@@ -450,7 +641,8 @@ namespace TwoGirls.DataLayer.Context
                     UserId = 2,
                     Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
                     ProductId = 2,
-                    Rate = 5
+                    Rate = 5,
+                    Date = DateTime.Now.AddDays(random.Next(-50, 1))
 
                 }, new Review()
                 {
@@ -458,41 +650,41 @@ namespace TwoGirls.DataLayer.Context
                     UserId = 2,
                     Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
                     ProductId = 1,
-                    Rate = 3
+                    Rate = 3,
+                    Date = DateTime.Now.AddDays(random.Next(-50, 1))
 
                 });
             #endregion
 
             #region Add Card
-            Builder.Entity<Card>().HasData(
-                new Card { Id = 1, UserId = 1, IsClose = false }
+            Builder.Entity<Cart>().HasData(
+                new Cart { Id = 1, UserId = 1, IsClose = false }
                 );
             #endregion
 
             #region Add Card Item
-            Builder.Entity<CardItem>().HasData(
-                new CardItem
+            Builder.Entity<CartItem>().HasData(
+                new CartItem
                 {
                     Id = 1,
                     ProductId = 1,
                     Quantity = 1,
-                    CardId = 1
+                    CartId = 1
 
-                }, new CardItem
+                }, new CartItem
                 {
                     Id = 2,
                     ProductId = 2,
                     Quantity = 2
                     ,
-                    CardId = 1
+                    CartId = 1
                 },
-                new CardItem
+                new CartItem
                 {
                     Id = 3,
                     ProductId = 3,
-                    Quantity = 3
-                    ,
-                    CardId = 1
+                    Quantity = 3,
+                    CartId = 1
                 });
             #endregion
         }

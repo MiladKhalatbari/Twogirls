@@ -5,9 +5,9 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "twoGirlsOnlineShop", "twoGirlsOnlineShop\twoGirlsOnlineShop.csproj", "{F11DFDB2-C3E9-44E7-9560-A5969CD04354}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoGirls.DataLayer", "TwoGirls.DataLayer\TwoGirls.DataLayer.csproj", "{D0E16F66-C9F0-4A20-A2E6-7C08F5B31A4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoGirls.DataLayer", "TwoGirls.DataLayer\TwoGirls.DataLayer.csproj", "{D0E16F66-C9F0-4A20-A2E6-7C08F5B31A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoGirls.Core", "TwoGirls.Core\TwoGirls.Core.csproj", "{FAB0B0AA-1441-4FCA-BCD3-2567847B4A49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoGirls.Core", "TwoGirls.Core\TwoGirls.Core.csproj", "{FAB0B0AA-1441-4FCA-BCD3-2567847B4A49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

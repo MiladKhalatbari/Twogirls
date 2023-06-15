@@ -1,0 +1,123 @@
+﻿@using TwoGirls.Core.DTOs;
+@using TwoGirls.DataLayer.Entities;
+@section style{
+    <link rel="stylesheet" href="~/css/Account-Style.css" asp-append-version="true">
+}
+@{
+    ViewData["Title"] = "Orders";
+    int i = 1;
+    var orderList = ViewData["OrderList"] as List<Order>;
+}
+
+<img src="~/image/loginheader.jpg" alt="" class="Page_banner">
+<div class="container-xxl mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Order List</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <div >
+                    @await Html.PartialAsync("UserPanel/_UserAvatar", ViewData["UserAvatarViewModel"])
+                </div>
+                 <ul class="list-group list-group-flush">
+                    <a asp-action="TransactionList" asp-controller="Account" class="list-group-item">Wallet Transactions </a>
+                    <a asp-action="TransactionList" asp-controller="Account" class="list-group-item"> Charge Wallet </a>
+                    <a asp-action="Index" asp-controller="Account" class="list-group-item">Edit Profile </a>
+                    <a href="/Account/Index/#form-ChangePassword" class="list-group-item"> Change Passwrod </a>
+                    <a asp-action="Logout" asp-controller="Account" class="list-group-item">Logout </a>
+                </ul>
+            </div>
+        </div>
+        @{
+            int a = 1;
+        }
+        <div class="col-md-9 ">
+            <div class="row mt-3">
+                <div class="px-4">
+                    <p class="h5">Order List :</p>
+
+                     <table class="table table-striped table-hover">
+                     <thead>
+                         <tr>
+                             <th class="align-middle text-center">
+                                #
+                             </th>
+                             <th class="align-middle text-center">
+                                 Invoice number
+                             </th>
+                                <th class="align-middle text-center">
+                                 Registration Date
+                             </th>
+                             <th class="align-middle text-center">
+                                 Amount
+                             </th>
+                             <th class="align-middle text-center">
+                                 Shipping Date
+                             </th>
+                             <th class="align-middle text-center">
+                                  More Detail
+                             </th>
+                    
+                          </tr>
+                     </thead>
+                     <tbody>
+                            @if (orderList == null || orderList.Count() < 1)
+                            {
+                                <tr>
+                                   <div class="alert alert-secondary m-2">
+                                       You have not placed any Orders yet
+                                   </div>
+                                </tr>
+                            }
+                            else{
+                                @foreach (var order in orderList)
+                                {
+                                    <tr >
+                                        <th  class="align-middle text-center">
+                                            @i
+                                        </th>
+                                        <td class="align-middle text-center">
+                                            <span> @("#1s55a1" + order.OrderId)</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @order.OrderDate?.ToShortDateString()
+                                        </td>
+                                        <td class ="align-middle text-center">
+                                            <span> @order.OrderPrice</span>
+                                        </td>
+                                        <td  class="align-middle text-center">
+                                            @if (order.IsPosted)
+                                            {
+                                                <span class="text-success"> @order.PostDate.ToShortDateString() </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-tomato"> Not shipped yet </span>
+                                            }
+                                        </td>
+                                        <td class="align-middle text-center">
+                                           <a href="/Basket/Order/@order.CartId" class="btn btn-dark"> Detail</a>
+                                        </td>
+                                    </tr>
+                                i++;
+                                }
+                            }
+                     </tbody>
+                </table>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    @{
+      await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -18,7 +18,7 @@ internal class Program
 
         builder.Services.AddControllersWithViews();
         // Add services to the container.
-
+        #region Stripe Gateway
         StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
         builder.Services.AddCors(options =>
@@ -30,10 +30,7 @@ internal class Program
                     .AllowAnyMethod();
             });
         });
-
-        builder.Services.AddRouting(options => options.LowercaseUrls = true);
-
-        builder.Services.AddControllers();
+        #endregion
 
         #region Cookie Authentication
         builder.Services.AddAuthentication(options =>
@@ -63,10 +60,17 @@ internal class Program
 
         #region IoC
         builder.Services.AddTransient<IUserService, UserService>();
+        builder.Services.AddTransient<IPermissionService, PermissionService>();
+        builder.Services.AddTransient<IProductService, TwoGirls.Core.Services.ProductService>();
+        builder.Services.AddTransient<IOrderService, OrderService>();
         builder.Services.AddTransient<IRenderViewWithoutControllerToString, RenderViewWithoutControllerToString>();
         #endregion
 
-  
+        builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+        builder.Services.AddControllers();
+
+        builder.Services.AddRazorPages();
 
         var app = builder.Build();
 
@@ -80,29 +84,36 @@ internal class Program
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.Use(async (context, next) =>
-        {
-            if (context.Request.Path.StartsWithSegments("/Admin") || context.Request.Path.StartsWithSegments("/ManageUsers"))
-            {
-                if (!context.User.Identity.IsAuthenticated)
-                {
-                    context.Response.Redirect("/Account/Login");
-                }
-                else if ((context.User.FindFirstValue("RoleTitle")=="user"))
-                {
-                    context.Response.Redirect("/Account/Login");
-                }
-            }
-            await next.Invoke();
+        //app.Use(async (context, next) =>
+        //{
+        //    if (context.Request.Path.StartsWithSegments("/Admin") || context.Request.Path.StartsWithSegments("/ManageUsers"))
+        //    {
+        //        if (!context.User.Identity.IsAuthenticated)
+        //        {
+        //            context.Response.Redirect("/Account/Login");
+        //        }
+        //        else if ((context.User.FindFirstValue("RoleTitle") == "user"))
+        //        {
+        //            context.Response.Redirect("/Account/Login");
+        //        }
+        //    }
+        //    await next.Invoke();
 
-        }); app.MapControllerRoute(
-       name: "default",
-       pattern: "{controller=Home}/{action=Index}/{id?}");
-
+        //});
+        //app.UseEndpoints(endpoints =>
+        //{
+        //    endpoints.MapControllerRoute(
+        //        name: "default",
+        //        pattern: "{controller=Home}/{action=Index}/{id?}");
+        //    endpoints.MapRazorPages();
+        //});
+        app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+        app.MapRazorPages();
         app.Run();
     }
 }

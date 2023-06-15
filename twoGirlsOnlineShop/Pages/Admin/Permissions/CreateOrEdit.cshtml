@@ -1,0 +1,81 @@
+﻿@page
+@model twoGirlsOnlineShop.Pages.Admin.Permissions.CreateOrEditModel
+@{
+}
+@{
+    ViewData["Title"] = (Model.CreateOrEditRoleForAdmin.Role.RoleId == 0 ? "Create New Role" : "Edit Role");
+}
+
+<h1>@(Model.CreateOrEditRoleForAdmin.Role.RoleId == 0 ? "Create New Role" : "Edit Role")</h1>
+
+<hr />
+<div class="row">
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4">
+                @foreach (var permission in Model.CreateOrEditRoleForAdmin.Permissions.Where(p => p.ParentId == null))
+                {
+                    <ul>
+                        <li>
+                            <div class="mb-3 form-check">
+                                <input name="CreateOrEditRoleForAdmin.SelectedRoles" checked="@Model.CreateOrEditRoleForAdmin.SelectedRoles.Any(x=> x == permission.Id)" type="checkbox" class="form-check-input" value="@permission.Id">
+                                <label>@permission.Title</label>
+                            </div>
+                            @foreach (var subPermission in Model.CreateOrEditRoleForAdmin.Permissions.Where(p => p.ParentId == permission.Id))
+                            {
+                                <ul>
+                                    <li>
+                                        <div class="mb-3 form-check">
+                                            <input name="CreateOrEditRoleForAdmin.SelectedRoles" checked="@Model.CreateOrEditRoleForAdmin.SelectedRoles.Any(x=> x == subPermission.Id)" type="checkbox" class="form-check-input" value="@subPermission.Id">
+                                            <label>@subPermission.Title</label>
+                                        </div>
+                                        @foreach (var sub2Permission in Model.CreateOrEditRoleForAdmin.Permissions.Where(p => p.ParentId == subPermission.Id))
+                                        {
+                                            <ul>
+                                                <li>
+                                                    <div class="mb-3 form-check">
+                                                        <input name="CreateOrEditRoleForAdmin.SelectedRoles" checked="@Model.CreateOrEditRoleForAdmin.SelectedRoles.Any(x=> x == sub2Permission.Id)" type="checkbox" class="form-check-input" value="@sub2Permission.Id">
+                                                        <label>@sub2Permission.Title</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        }
+                                    </li>
+                                </ul>
+                            }
+                        </li>
+                    </ul>
+                }
+            </div>
+            <div class="col-md-7">
+                <input type="hidden" asp-for="@Model.CreateOrEditRoleForAdmin.Role.RoleId" />
+                <div class="form-group">
+                    <label asp-for="@Model.CreateOrEditRoleForAdmin.Role.RoleTitle" class="control-label"></label>
+                    <input asp-for="@Model.CreateOrEditRoleForAdmin.Role.RoleTitle" class="form-control" />
+                    <span asp-validation-for="@Model.CreateOrEditRoleForAdmin.Role.RoleTitle" class="text-danger"></span>
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="@(Model.CreateOrEditRoleForAdmin.Role.RoleId == 0 ? "Create" : "Edit")" class="btn btn-primary" />
+                    <a href="/admin/Permissions" class="btn btn-danger">Back to List</a>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+
+</div>
+
+
+
+@section AdminSearchBox {
+    <i class="fa fa-search search-show"></i>
+    <form class=" search-area ">
+        <button type="submit" class="bg-transparent border-0"> <i class="fa fa-search"></i></button>
+        <input class="h-50" type="text" placeholder="Search..." name="filter" id="">
+        <a href="/admin/users"><i class="fa fa-close"></i></a>
+    </form>
+
+}

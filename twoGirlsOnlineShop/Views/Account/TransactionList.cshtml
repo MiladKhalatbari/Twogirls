@@ -26,6 +26,7 @@
                     @await Html.PartialAsync("UserPanel/_UserAvatar", ViewData["UserAvatarViewModel"])
                 </div>
                  <ul class="list-group list-group-flush">
+                    <a asp-action="OrderList" asp-controller="UserPanel" class="list-group-item">Order List </a>
                     <a asp-action="Index" asp-controller="Account" class="list-group-item">Edit Profile </a>
                     <a href="/Account/Index/#form-ChangePassword" class="list-group-item"> Change Passwrod </a>
                     <a asp-action="Logout" asp-controller="Account" class="list-group-item">Logout </a>
@@ -89,35 +90,44 @@
                           </tr>
                      </thead>
                      <tbody>
-                         @foreach(var transaction in transactions)
+                         @if (transactions == null || transactions.Count() < 1)
                          {
-                         <tr >
-                             <th  class="align-middle text-center">
-                                 @i
-                             </th>
-                             <td class="align-middle text-center">
-                                 <p> @transaction.Description</p>
-                             </td>
-                             <td class ="align-middle text-center">
-                                 <p> @transaction.Amount</p>
-                             </td>
-                             <td  class="align-middle text-center">
-                              @if (transaction.TransactionType.Id == 1)
-                              {
-                                <p class="text-success"> Deposit </p>
-                              }
-                              else if (transaction.TransactionType.Id == 2)
-                              {
-                                <p class="text-tomato"> Whithdraw </p>
-                              }
-                             </td>
-                             <td class="align-middle text-center">
-                                  @transaction.Date.ToShortDateString()
-                             </td>
-                            
-                         </tr>
-                                  
-                          i++;}
+                                <tr>
+                                    <div class="alert alert-secondary m-2">
+                                       You have not made a Transaction yet
+                                    </div>
+                                </tr>
+                         }
+                          else{
+                                @foreach (var transaction in transactions)
+                                {
+                                    <tr>
+                                        <th  class="align-middle text-center">
+                                            @i
+                                        </th>
+                                        <td class="align-middle text-center">
+                                            <p> @transaction.Description</p>
+                                        </td>
+                                        <td class ="align-middle text-center">
+                                            <p> @transaction.Amount</p>
+                                        </td>
+                                        <td  class="align-middle text-center">
+                                            @if (transaction.TransactionType.Id == 1)
+                                            {
+                                                <p class="text-success"> Deposit </p>
+                                            }
+                                            else if (transaction.TransactionType.Id == 2)
+                                            {
+                                                <p class="text-tomato"> Whithdraw </p>
+                                            }
+                                        </td>
+                                        <td class="align-middle text-center">
+                                             @transaction.Date.ToShortDateString()
+                                        </td>
+                                      </tr>
+                         
+                                  i++;}
+                            }
                      </tbody>
                 </table>
                    

@@ -1,0 +1,72 @@
+﻿@using TwoGirls.DataLayer.Entities;
+@model Cart ;
+
+
+<div class="">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <p id="lbl-baket" class="position-relative">You are not logged in yet ! <a asp-action="Login" asp-controller="Account" class="text-primary">Go to login page</a>.</p>
+    }
+    else if (Model.CartItems.Count() < 1)
+    {
+        <p id="lbl-baket" class="position-relative">Your cart is empty.</p>
+    }
+</div>
+
+@if (Model != null && User.Identity.IsAuthenticated)
+{
+    <div class="cart-items">
+
+        @foreach (var item in Model.CartItems)
+        {
+
+            string src = item.Product.ImagePaths.Skip(1).Take(1).FirstOrDefault().Url.ToString();
+            string name = item.Product.Title.ToString();
+            string price = item.Product.CardItems.FirstOrDefault(x => x.CartId == Model.Id && x.ProductId == item.ProductId).TotalPrice().ToString();
+            int quantity = Convert.ToInt32(item.Quantity.ToString());
+            <div class="cart-item">
+                <div class="left">
+                    <div class="cart-image">
+                        <div class="image-wrapper"><img src='@src' class="image"></div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="name">@name</div>
+                    <div class="price">$@price</div>
+                    <div class="count">
+                        <a onclick="addToCart(@item.Product.Id)" class="button" data-ajax="true"><i class="fa-solid fa-plus"></i></a>
+                        <div class="number">@quantity</div>
+                        <a onclick="removeFromCart(@item.Product.Id)" class="button" data-ajax="true"><i class="fa-solid fa-minus"></i></a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+    @if (Model.CartItems.Count() > 0)
+    {
+        <div id="payment-bar" class="payment-bar">
+            @if (Model.TotalOrderPrice() == Model.Order.OrderPrice)
+            {
+                <div class="d-flex justify-content-between">
+                    <p class="fw-bolder m-0">Total</p>
+                    <p class="m-0">@Model.TotalOrderPrice() $</p>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-between">
+                    <p class="fw-bolder m-0">Total</p>
+                    <p class="m-0"><s class="text-tomato">@Model.TotalOrderPrice() $</s> @Model.Order.OrderPrice $</p>
+                </div>
+            }
+            <a asp-controller="Basket" asp-action="Order" asp-route-id="@Model.Id" class="btn-payment">Review payment and address</a>
+        </div>
+    }
+
+}
+
+
+
+

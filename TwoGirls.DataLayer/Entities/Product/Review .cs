@@ -16,9 +16,10 @@ namespace TwoGirls.DataLayer.Entities
         public Double Rate { get; set; }
         public int UserId { get; set; }
         public int ProductId { get; set; }
-
+        public DateTime Date { get; set; }
         #region Relation
         public Product? Product { get; set; }
+        public User? User { get; set; }
         #endregion
 
     }

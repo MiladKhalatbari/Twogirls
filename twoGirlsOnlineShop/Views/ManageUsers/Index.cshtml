@@ -67,12 +67,10 @@
                     <td class="text-center">
                         @item.Password
                     </td>
-  
+
                     <td class="text-center">
-                        @foreach(var role in @item.UserRoles)
-                        {
-                            <p>@roles.FirstOrDefault(x=>x.RoleId== @role.RoleId).RoleTitle.ToString()</p>
-                        }
+         
+
                     </td>
                     <td class="text-center">
                         <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

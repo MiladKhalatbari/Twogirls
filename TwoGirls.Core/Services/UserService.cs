@@ -1,5 +1,6 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿//using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,6 +121,16 @@ namespace TwoGirls.Core.Services
             return _context.Users
                                .FirstOrDefault(u => u.Id == userId);
         }
+        public User GetUserByIdIncludeRole(int userId)
+        {
+            return _context.Users.Include(x=> x.UserRole)
+                               .FirstOrDefault(u => u.Id == userId);
+        }
+        public User GetUserByIdIgnoreQueryFilters(int userId)
+        {
+            return _context.Users.IgnoreQueryFilters().Include(x => x.UserRole)
+                               .FirstOrDefault(u => u.Id == userId);
+        }
         public User GetUserByEmailAndPassword(string email, string password)
         {
             try
@@ -139,13 +150,14 @@ namespace TwoGirls.Core.Services
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
         #endregion
 
         #region User Address
-        public IEnumerable<Address> GetUserAddresses(int id)
+        public List<Address> GetUserAddresses(int id)
         {
             return _context.Addresses.Where(x => x.UserId == id).ToList();
 
@@ -155,6 +167,10 @@ namespace TwoGirls.Core.Services
             _context.Addresses.Add(address);
             _context.SaveChanges();
             return address.Id;
+        }
+        public bool CheckAddressId(int userId, int addressId)
+        {
+           return _context.Addresses.Any(a=> a.Id == addressId && a.UserId == userId);
         }
         public bool RemoveUserAddress(int userId, int addressId)
         {
@@ -224,6 +240,104 @@ namespace TwoGirls.Core.Services
         {
             _context.Transactions.Add(transaction);
             _context.SaveChanges();
+        }
+        #endregion
+
+        #region User Favorites
+        public List<Favorite> GetUserFavorites(int userId)
+        {
+           return  _context.Users.Where(x => x.Id == userId).Include(x => x.Favorites).SelectMany(x => x.Favorites).ToList();
+        }
+        #endregion
+
+        #region User for Admin
+
+        public UsersForAdminViewModel GetUsersByFilterForAdminViewModel(int pageId = 1, string filter="")
+        {
+            IQueryable<User> result = _context.Users;
+
+            if (!filter.IsNullOrEmpty())
+            {
+                result = result.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter)|| x.Email.Contains(filter));
+            }
+           
+            int take = 20;
+            int skip = (pageId - 1) * take;
+            UsersForAdminViewModel list = new UsersForAdminViewModel()
+            {
+                CurrentPage = pageId,
+                PageCount = (int)Math.Ceiling(result.Count() / (double)take),
+                Users = result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take).Include(x=> x.UserRole).ToList()
+            };
+            return list;
+        }
+        public UsersForAdminViewModel GetDeletedUsersByFilterForAdminViewModel(int pageId = 1, string filter = "")
+        {
+            IQueryable<User> result = _context.Users.IgnoreQueryFilters().Where(x => x.IsDelete);
+
+
+            if (!filter.IsNullOrEmpty())
+            {
+                result = result.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter) || x.Email.Contains(filter));
+            }
+
+            int take = 20;
+            int skip = (pageId - 1) * take;
+            UsersForAdminViewModel list = new UsersForAdminViewModel()
+            {
+                CurrentPage = pageId,
+                PageCount = (int)Math.Ceiling(result.Count() / (double)take),
+                Users = result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take).Include(x => x.UserRole).ToList()
+            };
+            return list;
+        }
+        public bool EditUserForAdmin(User user)
+        {
+            try
+            {
+                _context.Users.Update(user);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        public bool DeleteUserForAdmin(int userId)
+        {
+            try
+            {
+             var user = GetUserById(userId);
+                user.IsDelete = true;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        public bool RecoverUserForAdmin(int userId)
+        {
+            try
+            {
+                var user = GetUserByIdIgnoreQueryFilters(userId);
+                user.IsDelete = false;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }      
+        public List<Role> GetAllRoles()
+        {
+            return _context.Roles.ToList();
         }
         #endregion
     }
