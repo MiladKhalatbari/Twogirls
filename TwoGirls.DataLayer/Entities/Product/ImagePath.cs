@@ -1,4 +1,4 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -14,8 +14,8 @@ namespace TwoGirls.DataLayer.Entities
         public int? UserId { get; set; }
 
         #region Relation
-        public Product Product { get; set; }
-        public User User { get; set; }
+        public Product? Product { get; set; }
+        public User? User { get; set; }
         #endregion
     }
 }

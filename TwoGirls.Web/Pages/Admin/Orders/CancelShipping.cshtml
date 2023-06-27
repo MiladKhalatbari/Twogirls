@@ -1,0 +1,52 @@
+﻿@page
+@model twoGirlsOnlineShop.Pages.Admin.Orders.CancelShippingModel
+
+@{
+    ViewData["Title"] = "Cancel Shipping";
+    ViewBag.DontshowBtnDlt = true;
+}
+@section style{
+    <link rel="stylesheet" href="~/css/Style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/Order.css" asp-append-version="true">
+}
+
+<div class="container-xl my-5 bg-white">
+    <div class=" row">
+        <section class="col-12 col-md-7 mb-5">
+            <br />
+            <p class="h3">Shipping Address</p>
+            <br>
+            <div id="addressesList">
+                @await Html.PartialAsync("UserPanel/_UserAddresses",Model.OrderView.Addresses)
+            </div>
+            <form method="post" class="text-nowrap">
+                <input type="hidden" asp-for="@Model.OrderView.Cart.Id"/>
+                <button type="submit" class="btn btn-danger">
+                    Cancel Shipping <i class="fa-solid fa-truck-fast"></i>
+                </button> |
+                <a href="/admin/Orders/ShippedOrders" class="btn btn-dark">Back to List <i class="fa-solid fa-rotate-left"></i></a>
+            </form>
+        </section>
+        <section class="col-12 col-md-5">
+            <div class="basket-order">
+                <div class="app-bar">
+                    <img src="~/image/Twogirls-logo-dark.PNG" class="logo">
+                </div>
+                <span class="title">Your cart</span>
+                <div id="update-Basket-component">
+                    @await Component.InvokeAsync("OrderComponent",Model.OrderView.Cart)
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+@section AdminSearchBox {
+    <i class="fa fa-search search-show"></i>
+    <form class=" search-area ">
+        <button type="submit" class="bg-transparent border-0"> <i class="fa fa-search"></i></button>
+        <input class="h-50" type="text" placeholder="Search..." name="filter" id="">
+        <a href="/admin/orders"><i class="fa fa-close"></i></a>
+    </form>
+
+}

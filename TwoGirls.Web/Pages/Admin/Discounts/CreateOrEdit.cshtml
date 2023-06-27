@@ -1,0 +1,62 @@
+﻿@page
+@model twoGirlsOnlineShop.Pages.Admin.Discounts.CreateOrEditModel
+
+@{
+    ViewData["Title"] = (Model.Discount.DiscountId == 0 ? "Create DiscounCode" : "Edit DiscounCode");
+}
+
+<h1>@(Model.Discount.DiscountId == 0 ? "Create New DiscounCode" : "Edit DiscounCode")</h1>
+
+<hr />
+
+<form method="post" enctype="multipart/form-data" class="container-lg">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.Discount.DiscountId" />
+
+    <div class="form-group">
+        <label asp-for="@Model.Discount.Code" class="control-label"></label>
+        <input asp-for="@Model.Discount.Code" class="form-control" />
+        <span asp-validation-for="@Model.Discount.Code" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Discount.UseableCount" class="control-label"></label>
+        <input asp-for="@Model.Discount.UseableCount" class="form-control" />
+        <span asp-validation-for="@Model.Discount.UseableCount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Discount.StartDate" class="control-label"></label>
+        <input asp-for="@Model.Discount.StartDate" class="form-control" />
+        <span asp-validation-for="@Model.Discount.StartDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Discount.EendDate" class="control-label"></label>
+        <input asp-for="@Model.Discount.EendDate" class="form-control" />
+        <span asp-validation-for="@Model.Discount.EendDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Discount.DiscountPercent" class="control-label"></label>
+        <input asp-for="@Model.Discount.DiscountPercent" class="form-control" />
+        <span asp-validation-for="@Model.Discount.DiscountPercent" class="text-danger"></span>
+
+    </div>
+    <br />
+
+    <div class="form-group">
+        <input type="submit" value="@(Model.Discount.DiscountId == 0 ? "Create" : "Edit")" class="btn btn-primary" />
+        <a href="/admin/Discounts" class="btn btn-danger">Back to List</a>
+
+    </div>
+
+</form>
+
+
+@section AdminSearchBox {
+    <i class="fa fa-search search-show"></i>
+    <form class=" search-area ">
+        <button type="submit" class="bg-transparent border-0"> <i class="fa fa-search"></i></button>
+        <input class="h-50" type="text" placeholder="Search..." name="filter" id="">
+        <a href="/admin/users"><i class="fa fa-close"></i></a>
+    </form>
+
+}

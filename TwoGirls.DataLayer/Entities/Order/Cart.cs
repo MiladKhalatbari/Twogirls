@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.Framework;
-using TwoGirls.DataLayer.Entities;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -23,7 +22,7 @@ namespace TwoGirls.DataLayer.Entities
             }
             return total;
         }
-        public void AddCardItem( Product product)
+        public void AddCardItem(Product product)
         {
             if (CartItems.Exists(i => i.Product.Id == product.Id))
             {
@@ -42,21 +41,22 @@ namespace TwoGirls.DataLayer.Entities
         public void RemoveCardItem(Product product)
         {
             if (CartItems.Exists(i => i.Product.Id == product.Id))
-            { var cardItem = CartItems.Find(i => i.Product.Id == product.Id);
+            {
+                var cardItem = CartItems.Find(i => i.Product.Id == product.Id);
                 if (cardItem.Quantity > 1)
                 {
                     cardItem.Quantity -= 1;
                 }
-                else 
+                else
                 {
-                 CartItems.Remove(cardItem); 
+                    CartItems.Remove(cardItem);
                 }
             }
         }
 
         #region Relation
-        public List<CartItem> CartItems { get; set; }
-        public User User { get; set; }
+        public List<CartItem>? CartItems { get; set; }
+        public User? User { get; set; }
         public Order? Order { get; set; }
         #endregion
     }

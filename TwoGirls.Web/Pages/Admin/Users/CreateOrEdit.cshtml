@@ -1,0 +1,109 @@
+﻿@page
+@model twoGirlsOnlineShop.Pages.Admin.Users.CreateOrEditModel
+@{
+    ViewData["Title"] = (Model.CreateOrEditUserForAdmin.User.Id == 0 ? "Create New User" : "Edit User");
+}
+
+<h1>@(Model.CreateOrEditUserForAdmin.User.Id == 0 ? "Create New User" : "Edit User")</h1>
+
+<hr />
+<div class="row">
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="hidden" asp-for="@Model.CreateOrEditUserForAdmin.User.ImagePath" />
+                <div class="container mt-4">
+                    <div class="user-profile ">
+                        <img id="admin-user-avatar-image" class="rounded-circle border" width="200" height="200"
+                             src="@(string.IsNullOrWhiteSpace(Model.CreateOrEditUserForAdmin.User.ImagePath) ? "/image/user-avatar/Default-Avatar.png" : Model.CreateOrEditUserForAdmin.User.ImagePath)" />
+                        <div class="overlay">
+                            <input class="Pointer" id="admin-avatar-user-input" asp-for="@Model.CreateOrEditUserForAdmin.formFile" accept="image/*" type="file">
+                            <p class="Pointer">ChangePicture</p>
+                        </div>
+                    </div>
+                </div>
+                <span asp-validation-for="@Model.CreateOrEditUserForAdmin.formFile" class="text-tomato"></span>
+
+            </div>
+            <div class="col-md-7">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.CreateOrEditUserForAdmin.User.Id" />
+                <input type="hidden" asp-for="@Model.CreateOrEditUserForAdmin.User.RegisterDate" />
+                @if (Model.CreateOrEditUserForAdmin.User.Id != 0)
+                {
+                    <input type="hidden" asp-for="@Model.CreateOrEditUserForAdmin.User.Password" />
+                }
+                <div class="form-group">
+                    <label asp-for="@Model.CreateOrEditUserForAdmin.User.FirstName" class="control-label"></label>
+                    <input asp-for="@Model.CreateOrEditUserForAdmin.User.FirstName" class="form-control" />
+                    <span asp-validation-for="@Model.CreateOrEditUserForAdmin.User.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.CreateOrEditUserForAdmin.User.LastName" class="control-label"></label>
+                    <input asp-for="@Model.CreateOrEditUserForAdmin.User.LastName" class="form-control" />
+                    <span asp-validation-for="@Model.CreateOrEditUserForAdmin.User.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.CreateOrEditUserForAdmin.User.Email" class="control-label"></label>
+                    <input asp-for="@Model.CreateOrEditUserForAdmin.User.Email" class="form-control" />
+                    <span asp-validation-for="@Model.CreateOrEditUserForAdmin.User.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.CreateOrEditUserForAdmin.User.PhoneNumber" class="control-label"></label>
+                    <input asp-for="@Model.CreateOrEditUserForAdmin.User.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="@Model.CreateOrEditUserForAdmin.User.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @if (Model.CreateOrEditUserForAdmin.User.Id == 0)
+                    {
+                        <label asp-for="@Model.CreateOrEditUserForAdmin.User.Password" class="control-label"></label>
+                        <input asp-for="@Model.CreateOrEditUserForAdmin.User.Password" class="form-control" />
+                        <span asp-validation-for="@Model.CreateOrEditUserForAdmin.User.Password" class="text-danger"></span>
+                    }
+                    else
+                    {
+                        <label asp-for="@Model.CreateOrEditUserForAdmin.Password)" class="control-label"></label>
+                        <input asp-for="@Model.CreateOrEditUserForAdmin.Password)" class="form-control" />
+                        <span asp-validation-for="@Model.CreateOrEditUserForAdmin.Password)" class="text-danger"></span>
+                    }
+                </div>
+                <div class="form-group ">
+                    <label asp-for="@Model.CreateOrEditUserForAdmin.User.RoleId" class="form-label" for="country">Country</label>
+                    <select asp-for="@Model.CreateOrEditUserForAdmin.User.RoleId" class="form-select" aria-label="Default select example">
+                        <option selected>Select Role *</option>
+                        @foreach (var role in Model.CreateOrEditUserForAdmin.Roles)
+                        {
+                            <option value="@role.RoleId">@role.RoleTitle</option>
+                        }
+                    </select>
+                    <span asp-validation-for="@Model.CreateOrEditUserForAdmin.User.RoleId" class="text-tomato"></span>
+                </div>
+                <br />
+                <div class="mb-3 form-check">
+                    <input asp-for="@Model.CreateOrEditUserForAdmin.User.IsActive" type="checkbox" class="form-check-input"><label asp-for="@Model.CreateOrEditUserForAdmin.User.IsActive"> Active Account </label>
+                </div>
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="@(Model.CreateOrEditUserForAdmin.User.Id == 0 ? "Create" : "Edit")" class="btn btn-primary" />
+                    <a href="/admin/users" class="btn btn-danger">Back to List</a>
+
+                </div>
+               
+            </div>
+           
+        </div>
+    </form>
+
+</div>
+
+
+
+@section AdminSearchBox {
+    <i class="fa fa-search search-show"></i>
+    <form class=" search-area ">
+        <button type="submit" class="bg-transparent border-0"> <i class="fa fa-search"></i></button>
+        <input class="h-50" type="text" placeholder="Search..." name="filter" id="">
+        <a href="/admin/users"><i class="fa fa-close"></i></a>
+    </form>
+
+}

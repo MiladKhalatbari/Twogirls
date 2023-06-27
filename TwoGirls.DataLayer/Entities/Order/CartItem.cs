@@ -13,12 +13,12 @@ namespace TwoGirls.DataLayer.Entities
 
         public decimal TotalPrice()
         {
-           return Product.DiscountedPrice * Quantity;
+            return Product.DiscountedPrice * Quantity;
         }
 
         #region Relation
-        public Cart Cart { get; set; }
-        public Product Product { get; set; }
+        public Cart? Cart { get; set; }
+        public Product? Product { get; set; }
         #endregion
 
     }

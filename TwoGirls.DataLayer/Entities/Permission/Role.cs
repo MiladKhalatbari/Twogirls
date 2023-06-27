@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -14,11 +8,11 @@ namespace TwoGirls.DataLayer.Entities
         public int RoleId { get; set; }
         [MaxLength(200)]
         [Required]
-        [Display(Name ="Title")]
+        [Display(Name = "Title")]
         public string RoleTitle { get; set; }
         public bool IsDelete { get; set; }
         #region Relation
-        public ICollection<User>? Users { get; set;}
+        public ICollection<User>? Users { get; set; }
         public ICollection<RolePermission>? RolePermissions { get; set; }
 
         #endregion

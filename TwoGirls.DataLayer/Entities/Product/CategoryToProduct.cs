@@ -1,6 +1,4 @@
-﻿using Microsoft.Build.Framework;
-
-namespace TwoGirls.DataLayer.Entities
+﻿namespace TwoGirls.DataLayer.Entities
 {
     public class CategoryToProduct
     {
@@ -9,8 +7,8 @@ namespace TwoGirls.DataLayer.Entities
 
 
         #region Relation
-        public Product Product { get; set; }
-        public Category Category { get; set; }
+        public Product? Product { get; set; }
+        public Category? Category { get; set; }
         #endregion
 
     }

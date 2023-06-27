@@ -10,9 +10,9 @@ namespace TwoGirls.DataLayer.Entities
 
         #region Relation
         [ForeignKey("ProductId")]
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
         [ForeignKey("UserId")]
-        public User Users { get; set; }
+        public User? Users { get; set; }
         #endregion
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TwoGirls.Core.Services.Interfaces;
 using TwoGirls.DataLayer.Context;
 using TwoGirls.DataLayer.Entities;
@@ -12,7 +7,7 @@ namespace TwoGirls.Core.Services
 {
     public class PermissionService : IPermissionService
     {
-        TwogirsContext _context;
+        private readonly TwogirsContext _context;
         public PermissionService(TwogirsContext context)
         {
             _context = context;
@@ -21,7 +16,7 @@ namespace TwoGirls.Core.Services
         #region Role
         public int AddRole(Role role)
         {
-             _context.Roles.Add(role);
+            _context.Roles.Add(role);
             _context.SaveChanges();
             return role.RoleId;
         }
@@ -30,12 +25,12 @@ namespace TwoGirls.Core.Services
         {
             try
             {
-              var role =  GetRoleById(id);
+                var role = GetRoleById(id);
                 role.IsDelete = true;
                 _context.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;
@@ -78,17 +73,17 @@ namespace TwoGirls.Core.Services
 
         public Role GetRoleById(int id)
         {
-           return _context.Roles.Include(x=> x.RolePermissions).FirstOrDefault(x=> x.RoleId==id);
+            return _context.Roles.Include(x => x.RolePermissions).FirstOrDefault(x => x.RoleId == id);
         }
 
         public ICollection<Role> GetAllDeletedRoles()
         {
-          return _context.Roles.IgnoreQueryFilters().Where(x=> x.IsDelete).ToList();
+            return _context.Roles.IgnoreQueryFilters().Where(x => x.IsDelete).ToList();
         }
 
         public Role GetRoleByIdIgnorequeryFilter(int id)
         {
-            return _context.Roles.IgnoreQueryFilters().First(x=> x.RoleId == id);
+            return _context.Roles.IgnoreQueryFilters().First(x => x.RoleId == id);
         }
         #endregion
 
@@ -118,7 +113,7 @@ namespace TwoGirls.Core.Services
         }
         public void RemoveExistingPermission(int roleId)
         {
-          var rolePermissions =  _context.RolePermissions.Where(X=> X.RoleId == roleId).ToList();
+            var rolePermissions = _context.RolePermissions.Where(X => X.RoleId == roleId).ToList();
             _context.RemoveRange(rolePermissions);
             _context.SaveChanges();
         }
@@ -127,7 +122,7 @@ namespace TwoGirls.Core.Services
         {
             try
             {
-                int roleId = _context.Users.Find(userId).RoleId;
+                var roleId = _context.Users.Find(userId).RoleId;
                 return _context.RolePermissions.Any(rp => rp.PermissionId == permissionId && rp.RoleId == roleId);
             }
             catch (Exception ex)

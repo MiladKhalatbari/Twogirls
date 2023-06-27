@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -19,8 +13,8 @@ namespace TwoGirls.DataLayer.Entities
 
         #region Relations
         [ForeignKey("ParentId")]
-        public ICollection<Permission> Permissions { get; set; }
-        public ICollection<RolePermission> RolePermissions { get; set; }
+        public ICollection<Permission>? Permissions { get; set; }
+        public ICollection<RolePermission>? RolePermissions { get; set; }
         #endregion
     }
 }

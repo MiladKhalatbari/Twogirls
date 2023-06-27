@@ -1,0 +1,53 @@
+﻿@using TwoGirls.Core.DTOs;
+@model DetailProductViewModel;
+@{
+    Guid guid = Guid.NewGuid();
+    Layout = null;
+}
+<div class="d-flex align-items-end justify-content-between">
+    <div class="d-flex">
+        <div class="d-inline-flex sort-by-container">
+            <span>Rating:</span>
+
+            <select name="starAmount" class="sort-by filter-control">
+                <option value="0" selected="@(Model.SelectedStarAmount == 0 ? "selected" : null)">All</option>
+                @for (int i = 1; i < 6; i++)
+                {
+                    <option value="@i" selected="@(Model.SelectedStarAmount == i ? "selected" : null)">@i Star</option>
+                }
+            </select>
+        </div>
+        <p class="m-0">
+    </div>
+    <div>
+    </div>
+</div>
+@if(Model.Reviews ==null ||Model.Reviews.Count() < 1){
+    <div class="alert alert-warning">
+        No reviews available for this product.
+    </div>
+}
+else{
+    @foreach (var review in Model.Reviews)
+    {
+        string userFullname = @review.User.FirstName + " " + @review.User.LastName;
+        guid = Guid.NewGuid();
+        <div class="user-review">
+            <div class=" d-flex justify-content-between">
+                <div class="fw-bold">@((review.User.IsDelete == true) ? "Delete Account" : userFullname)</div>
+                <div class="text-warning">
+                    <div class="smallrate d-inline-flex flex-nowrap align-items-start justify-content-start">
+                        @for (double rating = 5; rating >= 0.5; rating -= 0.5)
+                        {
+                            <input type="radio" disabled name="@guid" value="@rating" @(review.Rate == rating ? "checked" : "") />
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="text-muted my-2 ">
+                @review.Comment
+            </div>
+            <sub class="comment-time ">@review.Date.ToString("MMMM d, yyyy")</sub>
+        </div>
+    }
+}

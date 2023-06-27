@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -18,9 +13,9 @@ namespace TwoGirls.DataLayer.Entities
         public int DiscountPercent { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EendDate { get; set; }
-
+        public bool IsDelete { get; set; }
         #region Relation
-        public ICollection<UserDiscountCodes> UserDiscountCodes { get; set; }
+        public ICollection<UserDiscountCodes>? UserDiscountCodes { get; set; }
         #endregion
     }
 }

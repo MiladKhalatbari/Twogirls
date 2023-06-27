@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwoGirls.Core.DTOs;
+﻿using TwoGirls.Core.DTOs;
 using TwoGirls.DataLayer.Entities;
 
 namespace TwoGirls.Core.Services.Interfaces
@@ -14,8 +8,9 @@ namespace TwoGirls.Core.Services.Interfaces
         #region Product
         public FilterProductViewModel GetProductsByFilter(string filter, int pageId, int startPrice, int endPrice, int prodcutTypeId, string orderBY, List<int>? selectedCategories);
         public FavoriteProductViewModel GetFavoriteProductsByFilter(int userId, string filter, int pageId, int startPrice, int endPrice, string orderBY);
-        public ProductsForAdminViewModel GetProductsByFilterForAdminViewModel(int pageId,string filter);
+        public ProductsForAdminViewModel GetProductsByFilterForAdminViewModel(int pageId, string filter);
         public ProductsForAdminViewModel GetDeletedProductsByFilterForAdminViewModel(int pageId, string filter);
+        public DetailProductViewModel GetProductAndReviewForDetailPageByFilter(int productId, int starAmount, int pageId);
         public int AddProduct(Product role);
         public bool EditProduct(Product role);
         public bool DeleteProduct(int id);
@@ -34,16 +29,26 @@ namespace TwoGirls.Core.Services.Interfaces
         #endregion
 
         #region Category
+        public List<Category> GetDeletedCategoriesIgnoreQueryFilters();
         public List<Category> GetAllCategories();
         public List<int> GetAllCategoriesOfProduct(int id);
         public bool AddCategoryToProduct(int productId, int categoryId);
         public void RemoveExistingProductCategories(int productId);
         public bool AddCategory(Category category);
+        public bool UpdateCategory(Category category);
         public bool DeleteCategory(int id);
+        public bool RecoverCategory(int id);
+        public Category GetCategoryById(int id);
+        public Category GetCategoryByIdIgnoreQueryFilters(int id);
         #endregion
 
         #region ProductType
         public List<ProductType> GetAllProductType();
+        #endregion
+
+        #region Reviews
+        public int AddReview(Review review);
+        public List<Review> GetAllReviews(int productId);
         #endregion
 
     }

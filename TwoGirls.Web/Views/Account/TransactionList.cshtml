@@ -1,0 +1,149 @@
+﻿@using TwoGirls.Core.DTOs;
+@using TwoGirls.DataLayer.Entities;
+@model ChargeWallet
+@section style{
+    <link rel="stylesheet" href="~/css/Account-Style.css" asp-append-version="true">
+}
+@{
+    ViewData["Title"] = "Transactions";
+    int i = 1;
+    string WalletAmount = ViewBag.WalletAmount +" $";
+    var transactions = ViewData["TranactionList"] as List<Transaction>;
+}
+
+<img src="~/image/loginheader.jpg" alt="" class="Page_banner">
+<div class="container-xxl mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <div >
+                    @await Html.PartialAsync("UserPanel/_UserAvatar", ViewData["UserAvatarViewModel"])
+                </div>
+                 <ul class="list-group list-group-flush">
+                    <a asp-action="OrderList" asp-controller="UserPanel" class="list-group-item">Order List </a>
+                    <a asp-action="Index" asp-controller="Account" class="list-group-item">Edit Profile </a>
+                    <a href="/Account/Index/#form-ChangePassword" class="list-group-item"> Change Passwrod </a>
+                    <a asp-action="Logout" asp-controller="Account" class="list-group-item">Logout </a>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9 ">
+            <div class="px-3 pt-5">
+                <p class="h3">Add Money to Wallet</p>
+                <form class="d-flex align-items-end justify-content-between" asp-action="TransactionList" asp-controller="Account" method="post" async>
+                    <div>
+                    <label class="form-label" asp-for="Amount">Amount</label>
+                    <div class="input-group mb-3">
+                         <span class="input-group-text fw-bold">$</span>
+                         <input type="text" placeholder="Amount in dollars *" asp-for="Amount" class="form-control">
+                         <span  class="input-group-text fw-bold">.00</span>
+                       </div>
+                    <span asp-validation-for="Amount"></span>
+                    </div>
+                    <div>
+                    <input type="submit"  class="btn btn-warning fw-bold mb-3" value="Add Money" />
+                    </div>        
+                </form>
+              
+                <div class="border rounded p-3 d-flex align-items-center mb-2">
+                    <div class="pe-3">
+                        <img src="https://img.icons8.com/color/48/null/wallet--v1.png" />
+                    </div>
+                    <div>
+                        <p class="text-dark h5 m-0 fw-bold">
+                            TwoGirls Wallet:
+                        </p>
+                    </div>
+                    <div class="ms-auto">
+                        <p class="text-dark h5 m-0 fw-bold"> @WalletAmount </p>
+                    </div>
+                </div>
+           </div>
+            <div class="row mt-3">
+                <div class="px-4">
+                    <p class="h5">Transactions List :</p>
+                    @if (transactions == null || transactions.Count() < 1)
+                    {
+                                   <div class="alert alert-secondary m-2">
+                                      You have not made a Transaction yet
+                                   </div>
+                   
+                    }
+                    else
+                    {
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="align-middle text-center">
+                                        #
+                                    </th>
+                                    <th class="align-middle text-center">
+                                        Description
+                                    </th>
+                                    <th class="align-middle text-center">
+                                        Amount
+                                    </th>
+                                    <th class="align-middle text-center">
+                                        Type of Transaction
+                                    </th class="align-middle text-center">
+                                    <th class="align-middle text-center">
+                                        Date of Transaction
+                                    </th>
+                            
+                                 </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var transaction in transactions)
+                                {
+                                    <tr>
+                                        <th  class="align-middle text-center">
+                                            @i
+                                        </th>
+                                        <td class="align-middle text-center">
+                                            <p> @transaction.Description</p>
+                                        </td>
+                                        <td class ="align-middle text-center">
+                                            <p> @transaction.Amount</p>
+                                        </td>
+                                        <td  class="align-middle text-center">
+                                            @if (transaction.TransactionType?.Id == 1)
+                                            {
+                                                <p class="text-success"> Deposit </p>
+                                            }
+                                            else if (transaction.TransactionType?.Id == 2)
+                                            {
+                                                <p class="text-tomato"> Whithdraw </p>
+                                            }
+                                        </td>
+                                        <td class="align-middle text-center">
+                                             @transaction.Date.ToShortDateString()
+                                        </td>
+                                      </tr>
+                                
+                                  i++;
+                                }
+                            </tbody>
+                        </table>
+                    }
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+
+
+

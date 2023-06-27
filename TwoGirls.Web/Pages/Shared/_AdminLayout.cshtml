@@ -1,0 +1,390 @@
+﻿@using System.Security.Claims;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/Admin-Assets/css/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Admin-Assets/css/grid.css" asp-append-version="true">
+    <title>Document</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await RenderSectionAsync("Style", required: false)
+
+</head>
+
+<body>
+    <header class="d-flex flex-wrap">
+        <section class="gray-header bg-gray d-flex  flex-md-row-reverse justify-content-between align-items-center">
+            <span class="mx-2 ">
+                <i id="toggle-on" class="fa fa-toggle-on "></i>
+                <i id="toggle-off" class="fa fa-toggle-off "></i>
+            </span>
+            <img src="~/Admin-Assets/images/logo.png" class="logo" alt="">
+            <i id="second-header-show" class="mx-2 fa-solid fa-ellipsis d-inline d-md-none"></i>
+        </section>
+        <section class="white-header bg-white ">
+            <section class="d-none d-md-block">
+                <span class="ms-2 ms-lg-5 flex-wrap" id="header-search-area">
+                    @RenderSection("AdminSearchBox")
+                </span>
+                <span class="ms-2 ms-lg-5 ">
+                    <i id="toggle-compress" class="fa-solid fa-compress"></i>
+                    <i id="toggle-expand" class="fa-solid fa-expand"></i>
+                </span>
+            </section>
+            <section>
+                <span class="me-2 me-lg-5 position-relative collapse-container">
+                    <i class="position-relative fa-regular fa-bell collapse-toggle">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">1</span>
+                    </i>
+                    <ul class="list-group notification position-absolute start-0  collapse-content">
+                        <header class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="badge bg-red">new</span>
+                            <p class="m-0">notifications</p>
+                        </header>
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="~/Admin-Assets/images/avatar-2.jpg" class="me-2 avatar-notification" alt="">
+                            <div>
+                                <h5 class="notification-user">jeff besos</h5>
+                                <p class="notification-text">
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing
+                                    elit. Ea numquam dolore aspernatur fugit, illo, deserunt a sed, beatae in nam
+                                    sequi eius minus debitis corporis non. Laudantium recusandae consequuntur
+                                    nobis..
+                                </p>
+                                <p class="notification-time">1 min ago</p>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="~/Admin-Assets/images/avatar-4.jpg" class="me-2 avatar-notification" alt="">
+                            <div>
+                                <h5 class="notification-user">Tom Cruise</h5>
+                                <p class="notification-text">
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing
+                                    elit. Ea numquam dolore aspernatur fugit, illo, deserunt a sed, beatae in nam
+                                    sequi eius minus debitis corporis non. Laudantium recusandae consequuntur
+                                    nobis..
+                                </p>
+                                <p class="notification-time">15 min ago</p>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="~/Admin-Assets/images/avatar-6.jpg" class="me-2 avatar-notification" alt="">
+                            <div>
+                                <h5 class="notification-user">Cristiano Ronaldo</h5>
+                                <p class="notification-text">
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing
+                                    elit. Ea numquam dolore aspernatur fugit, illo, deserunt a sed, beatae in nam
+                                    sequi eius minus debitis corporis non. Laudantium recusandae consequuntur
+                                    nobis..
+                                </p>
+                                <p class="notification-time">30 min ago</p>
+                            </div>
+                        </li>
+                    </ul>
+                </span>
+                <span class="me-2 me-lg-5 position-relative collapse-container">
+                    <i class="position-relative  fa-regular fa-comments collapse-toggle">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">1</span>
+                    </i>
+
+                    <ul class="list-group chat position-absolute start-0 collapse-content ">
+                        <header class="list-group-item  ">
+                            <input type="text" name="" placeholder="Search..." id="">
+                        </header>
+                       <div class="comments-container">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-2.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">jeff besos</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-8.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Angelina joli</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-7.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Michael jackson</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-5.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Mike tyson</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-4.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Tom Cruise</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-6.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Cristiano Ronaldo</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-6.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Cristiano Ronaldo</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-6.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Cristiano Ronaldo</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-8.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Angelina joli</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-8.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Angelina joli</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-8.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Angelina joli</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-8.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Angelina joli</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-8.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Angelina joli</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <section class="d-flex align-items-center">
+                                <img src="~/Admin-Assets/images/avatar-8.jpg" class="me-2 avatar-chat" alt="">
+                                <h5 class="chat-user">Angelina joli</h5>
+                            </section>
+                            <span><i class="fa-solid fa-circle text-success"></i></span>
+                        </li>
+                      </div>
+                    </ul>
+                </span>
+                <span class="me-2 me-lg-5 position-relative collapse-container">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        string imagepath = User.FindFirstValue("AvatarPath");
+
+                        <img src="@imagepath" class="avatar-header" alt="">
+                        <a href="#" class="text-break collapse-toggle">
+                        <small>
+                            
+                                @(User.FindFirstValue(ClaimTypes.Name) + " " + User.FindFirstValue(ClaimTypes.Surname))
+                           
+                        </small>
+                        <i class="fa-solid fa-angle-down"></i>
+                        </a>
+                    }
+                    <ul class="list-group list-group-sm header-profile position-absolute end-0 collapse-content ">
+                        <a href="#" class="list-group-item list-group-item-action ">
+                            <i class="fa fa-gear"></i>
+                            Settings
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action "><i class="fa fa-user"></i> user</a>
+                        <a href="#"
+                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <span><i class="fa fa-envelope"></i> Messages</span>
+                            <span class="badge badge-primary badge-pill">99</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action ">
+                            <i class="fa fa-lock"></i> lock
+                            screen
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action ">
+                            <i class="fa-solid fa-circle-xmark"></i> Exit
+                        </a>
+                    </ul>
+                </span>
+            </section>
+        </section>
+
+    </header>
+
+    <main class="d-flex ">
+        <aside class="bg-gray sidebar-menu pt-4 " id="sidebar-menu">
+            <a href="/"><i class="fa fa-home"></i> Home</a>
+            <p>Content section</p>
+            <section class="collapse-container">
+                <a href="#" class="d-flex justify-content-between collapse-toggle align-items-center">
+                    <span><i class="fa-solid fa-chart-column"></i> Posts</span> <i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+
+                <div class="list-group sidebar-dropdown collapse-content">
+                    <a href="#"><i class="fa-solid fa-angles-right"></i> Articles</a>
+                    <a href="#"><i class="fa-solid fa-angles-right"></i> Posts</a>
+                    <a href="#"><i class="fa-solid fa-angles-right"></i> Courses</a>
+                </div>
+            </section>
+            <p><i class="fa-solid fa-gears"></i> Management </p>
+            <section class="collapse-container">
+                <a href="#" class="d-flex justify-content-between collapse-toggle align-items-center ">
+                    <span><i class="fa-solid fa-users"></i> Manage users </span><i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+
+                <div class="list-group sidebar-dropdown  collapse-content">
+                    <a href="/admin/users"><i class="fa-solid fa-angles-right"></i> All Users List</a>
+                    <a href="/admin/users/CreateOrEdit"><i class="fa-solid fa-angles-right"></i> Create new User </a>
+                    <a href="/admin/users/DeletedUsers"><i class="fa-solid fa-angles-right"></i> All Deleted Users List</a>
+                </div>
+
+            </section>
+            <section class="collapse-container">
+                <a href="#" class="d-flex justify-content-between collapse-toggle align-items-center ">
+                    <span><i class="fa-solid fa-people-roof"></i> Manage Permissions </span><i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+
+                <div class="list-group sidebar-dropdown  collapse-content">
+                    <a href="/admin/Permissions"><i class="fa-solid fa-angles-right"></i> All Roles List</a>
+                    <a href="/admin/Permissions/CreateOrEdit"><i class="fa-solid fa-angles-right"></i> Create new Role </a>
+                    <a href="/admin/Permissions/DeletedRoles"><i class="fa-solid fa-angles-right"></i> All Deleted Roles List</a>
+                </div>
+            </section>
+            <section class="collapse-container">
+                <a href="#" class="d-flex justify-content-between collapse-toggle align-items-center ">
+                    <span><i class="fa-solid fa-dolly"></i> Manage Products </span><i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+
+                <div class="list-group sidebar-dropdown  collapse-content">
+                    <a href="/admin/Products"><i class="fa-solid fa-angles-right"></i> All Products List</a>
+                    <a href="/admin/Products/CreateOrEdit"><i class="fa-solid fa-angles-right"></i> Create new Product </a>
+                    <a href="/admin/Products/DeletedProducts"><i class="fa-solid fa-angles-right"></i> All Deleted Products List</a>
+                </div>
+            </section>
+            <section class="collapse-container">
+                <a href="#" class="d-flex justify-content-between collapse-toggle align-items-center ">
+                    <span><i class="fa-solid fa-tags"></i> Manage Discounts </span><i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+
+                <div class="list-group sidebar-dropdown  collapse-content">
+                    <a href="/admin/Discounts"><i class="fa-solid fa-angles-right"></i> All Discounts List</a>
+                    <a href="/admin/Discounts/CreateOrEdit"><i class="fa-solid fa-angles-right"></i> Create new Discount </a>
+                    <a href="/admin/Discounts/DeletedDiscounts"><i class="fa-solid fa-angles-right"></i> All Deleted Discounts List</a>
+                </div>
+            </section>
+
+            <section class="collapse-container">
+                <a href="#" class="d-flex justify-content-between collapse-toggle align-items-center ">
+                    <span><i class="fa-solid fa-boxes-stacked"></i> Manage Categories </span><i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+
+                <div class="list-group sidebar-dropdown  collapse-content">
+                    <a href="/admin/Categories"><i class="fa-solid fa-angles-right"></i> All Categories List</a>
+                    <a href="/admin/Categories/CreateOrEdit"><i class="fa-solid fa-angles-right"></i> Create new Category </a>
+                    <a href="/admin/Categories/DeletedCategories"><i class="fa-solid fa-angles-right"></i> All Deleted Categories List</a>
+                </div>
+            </section>
+
+            <section class="collapse-container">
+                <a href="#" class="d-flex justify-content-between collapse-toggle align-items-center ">
+                    <span><i class="fa-solid fa-truck-fast"></i> Manage Orders </span><i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+
+                <div class="list-group sidebar-dropdown  collapse-content">
+                    <a href="/admin/Orders"><i class="fa-solid fa-angles-right"></i> All New Orders</a>
+                    <a href="/admin/Orders/CancelShipping"><i class="fa-solid fa-angles-right"></i> All Shipped Orders</a>
+                </div>
+            </section>
+
+            <section class="collapse-container">
+                <a href="#" class="d-flex justify-content-between collapse-toggle align-items-center ">
+                    <span><i class="fa-solid fa-money-bill-transfer"></i> Manage Transactions </span><i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+
+                <div class="list-group sidebar-dropdown  collapse-content">
+                    <a href="/admin/Transactions"><i class="fa-solid fa-angles-right"></i> All Transactions List</a>
+                    <a href="/admin/Transactions/CreateOrEdit"><i class="fa-solid fa-angles-right"></i> Create new Transaction </a>
+                    <a href="/admin/Transactions/DeletedTransactions"><i class="fa-solid fa-angles-right"></i> All Deleted Transactions List</a>
+                </div>
+            </section>
+            <p> Settings</p>
+            <section class="collapse-container">
+                <a href="#" class=" d-flex justify-content-between collapse-toggle align-items-center">
+                    <span><i class="fa-solid fa-gears"></i> Menu settings </span><i class="fa-solid fa-caret-right pe-3"></i>
+                </a>
+                <div class="list-group sidebar-dropdown collapse-content">
+                    <a href="#"><i class="fa-solid fa-angles-right"></i> Header  menu</a>
+                    <a href="#"><i class="fa-solid fa-angles-right"></i> Footer menu</a>
+                </div>
+            </section>
+
+        </aside>
+        <section class="main-body">
+        @RenderBody()
+        </section>
+    </main>
+
+
+    <script src="https://kit.fontawesome.com/4ab1c0077a.js" crossorigin="anonymous"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+    <script src="~/Admin-Assets/js/javascript.js" defer asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -47,21 +47,19 @@ namespace TwoGirls.Core.Security
             var salt = Convert.FromBase64String(hashParts[3]);
             var expectedHash = Convert.FromBase64String(hashParts[4]);
 
-            using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
-            {
-                var actualHash = pbkdf2.GetBytes(HashSize);
+            using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations);
+            var actualHash = pbkdf2.GetBytes(HashSize);
 
-                if (actualHash.Length != expectedHash.Length)
+            if (actualHash.Length != expectedHash.Length)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < actualHash.Length; i++)
+            {
+                if (actualHash[i] != expectedHash[i])
                 {
                     return false;
-                }
-
-                for (int i = 0; i < actualHash.Length; i++)
-                {
-                    if (actualHash[i] != expectedHash[i])
-                    {
-                        return false;
-                    }
                 }
             }
 

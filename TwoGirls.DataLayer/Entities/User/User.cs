@@ -5,7 +5,7 @@ namespace TwoGirls.DataLayer.Entities
 {
     public class User
     {
-       
+
         [Required]
         public int Id { get; set; }
         [Required]

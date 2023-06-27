@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -28,11 +23,11 @@ namespace TwoGirls.DataLayer.Entities
         public bool IsFinally { get; set; }
         #region Relation
         [ForeignKey("UserId")]
-        public User User { get; set; }
+        public User? User { get; set; }
         [ForeignKey("AddressId")]
-        public Address Address { get; set; }
+        public Address? Address { get; set; }
         [ForeignKey("CartId")]
-        public Cart Cart { get; set; }
+        public Cart? Cart { get; set; }
         #endregion
     }
 }

@@ -1,0 +1,66 @@
+﻿@using TwoGirls.DataLayer.Entities;
+@model Address
+@{
+    Layout = null;
+}
+<form id="form-AddAddress" method="post" asp-controller="UserPanel" asp-action="AddAddress" onsubmit="return jQueryAjaxAddress(this);">
+    <input type="hidden" asp-for="@Model.UserId" />
+    <div class="alert alert-warning">
+        all fields marked with an asterisk (*) are required.
+    </div>
+    <div class="row">
+        <div class="col-lg-6 mb-3">
+            <label asp-for="Name" class="form-label">Address Name</label>
+            <input asp-for="Name" class="form-control" type="text" placeholder="Address Name" />
+            <span asp-validation-for="Name" class="text-tomato"></span>
+        </div>
+        <div class="col-lg-6 mb-3">
+            <label asp-for ="Country" class="form-label" for="country">Country</label>
+            <select asp-for="Country" class="form-select" aria-label="Default select example">
+                <option selected>Select Your Country *</option>
+                <option value="Czech Ripublic">Czech Ripublic</option>
+                <option value="Iran">Iran</option>
+                <option value="United States">United States</option>
+            </select>
+            <span asp-validation-for="Country" class="text-tomato"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="City" class="form-label" for="city">City</label>
+            <input asp-for="City" class="form-control" type="text" placeholder="City *" />         
+            <span asp-validation-for="City" class="text-tomato"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Street" class="form-label" for="Street">Street *</label>
+            <input asp-for="Street" class="form-control" placeholder="Street *">           
+            <span asp-validation-for="Street" class="text-tomato"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 mb-3">
+            <label asp-for="BuildingNumber" class="form-label" for="BuildingNumber">Building No. </label>
+            <input asp-for="BuildingNumber" class="form-control" type="text" placeholder="Building No." />      
+            <span asp-validation-for="BuildingNumber" class="text-tomato"></span>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <label asp-for="UnitNumber" class="form-label" for="UnitNumber">Unit No. </label>
+            <input asp-for="UnitNumber" class="form-control" type="text" placeholder="Unit No." />         
+            <span asp-validation-for="UnitNumber" class="text-tomato"></span>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <label asp-for="PostCode" class="form-label" for="PostCode">Zip code *</label>
+            <input asp-for="PostCode" class="form-control" type="text" placeholder="Zip code *" />         
+            <span asp-validation-for="PostCode" class="text-tomato"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="Description" class="form-label" for="moreInfo">More Info</label>
+            <input asp-for="Description" class="form-control" type="text" placeholder="Description" />      
+            <span asp-validation-for="Description" class="text-tomato"></span>
+        </div>
+    </div>
+    <button class="btn btn-warning w-100" type="submit"> Add Address </button>
+</form>
+

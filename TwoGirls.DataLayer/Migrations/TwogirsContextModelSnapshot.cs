@@ -17,7 +17,7 @@ namespace TwoGirls.DataLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -173,7 +173,7 @@ namespace TwoGirls.DataLayer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -192,102 +192,102 @@ namespace TwoGirls.DataLayer.Migrations
                         new
                         {
                             Id = 1,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Men's"
                         },
                         new
                         {
                             Id = 2,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Women's"
                         },
                         new
                         {
                             Id = 3,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Featured Categories"
                         },
                         new
                         {
                             Id = 4,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "New Collection",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 5,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Most Visited",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 6,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Best Sellers",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 7,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Discounted",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 8,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "New Collection",
                             ParentId = 2
                         },
                         new
                         {
                             Id = 9,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Most Visited",
                             ParentId = 2
                         },
                         new
                         {
                             Id = 10,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Best Sellers",
                             ParentId = 2
                         },
                         new
                         {
                             Id = 11,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Discounted",
                             ParentId = 2
                         },
                         new
                         {
                             Id = 12,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Fashion and Trends",
                             ParentId = 3
                         },
                         new
                         {
                             Id = 13,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Designer Outlet",
                             ParentId = 3
                         },
                         new
                         {
                             Id = 14,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Sports Glasses",
                             ParentId = 3
                         },
                         new
                         {
                             Id = 15,
-                            IsDeleted = false,
+                            IsDelete = false,
                             Name = "Glasses for Couples",
                             ParentId = 3
                         });
@@ -557,6 +557,9 @@ namespace TwoGirls.DataLayer.Migrations
                     b.Property<DateTime>("EendDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -596,7 +599,6 @@ namespace TwoGirls.DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ProductId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
@@ -898,98 +900,182 @@ namespace TwoGirls.DataLayer.Migrations
                         new
                         {
                             Id = 6,
-                            ParentId = 2,
-                            Title = "Add or Edit"
+                            ParentId = 1,
+                            Title = "Manage Discounts"
                         },
                         new
                         {
                             Id = 7,
-                            ParentId = 2,
-                            Title = "Delete"
+                            ParentId = 1,
+                            Title = "Manage Categories"
                         },
                         new
                         {
                             Id = 8,
-                            ParentId = 2,
-                            Title = "Recover"
+                            ParentId = 1,
+                            Title = "Manage Transactions"
                         },
                         new
                         {
                             Id = 9,
                             ParentId = 2,
-                            Title = "Watch the list"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            ParentId = 3,
                             Title = "Add or Edit"
                         },
                         new
                         {
-                            Id = 11,
-                            ParentId = 3,
+                            Id = 10,
+                            ParentId = 2,
                             Title = "Delete"
                         },
                         new
                         {
-                            Id = 12,
-                            ParentId = 3,
+                            Id = 11,
+                            ParentId = 2,
                             Title = "Recover"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ParentId = 2,
+                            Title = "Watch Deleted list"
                         },
                         new
                         {
                             Id = 13,
                             ParentId = 3,
-                            Title = "Watch the list"
+                            Title = "Add or Edit"
                         },
                         new
                         {
                             Id = 14,
-                            ParentId = 4,
-                            Title = "Add"
+                            ParentId = 3,
+                            Title = "Delete"
                         },
                         new
                         {
                             Id = 15,
-                            ParentId = 4,
-                            Title = "Edit"
+                            ParentId = 3,
+                            Title = "Recover"
                         },
                         new
                         {
                             Id = 16,
-                            ParentId = 4,
-                            Title = "Delete"
+                            ParentId = 3,
+                            Title = "Watch Deleted list"
                         },
                         new
                         {
                             Id = 17,
                             ParentId = 4,
-                            Title = "Recover"
+                            Title = "Add or Edit"
                         },
                         new
                         {
                             Id = 18,
                             ParentId = 4,
-                            Title = "Watch the list"
+                            Title = "Delete"
                         },
                         new
                         {
                             Id = 19,
-                            ParentId = 5,
-                            Title = "Send"
+                            ParentId = 4,
+                            Title = "Recover"
                         },
                         new
                         {
                             Id = 20,
-                            ParentId = 5,
-                            Title = "Unsend"
+                            ParentId = 4,
+                            Title = "Watch Deleted list"
                         },
                         new
                         {
                             Id = 21,
                             ParentId = 5,
-                            Title = "Watch the list"
+                            Title = "Post"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            ParentId = 5,
+                            Title = "Unpost"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            ParentId = 5,
+                            Title = "Watch Posted list"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            ParentId = 6,
+                            Title = "Add or Edit"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            ParentId = 6,
+                            Title = "Delete"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            ParentId = 6,
+                            Title = "Recover"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            ParentId = 6,
+                            Title = "Watch Deleted list"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            ParentId = 7,
+                            Title = "Add or Edit"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            ParentId = 7,
+                            Title = "Delete"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            ParentId = 7,
+                            Title = "Recover"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            ParentId = 7,
+                            Title = "Watch Deleted list"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            ParentId = 8,
+                            Title = "Add or Edit"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            ParentId = 8,
+                            Title = "Delete"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            ParentId = 8,
+                            Title = "Recover"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            ParentId = 8,
+                            Title = "Watch Deleted list"
                         });
                 });
 
@@ -1047,180 +1133,180 @@ namespace TwoGirls.DataLayer.Migrations
                         {
                             Id = 1,
                             Description = "",
-                            DiscountedPrice = 1136m,
+                            DiscountedPrice = 1324m,
                             IsDelete = false,
-                            ItemNumber = 87579,
+                            ItemNumber = 43555,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 5, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6627),
-                            PurchasePrice = 1463m,
-                            QuantityInStock = 14,
-                            ReleaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6621),
-                            SalesPrice = 1114m,
+                            PurchaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9779),
+                            PurchasePrice = 1082m,
+                            QuantityInStock = 36,
+                            ReleaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9742),
+                            SalesPrice = 1405m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 2,
                             Description = "",
-                            DiscountedPrice = 1364m,
+                            DiscountedPrice = 1328m,
                             IsDelete = false,
-                            ItemNumber = 37474,
+                            ItemNumber = 43481,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6645),
-                            PurchasePrice = 1264m,
-                            QuantityInStock = 10,
-                            ReleaseDate = new DateTime(2023, 4, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6631),
-                            SalesPrice = 1021m,
+                            PurchaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9812),
+                            PurchasePrice = 1077m,
+                            QuantityInStock = 41,
+                            ReleaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9800),
+                            SalesPrice = 1308m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 3,
                             Description = "",
-                            DiscountedPrice = 1062m,
+                            DiscountedPrice = 1287m,
                             IsDelete = false,
-                            ItemNumber = 74955,
+                            ItemNumber = 51079,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 5, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6661),
-                            PurchasePrice = 1186m,
-                            QuantityInStock = 19,
-                            ReleaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6654),
-                            SalesPrice = 1451m,
+                            PurchaseDate = new DateTime(2023, 6, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9841),
+                            PurchasePrice = 1356m,
+                            QuantityInStock = 12,
+                            ReleaseDate = new DateTime(2023, 6, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9829),
+                            SalesPrice = 1077m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 4,
                             Description = "",
-                            DiscountedPrice = 1082m,
+                            DiscountedPrice = 1056m,
                             IsDelete = false,
-                            ItemNumber = 55424,
+                            ItemNumber = 50868,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 5, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6668),
-                            PurchasePrice = 1359m,
-                            QuantityInStock = 33,
-                            ReleaseDate = new DateTime(2023, 4, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6664),
-                            SalesPrice = 1410m,
+                            PurchaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9875),
+                            PurchasePrice = 1364m,
+                            QuantityInStock = 49,
+                            ReleaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9861),
+                            SalesPrice = 1260m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 5,
                             Description = "",
-                            DiscountedPrice = 1145m,
+                            DiscountedPrice = 1059m,
                             IsDelete = false,
-                            ItemNumber = 51616,
+                            ItemNumber = 84937,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 5, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6689),
-                            PurchasePrice = 1015m,
-                            QuantityInStock = 19,
-                            ReleaseDate = new DateTime(2023, 4, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6685),
-                            SalesPrice = 1044m,
+                            PurchaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9902),
+                            PurchasePrice = 1405m,
+                            QuantityInStock = 40,
+                            ReleaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9890),
+                            SalesPrice = 1236m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 6,
                             Description = "",
-                            DiscountedPrice = 1419m,
+                            DiscountedPrice = 1170m,
                             IsDelete = false,
-                            ItemNumber = 73793,
+                            ItemNumber = 39315,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 4, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6697),
-                            PurchasePrice = 1404m,
-                            QuantityInStock = 28,
-                            ReleaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6693),
-                            SalesPrice = 1117m,
+                            PurchaseDate = new DateTime(2023, 6, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9934),
+                            PurchasePrice = 1388m,
+                            QuantityInStock = 48,
+                            ReleaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9918),
+                            SalesPrice = 1018m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 7,
                             Description = "",
-                            DiscountedPrice = 1174m,
+                            DiscountedPrice = 1016m,
                             IsDelete = false,
-                            ItemNumber = 84365,
+                            ItemNumber = 85211,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6726),
-                            PurchasePrice = 1367m,
-                            QuantityInStock = 10,
-                            ReleaseDate = new DateTime(2023, 4, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6700),
-                            SalesPrice = 1438m,
+                            PurchaseDate = new DateTime(2023, 6, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9961),
+                            PurchasePrice = 1265m,
+                            QuantityInStock = 20,
+                            ReleaseDate = new DateTime(2023, 6, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9947),
+                            SalesPrice = 1234m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 8,
                             Description = "",
-                            DiscountedPrice = 1326m,
+                            DiscountedPrice = 1280m,
                             IsDelete = false,
-                            ItemNumber = 48811,
+                            ItemNumber = 71769,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6734),
-                            PurchasePrice = 1433m,
-                            QuantityInStock = 14,
-                            ReleaseDate = new DateTime(2023, 4, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6730),
-                            SalesPrice = 1076m,
+                            PurchaseDate = new DateTime(2023, 6, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9990),
+                            PurchasePrice = 1315m,
+                            QuantityInStock = 42,
+                            ReleaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9974),
+                            SalesPrice = 1305m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 9,
                             Description = "",
-                            DiscountedPrice = 1211m,
+                            DiscountedPrice = 1157m,
                             IsDelete = false,
-                            ItemNumber = 79581,
+                            ItemNumber = 50838,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6741),
-                            PurchasePrice = 1382m,
-                            QuantityInStock = 35,
-                            ReleaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6738),
-                            SalesPrice = 1133m,
+                            PurchaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(16),
+                            PurchasePrice = 1149m,
+                            QuantityInStock = 26,
+                            ReleaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(5),
+                            SalesPrice = 1201m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 10,
                             Description = "",
-                            DiscountedPrice = 1399m,
+                            DiscountedPrice = 1291m,
                             IsDelete = false,
-                            ItemNumber = 71930,
+                            ItemNumber = 77878,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 5, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6754),
-                            PurchasePrice = 1333m,
-                            QuantityInStock = 47,
-                            ReleaseDate = new DateTime(2023, 5, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6745),
-                            SalesPrice = 1424m,
+                            PurchaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(41),
+                            PurchasePrice = 1153m,
+                            QuantityInStock = 31,
+                            ReleaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(31),
+                            SalesPrice = 1218m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 11,
                             Description = "",
-                            DiscountedPrice = 1103m,
+                            DiscountedPrice = 1138m,
                             IsDelete = false,
-                            ItemNumber = 34250,
+                            ItemNumber = 88003,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 5, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6763),
-                            PurchasePrice = 1021m,
-                            QuantityInStock = 14,
-                            ReleaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6758),
-                            SalesPrice = 1453m,
+                            PurchaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(70),
+                            PurchasePrice = 1475m,
+                            QuantityInStock = 27,
+                            ReleaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(56),
+                            SalesPrice = 1099m,
                             Title = "Reyban Genwux 941"
                         },
                         new
                         {
                             Id = 12,
                             Description = "",
-                            DiscountedPrice = 1304m,
+                            DiscountedPrice = 1343m,
                             IsDelete = false,
-                            ItemNumber = 72321,
+                            ItemNumber = 40370,
                             ProductTypeId = 1,
-                            PurchaseDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6771),
-                            PurchasePrice = 1161m,
-                            QuantityInStock = 16,
-                            ReleaseDate = new DateTime(2023, 4, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6767),
-                            SalesPrice = 1195m,
+                            PurchaseDate = new DateTime(2023, 4, 23, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(96),
+                            PurchasePrice = 1348m,
+                            QuantityInStock = 48,
+                            ReleaseDate = new DateTime(2023, 5, 23, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(83),
+                            SalesPrice = 1343m,
                             Title = "Reyban Genwux 941"
                         });
                 });
@@ -1293,7 +1379,7 @@ namespace TwoGirls.DataLayer.Migrations
                         {
                             Id = 1,
                             Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
-                            Date = new DateTime(2023, 5, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6871),
+                            Date = new DateTime(2023, 5, 28, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(517),
                             ProductId = 1,
                             Rate = 1.0,
                             UserId = 1
@@ -1302,7 +1388,7 @@ namespace TwoGirls.DataLayer.Migrations
                         {
                             Id = 2,
                             Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
-                            Date = new DateTime(2023, 5, 20, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6882),
+                            Date = new DateTime(2023, 6, 14, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(538),
                             ProductId = 2,
                             Rate = 2.0,
                             UserId = 1
@@ -1311,7 +1397,7 @@ namespace TwoGirls.DataLayer.Migrations
                         {
                             Id = 3,
                             Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
-                            Date = new DateTime(2023, 5, 17, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6886),
+                            Date = new DateTime(2023, 5, 4, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(550),
                             ProductId = 5,
                             Rate = 3.0,
                             UserId = 1
@@ -1320,7 +1406,7 @@ namespace TwoGirls.DataLayer.Migrations
                         {
                             Id = 4,
                             Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
-                            Date = new DateTime(2023, 5, 7, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6891),
+                            Date = new DateTime(2023, 6, 3, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(561),
                             ProductId = 6,
                             Rate = 2.0,
                             UserId = 1
@@ -1329,7 +1415,7 @@ namespace TwoGirls.DataLayer.Migrations
                         {
                             Id = 5,
                             Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
-                            Date = new DateTime(2023, 5, 7, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6926),
+                            Date = new DateTime(2023, 6, 18, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(573),
                             ProductId = 2,
                             Rate = 5.0,
                             UserId = 2
@@ -1338,7 +1424,7 @@ namespace TwoGirls.DataLayer.Migrations
                         {
                             Id = 6,
                             Comment = "hamamash dagh bood nooshaba dadan porteghal zadan dan dadan !",
-                            Date = new DateTime(2023, 5, 11, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6930),
+                            Date = new DateTime(2023, 5, 31, 20, 43, 30, 377, DateTimeKind.Local).AddTicks(583),
                             ProductId = 1,
                             Rate = 3.0,
                             UserId = 2
@@ -1413,6 +1499,56 @@ namespace TwoGirls.DataLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PermissionId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PermissionId = 2,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PermissionId = 9,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            PermissionId = 3,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            PermissionId = 13,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            PermissionId = 14,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            PermissionId = 15,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            PermissionId = 16,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("TwoGirls.DataLayer.Entities.Transaction", b =>
@@ -1433,6 +1569,9 @@ namespace TwoGirls.DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Finaly")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
                     b.Property<int>("TypeId")
@@ -1550,7 +1689,7 @@ namespace TwoGirls.DataLayer.Migrations
                             LastName = "Khalatbari",
                             Password = "$HASH$V1$jhUAa6x2XLTQSttEBvsxYw==$Ib1JCvml1e9BLlaqTxYe+ugz3qHe/aig6ks9sNge0lk=",
                             PhoneNumber = "+420730834642",
-                            RegisterDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6538),
+                            RegisterDate = new DateTime(2023, 6, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9496),
                             RoleId = 1
                         },
                         new
@@ -1565,7 +1704,7 @@ namespace TwoGirls.DataLayer.Migrations
                             LastName = "afrasiabi",
                             Password = "$HASH$V1$jhUAa6x2XLTQSttEBvsxYw==$Ib1JCvml1e9BLlaqTxYe+ugz3qHe/aig6ks9sNge0lk=",
                             PhoneNumber = "+0985858585",
-                            RegisterDate = new DateTime(2023, 6, 15, 16, 16, 43, 430, DateTimeKind.Local).AddTicks(6587),
+                            RegisterDate = new DateTime(2023, 6, 23, 20, 43, 30, 376, DateTimeKind.Local).AddTicks(9643),
                             RoleId = 1
                         });
                 });
@@ -1688,8 +1827,7 @@ namespace TwoGirls.DataLayer.Migrations
                     b.HasOne("TwoGirls.DataLayer.Entities.Product", "Product")
                         .WithMany("ImagePaths")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TwoGirls.DataLayer.Entities.User", "User")
                         .WithMany()

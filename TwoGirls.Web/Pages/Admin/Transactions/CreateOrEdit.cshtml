@@ -1,0 +1,70 @@
+﻿@page
+@using TwoGirls.DataLayer.Entities;
+@model twoGirlsOnlineShop.Pages.Admin.Transactions.CreateOrEditModel
+@{
+    ViewData["Title"] = (Model.Transaction.Id == 0 ? "Create Transaction" : "Edit Transaction");
+    var TransactionTypes = ViewData["TransactionTypes"] as List<TransactionType>;
+}
+
+<h1>@(Model.Transaction.Id == 0 ? "Create New Transaction" : "Edit Transaction")</h1>
+
+<hr />
+
+<form method="post" enctype="multipart/form-data" class="container-lg">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.Transaction.Id" />
+    <input type="hidden" asp-for="@Model.Transaction.UserId" />
+    <div class="form-group">
+        <label asp-for="@Model.Transaction.Amount" class="control-label"></label>
+        <input asp-for="@Model.Transaction.Amount" class="form-control" />
+        <span asp-validation-for="@Model.Transaction.Amount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Transaction.Description" class="control-label"></label>
+        <textarea asp-for="@Model.Transaction.Description" class="form-control"></textarea>
+        <span asp-validation-for="@Model.Transaction.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Transaction.Date" class="control-label"></label>
+        <input asp-for="@Model.Transaction.Date" class="form-control" />
+        <span asp-validation-for="@Model.Transaction.Date" class="text-danger"></span>
+    </div>
+    <div class="form-group ">
+        <label asp-for="@Model.Transaction.TypeId class=" form-label" for="country">Transaction type</label>
+        <select asp-for="@Model.Transaction.TypeId" class="form-select" aria-label="Default select example">
+            <option selected>Select Type *</option>
+            @if (TransactionTypes != null)
+            {
+                foreach (var type in TransactionTypes)
+                {
+                    <option value="@type.Id">@type.Title</option>
+                }
+            }
+        </select>
+        <span asp-validation-for="@Model.Transaction.TypeId" class="text-tomato"></span>
+    </div>
+    <br />
+    <div class="mb-3 form-check">
+        <input asp-for="@Model.Transaction.Finaly" type="checkbox" class="form-check-input"><label asp-for="@Model.Transaction.Finaly"> Final Transaction </label>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <input type="submit" value="@(Model.Transaction.Id == 0 ? "Create" : "Edit")" class="btn btn-primary" />
+        <a href="/admin/Transactions" class="btn btn-danger">Back to List</a>
+
+    </div>
+
+</form>
+
+
+@section AdminSearchBox {
+    <i class="fa fa-search search-show"></i>
+    <form class=" search-area ">
+        <button type="submit" class="bg-transparent border-0"> <i class="fa fa-search"></i></button>
+        <input class="h-50" type="text" placeholder="Search..." name="filter" id="">
+        <a href="/admin/Transactions"><i class="fa fa-close"></i></a>
+    </form>
+
+}

@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    @await RenderSectionAsync("Style", required: false)
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,216 @@
+﻿@using TwoGirls.Core.DTOs;
+@using TwoGirls.DataLayer.Entities;
+@model FilterProductViewModel
+@{
+    ViewData["Title"] = "Filter";
+}
+@section style{
+    <link rel="stylesheet" href="~/css/Filter-Page-Style.css" asp-append-version="true" />
+}
+
+
+<img src="~/image/Favorite-Banner.jpg" alt="" class="page-header">
+
+<form method="get" class="container-lg" id="filterForm">
+    <div class="breadcrumb">
+        <p><span><a asp-action="Index" asp-controller="Home"><em> Home </em></a></span><i>&gt;</i><span><a><em> Filter Products </em></a></span></p>
+    </div>
+    <h1 class="page-title">Filter Products</h1>
+
+    <br />
+    <div class="row">
+
+
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFilters" aria-labelledby="offcanvassleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvassLabel">Filters</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+
+                <aside class=" mb-5">
+                    <div class="input-group mt-3">
+                        <input class="form-control" name="filter" placeholder="Search..." />
+                        <a class="btn btn-dark filter-control"><i class="fa-solid fa-magnifying-glass"></i></a>
+                    </div>
+                    <br />
+                    <div class="accordion accordion-flush" id="accordion-filter-Panel">
+
+                        @await Html.PartialAsync("Product/_CategorySelection", Model)
+                    </div>
+                    <div class="accordion accordion-flush">
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header border-top">
+                                <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefive" aria-expanded="true" aria-controls="panelsStayOpen-collapsefive">
+                                    Price
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapsefive" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+                                    <div class="range-slider  w-100">
+                                        <span class="rangeValues"></span>
+                                        <input name="startPrice" class="filter-control w-100" value="@Model.MinPrice" min="@Model.MinPrice" max="@Model.MaxPrice" step="1" type="range">
+                                        <input name="endPrice" class="filter-control w-100" value="@Model.MaxPrice" min="@Model.MinPrice" max="@Model.MaxPrice" step="1" type="range">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+
+        <main class="col p-0">
+            <img src="~/image/240754050858m.png" class="partial-banner" />
+                <div class="d-flex justify-content-between align-items-center filtered-sort js-filtered-sort">
+                <a class="btn btn-outline-dark" data-bs-toggle="offcanvas" href="#offcanvasFilters" role="button" aria-controls="offcanvasFilters">
+                        Filters
+                    </a>
+                    <div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mt-3 Pointer" id="ProductTypeBtn">
+                                @foreach (var ProdcutType in Model.ProdcutTypes)
+                                {
+                                    <li class="page-item toggleActiveClass-js @((ProdcutType.Id == Model.ProdcutTypeId) ? "active" : "")">
+                                        <label class="page-link Pointer">
+                                            <input type="radio" name="prodcutTypeId" value="@(ProdcutType.Id)" class="filter-control btn-check" autocomplete="off" checked="@((ProdcutType.Id == Model.ProdcutTypeId) ? "checked" : "")"> @ProdcutType.Title
+                                        </label>
+                                    </li>
+
+                                }
+                                <li class="page-item toggleActiveClass-js @((Model.ProdcutTypeId == 0) ? "active" : "")">
+                                    <label class="page-link Pointer">
+                                        <input type="radio" name="prodcutTypeId" value="0" class="filter-control btn-check" autocomplete="off" checked="@((Model.ProdcutTypeId == 0) ? "checked" : "")"> All
+                                    </label>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="d-inline-flex">
+                        <span>Sort by:</span>
+                        <select name="orderBY" class="sort-by d-inline filter-control Pointer" aria-label=".form-select-sm example">
+                            <option selected>Relevance</option>
+                            <option value="best">Popularity</option>
+                            <option value="arrivals">Newest Arrivals</option>
+                            <option value="top_rated">Top Rated</option>
+                            <option value="high">Price Highest</option>
+                            <option value="low">Price Lowest</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="favorite-container position-relative">
+
+                    <div id="filtered-products-list" class="row">
+                        @await Html.PartialAsync("Product/_ProductsBox", Model.Products)
+                    </div>
+                    <div class="spinner-wrapper" id="filterPageSpinner">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="pagination-filter-page">
+                    @await Html.PartialAsync("Product/_Pagination",Model.PaginationViewModel)
+                </div>
+        </main>
+    </div>
+
+
+</form>
+
+@section Scripts{
+
+    <script>
+
+        function getVals() {
+            // Get slider values
+            let parent = this.parentNode;
+            let slides = parent.getElementsByTagName("input");
+            let slide1 = parseFloat(slides[0].value);
+            let slide2 = parseFloat(slides[1].value);
+            // Neither slider will clip the other, so make sure we determine which is larger
+            if (slide1 > slide2) { let tmp = slide2; slide2 = slide1; slide1 = tmp; }
+
+            let displayElement = parent.getElementsByClassName("rangeValues")[0];
+            displayElement.innerHTML = "$" + slide1 + " - $" + slide2;
+        }
+
+        window.onload = function () {
+            // Initialize Sliders
+            let sliderSections = document.getElementsByClassName("range-slider");
+            for (let x = 0; x < sliderSections.length; x++) {
+                let sliders = sliderSections[x].getElementsByTagName("input");
+                for (let y = 0; y < sliders.length; y++) {
+                    if (sliders[y].type === "range") {
+                        sliders[y].oninput = getVals;
+                        // Manually trigger event first time to display values
+                        sliders[y].oninput();
+                    }
+                }
+            }
+        }
+
+
+
+        $(function () {
+            var timeoutId;
+
+            function filterProducts() {
+                clearTimeout(timeoutId);
+
+                timeoutId = setTimeout(function () {
+                    var formData = $('#filterForm').serialize();
+                    const spinner = document.querySelector('#filterPageSpinner')
+
+                    $.ajax({
+                        url: '@Url.Action("AjaxFilter", "Product")',
+                        type: 'GET',
+                        data: formData,
+                        beforeSend: function () {
+                            spinner.style.display = "flex";
+                            spinner.style.opasity = "1";
+                        },
+                        success: function (result) {
+                            $('#filtered-products-list').html(result.productListPartialView);
+                            $('#pagination-filter-page').html(result.paginationPartialView);
+                            $('#accordion-filter-Panel').html(result.categorySelectionPartialView);
+
+                            $('.filter-control').on('change', function () {
+                                filterProducts();
+                            });
+                            let btns = document.querySelectorAll('.add-to-cart');
+                            btns.forEach(btn => {
+                                btn.addEventListener("click", addItemToCard)
+                            })
+                            function addItemToCard() {
+                                document.getElementById("basketDropdown").classList.add("show");
+                            }
+                            spinner.style.opasity = "0";
+                            spinner.style.display = "none";
+                        },
+                        error: function () {
+                            console.log('An error occurred while filtering products.');
+                            spinner.style.opasity = "0";
+                            spinner.style.display = "none";
+                        }
+                    });
+                }, 900);
+            }
+            function toggleActiveClass(li) {
+                $(li).addClass('active').siblings().removeClass('active');
+            }
+
+            $('.toggleActiveClass-js').on('click', function () {
+                toggleActiveClass(this);
+            });
+            $('.filter-control').on('click', function () {
+                filterProducts();
+            });
+        });
+    </script>
+}
+

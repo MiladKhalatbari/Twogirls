@@ -1,15 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.ComponentModel.Design;
-using System.Drawing;
-using System.Numerics;
-using System.Reflection.Emit;
 using TwoGirls.DataLayer.Entities;
-
+using Address = TwoGirls.DataLayer.Entities.Address;
+using Product = TwoGirls.DataLayer.Entities.Product;
+using Review = TwoGirls.DataLayer.Entities.Review;
 
 namespace TwoGirls.DataLayer.Context
 {
@@ -37,8 +31,8 @@ namespace TwoGirls.DataLayer.Context
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<DiscountCode> DiscountCodes { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<UserDiscountCodes>  UserDiscountCodes { get; set; }
-        public DbSet<ProductType> productTypes  { get; set; }
+        public DbSet<UserDiscountCodes> UserDiscountCodes { get; set; }
+        public DbSet<ProductType> productTypes { get; set; }
 
         public override int SaveChanges()
         {
@@ -60,12 +54,15 @@ namespace TwoGirls.DataLayer.Context
             Builder.Entity<User>().HasQueryFilter(x => x.IsDelete == false);
             Builder.Entity<Role>().HasQueryFilter(x => x.IsDelete == false);
             Builder.Entity<Product>().HasQueryFilter(x => x.IsDelete == false);
+            Builder.Entity<DiscountCode>().HasQueryFilter(x => x.IsDelete == false);
+            Builder.Entity<Transaction>().HasQueryFilter(x => x.IsDelete == false);
+            Builder.Entity<Category>().HasQueryFilter(x => x.IsDelete == false);
 
-            Random random = new Random();
+            var random = new Random();
             Builder.Entity<CategoryToProduct>().HasKey(t => new { t.CategoryId, t.ProductId });
             Builder.Entity<Favorite>().HasKey(t => new { t.UserId, t.ProductId });
             Builder.Entity<Product>().HasMany(p => p.ImagePaths).WithOne(ip => ip.Product).HasForeignKey(ip => ip.ProductId).OnDelete(DeleteBehavior.Restrict);
-            Builder.Entity<Order>().HasOne(o => o.Cart).WithMany().HasForeignKey(o => o.CartId).OnDelete(DeleteBehavior.NoAction); 
+            Builder.Entity<Order>().HasOne(o => o.Cart).WithMany().HasForeignKey(o => o.CartId).OnDelete(DeleteBehavior.NoAction);
             Builder.Entity<Order>().HasOne(o => o.User).WithMany().HasForeignKey(o => o.UserId).OnDelete(DeleteBehavior.NoAction);
             Builder.Entity<Order>().Property(o => o.AddressId).IsRequired(false);
             base.OnModelCreating(Builder);
@@ -147,84 +144,200 @@ namespace TwoGirls.DataLayer.Context
             }, new Permission()
             {
                 Id = 6,
-                Title = "Add or Edit",
-                ParentId = 2
+                Title = "Manage Discounts",
+                ParentId = 1
             }, new Permission()
             {
                 Id = 7,
-                Title = "Delete",
-                ParentId = 2
+                Title = "Manage Categories",
+                ParentId = 1
             }, new Permission()
             {
                 Id = 8,
-                Title = "Recover",
-                ParentId = 2
+                Title = "Manage Transactions",
+                ParentId = 1
             }, new Permission()
             {
                 Id = 9,
-                Title = "Watch the list",
+                Title = "Add or Edit",
                 ParentId = 2
             }, new Permission()
             {
                 Id = 10,
+                Title = "Delete",
+                ParentId = 2
+            }, new Permission()
+            {
+                Id = 11,
+                Title = "Recover",
+                ParentId = 2
+            }, new Permission()
+            {
+                Id = 12,
+                Title = "Watch Deleted list",
+                ParentId = 2
+            }, new Permission()
+            {
+                Id = 13,
                 Title = "Add or Edit",
                 ParentId = 3
             }, new Permission()
             {
-                Id = 11,
+                Id = 14,
                 Title = "Delete",
                 ParentId = 3
-            }, new Permission()
-            {
-                Id = 12,
-                Title = "Recover",
-                ParentId = 3
-            }, new Permission()
-            {
-                Id = 13,
-                Title = "Watch the list",
-                ParentId = 3
-            }, new Permission()
-            {
-                Id = 14,
-                Title = "Add",
-                ParentId = 4
             }, new Permission()
             {
                 Id = 15,
-                Title = "Edit",
-                ParentId = 4
+                Title = "Recover",
+                ParentId = 3
             }, new Permission()
             {
                 Id = 16,
-                Title = "Delete",
-                ParentId = 4
+                Title = "Watch Deleted list",
+                ParentId = 3
             }, new Permission()
             {
                 Id = 17,
-                Title = "Recover",
+                Title = "Add or Edit",
                 ParentId = 4
             }, new Permission()
             {
                 Id = 18,
-                Title = "Watch the list",
+                Title = "Delete",
                 ParentId = 4
             }, new Permission()
             {
                 Id = 19,
-                Title = "Send",
-                ParentId = 5
+                Title = "Recover",
+                ParentId = 4
             }, new Permission()
             {
                 Id = 20,
-                Title = "Unsend",
-                ParentId = 5
+                Title = "Watch Deleted list",
+                ParentId = 4
             }, new Permission()
             {
                 Id = 21,
-                Title = "Watch the list",
+                Title = "Post",
                 ParentId = 5
+            }, new Permission()
+            {
+                Id = 22,
+                Title = "Unpost",
+                ParentId = 5
+            }, new Permission()
+            {
+                Id = 23,
+                Title = "Watch Posted list",
+                ParentId = 5
+            }, new Permission()
+            {
+                Id = 24,
+                Title = "Add or Edit",
+                ParentId = 6
+            }, new Permission()
+            {
+                Id = 25,
+                Title = "Delete",
+                ParentId = 6
+            }, new Permission()
+            {
+                Id = 26,
+                Title = "Recover",
+                ParentId = 6
+            }, new Permission()
+            {
+                Id = 27,
+                Title = "Watch Deleted list",
+                ParentId = 6
+            }, new Permission()
+            {
+                Id = 28,
+                Title = "Add or Edit",
+                ParentId = 7
+            }, new Permission()
+            {
+                Id = 29,
+                Title = "Delete",
+                ParentId = 7
+            }, new Permission()
+            {
+                Id = 30,
+                Title = "Recover",
+                ParentId = 7
+            }, new Permission()
+            {
+                Id = 31,
+                Title = "Watch Deleted list",
+                ParentId = 7
+            }, new Permission()
+            {
+                Id = 32,
+                Title = "Add or Edit",
+                ParentId = 8
+            }, new Permission()
+            {
+                Id = 33,
+                Title = "Delete",
+                ParentId = 8
+            }, new Permission()
+            {
+                Id = 34,
+                Title = "Recover",
+                ParentId = 8
+            }, new Permission()
+            {
+                Id = 35,
+                Title = "Watch Deleted list",
+                ParentId = 8
             });
+            #endregion
+
+            #region Add RolePermission  
+            Builder.Entity<RolePermission>().HasData(
+                new RolePermission()
+                {
+                    Id = 1,
+                    PermissionId = 1,
+                    RoleId = 1
+                }, new RolePermission()
+                {
+                    Id = 2,
+                    PermissionId = 2,
+                    RoleId = 1
+                }, new RolePermission()
+                {
+                    Id = 3,
+                    PermissionId = 9,
+                    RoleId = 1
+                }, new RolePermission()
+                {
+                    Id = 4,
+                    PermissionId = 3,
+                    RoleId = 1
+                }, new RolePermission()
+                {
+                    Id = 5,
+                    PermissionId = 13,
+                    RoleId = 1
+                }, new RolePermission()
+                {
+                    Id = 6,
+                    PermissionId = 14,
+                    RoleId = 1
+                }, new RolePermission()
+                {
+                    Id = 7,
+                    PermissionId = 15,
+                    RoleId = 1
+                }, new RolePermission()
+                {
+                    Id = 8,
+                    PermissionId = 16,
+                    RoleId = 1
+                });
+
             #endregion
 
             #region add picture
@@ -469,7 +582,7 @@ namespace TwoGirls.DataLayer.Context
                     QuantityInStock = random.Next(10, 51),
                     PurchaseDate = DateTime.Now.AddMonths(random.Next(-2, 1)),
                     ProductTypeId = 1
-                }) ;
+                });
             #endregion
 
             #region add Category

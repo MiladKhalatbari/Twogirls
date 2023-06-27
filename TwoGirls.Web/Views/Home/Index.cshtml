@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- carousel header  -->
+<header>
+
+    <div id="headerCarousel" class="carousel slide carousel-fade " data-bs-ride="carousel">
+
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="0"></button>
+            <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="3" class="active"
+                    aria-current="true"></button>
+            <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="4"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item   " data-bs-interval="2000">
+                <img src="~/image/item-one.jpg" class="img-fluid w-100" alt="...">
+                <div class="carousel-caption ">
+                    <p class="h1 red-shadow ">Luxury Medical Frame</p>
+                    <p>Some representative placeholder content for the first slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item " data-bs-interval="2000">
+                <img src="~/image/item-two.jpg" class="img-fluid w-100" alt="...">
+                <div class="carousel-caption ">
+                    <p class="h1 red-shadow">Reflex sunglasses</p>
+                    <p>Some representative placeholder content for the second slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+                <img src="~/image/item-three.jpg" class="img-fluid w-100" alt="...">
+                <div class="carousel-caption ">
+                    <p class="h1 red-shadow">Fancy Sunglasses</p>
+                    <p>Some representative placeholder content for the third slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item active" data-bs-interval="2000">
+                <img src="~/image/item-four.jpg" class="img-fluid w-100" alt="Sport Sunglasses">
+                <div class="carousel-caption ">
+                    <p class="h1 red-shadow">Sport Sunglasses</p>
+                    <p>Some representative placeholder content for the third slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+                <img src="~/image/item-five.jpg" class="img-fluid w-100" alt="...">
+                <div class="carousel-caption ">
+                    <p class="h1 red-shadow">Classic Sunglasses</p>
+                    <p>Some representative placeholder content for the third slide.</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#headerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#headerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</header>
+<!-- carousel header  end -->
+<main>
+    <div class="shipment ">
+        <p class="d-flex m-0 ">
+            <a class="btn m-0 flex-fill rounded-0 btn-dark " data-bs-toggle="collapse" href="#shipmentInfo"
+               role="button" aria-expanded="false" aria-controls="shipmentInfo">
+                Free shipping to the country: Czech Republic - for all orders over 2,165.00 CZK
+            </a>
+        </p>
+        <div class="collapse" id="shipmentInfo">
+            <div class="card card-body">
+                Easy shopping means never having to pay for shipping. So at sunglasshut.com, we provide free
+                standard
+                shipping on every order over 2,165.00 CZK
+            </div>
+        </div>
+    </div>
+
+    <!-- categoryMenu  -->
+    <div class="container-lg p-0 my-lg-5 categoryMenu ">
+
+        <div class="row m-0 justify-content-evenly">
+            <div class="card col-6 col-sm-4 border-0 p-3">
+                <img src="~/image/mens.webp" class="card-img img-fluid" alt="...">
+                <div class="card-img-overlay">
+                    <p class="card-title d-inline-flex p-2 h1 text-white">Men's</p>
+                    <a href="@Url.Action("Filter","Product",new {prodcutTypeId = 0, SelectedCategories = 1 })" class="btn border-0 text-light">Shop This</a>
+
+                </div>
+            </div>
+
+
+            <div class="card col-6 col-sm-4 border-0 p-3">
+                <img src="~/image/womens.webp" class="card-img img-fluid" alt="...">
+                <div class="card-img-overlay">
+                    <p class="card-title d-inline-flex h1 p-2 text-white ">Women's</p>
+                    <a href="@Url.Action("Filter","Product",new {prodcutTypeId = 0, SelectedCategories = 2 })" class="btn border-0 text-light">Shop This</a>
+                </div>
+            </div>
+
+
+            <div class="card d-none d-sm-inline-flex col-sm-4 border-0 p-3">
+                <img src="~/image/couple.jpg" class="card-img img-fluid" alt="...">
+                <div class="card-img-overlay">
+                    <p class="card-title d-inline-flex p-2 text-white h1 ">Couples</p>
+                    <a href="@Url.Action("Filter","Product",new {prodcutTypeId = 0, SelectedCategories = 15 })" class="btn border-0 text-light">Shop This</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- categoryMenu end  -->
+    <!-- discounted Products dragable carousel  -->
+    <div class="overflow-hidden wrapper position-relative">
+    <div class="headerslider"><img src="~/image/back.jpg" alt=""></div>
+    @await Component.InvokeAsync("SliderComponent", new { id = "Discounted" })
+    </div>
+
+    <hr class="slider-divider">
+
+    <div class="overflow-hidden wrapper position-relative">
+    <div class="headerslider"><img src="~/image/back2.jpg" alt=""></div>
+    @await Component.InvokeAsync("SliderComponent", new { id = "NewArrival" })
+    </div>
+
+    <hr class="slider-divider">
+
+    <div class="overflow-hidden wrapper position-relative">
+     <div class="headerslider"><img src="~/image/back4.jpg" alt=""></div>
+    @await Component.InvokeAsync("SliderComponent", new { id = "NewCollection" })
+    </div>
+
+    <hr class="slider-divider">
+
+    <!-- discounted Products dragable carousel end -->
+
+
+</main>

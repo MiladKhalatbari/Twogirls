@@ -66,7 +66,7 @@ namespace TwoGirls.Core.DTOs
 
     public class ResetPasswordViewModel
     {
-       public string ActiveCode { get; set; }
+        public string ActiveCode { get; set; }
 
         [Required]
         [MinLength(8)]
@@ -100,6 +100,7 @@ namespace TwoGirls.Core.DTOs
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
     }
+
     public class EditProfileViewModel
     {
         [Required]
@@ -116,6 +117,7 @@ namespace TwoGirls.Core.DTOs
         [MaxLength(16)]
         public string? PhoneNumber { get; set; }
     }
+
     public class UserAvatarViewModel
     {
         [MaxLength(200)]
@@ -124,8 +126,9 @@ namespace TwoGirls.Core.DTOs
         //[FileExtensions(Extensions = "jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF", ErrorMessage = "Please select a file with a valid image extension (jpg, jpeg, png, gif).")]
         public IFormFile NewImage { get; set; }
         public string? FullName { get; set; }
-        public string? Email { get; set;}
+        public string? Email { get; set; }
     }
+
     public class ChargeWallet
     {
         [Required]

@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwoGirls.Core.DTOs;
+﻿using TwoGirls.Core.DTOs;
 using TwoGirls.DataLayer.Entities;
 
 namespace TwoGirls.Core.Services.Interfaces
@@ -20,6 +14,7 @@ namespace TwoGirls.Core.Services.Interfaces
         public User GetUserByEmail(string email);
         public User GetUserById(int userId);
         public User GetUserByIdIncludeRole(int userId);
+        public User GetUserByIdIncludeFavorites(int userId);
         public User GetUserByIdIgnoreQueryFilters(int userId);
         public User GetUserByEmailAndPassword(string email, string password);
         public int AddUser(User user);
@@ -28,12 +23,16 @@ namespace TwoGirls.Core.Services.Interfaces
 
         #region User Favorites
         public List<Favorite> GetUserFavorites(int userId);
+        public bool IsInUserFavorites(int userId, int productId);
+        public void AddFavorite(Favorite favorite);
+        public void DeleteFavorite(int userId, int productId);
+
         #endregion
 
         #region User Address   
         public List<Address> GetUserAddresses(int id);
         public int AddUserAddress(Address address);
-        public bool CheckAddressId(int userId,int addressId);
+        public bool CheckAddressId(int userId, int addressId);
         public bool RemoveUserAddress(int userId, int addressId);
         #endregion
 

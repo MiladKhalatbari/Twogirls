@@ -1,0 +1,66 @@
+﻿@page
+@model twoGirlsOnlineShop.Pages.Admin.Categories.IndexModel
+@{
+    ViewData["Title"] = "List of Categories";
+    int i = 1;
+}
+<br />
+<div class="table-responsive">
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="align-middle text-center">
+                    #
+                </th>
+                <th class="align-middle text-center">
+                    Name
+                </th>
+                <th class="align-middle text-center">
+                    Description
+                </th>
+                <th class="align-middle text-center">
+                    Parent Category
+                </th>
+                <th class="text-center">
+                    <a class="btn btn-success" href="/admin/Categories/CreateOrEdit">Create New <i class="fa-solid fa-plus"></i></a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Categories)
+            {
+                <tr>
+                    <th class="align-middle text-center">
+                        @i
+                    </th>
+                    <td class="align-middle text-center">
+                        @item.Name
+                    </td>
+                    <td class="align-middle text-center">
+                        @item.Description
+                    </td>
+                    <td class="align-middle text-center">
+                        @Model.Categories.FirstOrDefault(c=> c.Id==item.ParentId)?.Name
+                    </td>
+                    <td class="align-middle text-nowrap text-center">
+                        <a class="btn btn-success" href="/admin/Categories/CreateOrEdit?parentId=@item.Id"> Add Sub Category <i class="fa-solid fa-plus"></i></a> | 
+                        <a class="btn btn-secondary" href="/admin/Categories/CreateOrEdit?id=@item.Id">Edit <i class="fa-solid fa-pencil"></i></a> | 
+                        <a class="btn btn-danger" href="/admin/Categories/Delete?id=@item.Id">Delete <i class="fa-regular fa-trash-can"></i></a>
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>
+
+@section AdminSearchBox {
+    <i class="fa fa-search search-show"></i>
+    <form class=" search-area ">
+        <button type="submit" class="bg-transparent border-0"> <i class="fa fa-search"></i></button>
+        <input class="h-50" type="text" placeholder="Search..." name="filter" id="">
+        <a href="/admin/Categories"><i class="fa fa-close"></i></a>
+    </form>
+
+}

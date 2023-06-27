@@ -1,0 +1,222 @@
+﻿@using TwoGirls.Core.DTOs;
+@model DetailProductViewModel;
+
+@section style{
+    <link rel="stylesheet" href="~/css/Detail-Page-Style.css" asp-append-version="true">
+}
+@{
+    Guid guid = Guid.NewGuid();
+    double roundedRate = Math.Round(Model.Product.Rate() * 2) / 2;
+    var favorites = ViewData["Favorites"] as List<TwoGirls.DataLayer.Entities.Favorite>;
+    var Reviews = ViewData["Reviews"] as List<TwoGirls.DataLayer.Entities.Review>;
+
+    ViewData["Title"] = "Detail";
+}
+<img src="~/image/Detail-Banner.jpg" alt="" class="page-header" />
+<section id="product-detail" class="container-lg mt-1">
+    <div class="row">
+        <div class="col-md-6 col-lg-5 gallery mt-3">
+            <div class="detail-product-card align-middle">
+                <img src="@Model.Product.ImagePaths.First().Url" alt="@Model.Product.Title" class="detail-product-card-img" id="myimage">
+                <div class="gallery__data">
+                </div>
+            </div>
+            <!-- Gallery overflow -->
+            <div id="detail-product-slider" class="overflow-hidden wrapper position-relative">
+                <div class="overflow-hidden custom-carousel flex-nowrap row m-0 ">
+                    @foreach (var img in Model.Product.ImagePaths)
+                    {
+                        <div class="card custom-carousel-item">
+                            <div class="gallery__thumbnail">
+                                <img src="@img.Url" alt="@img.Name" onclick="ChangePicture('@img.Url')">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div id="detail-product-info" class="col-md-6 col-lg-7 d-flex flex-column justify-content-between">
+            <div>
+                <div>
+                    <p>
+                        <span class="alert alert-danger p-1 my-1 d-none">This product is no longer in stock</span>
+                    </p>
+                    <p>
+                        <span class="alert alert-info p-1 my-1 d-none">10 Items is avalible</span>
+                    </p>
+                    <p> <span class="alert alert-warning p-1 my-1 d-none"> its Last items in stock!</span></p>
+                </div>
+                <p class="m-0">
+                    Item number:<span>@Model.Product.ItemNumber</span>
+    
+                </p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="h1 fw-bold">@Model.Product.Title</p>
+
+                    @{
+                        if (favorites != null)
+                        {
+                            <i onclick="AddFavorite(@Model.Product.Id,this)" class="h2 m-0 fa-heart text-warning @(favorites.Any(x => x.ProductId == Model.Product.Id) ? "fa-solid" :"fa-regular" )"></i>
+                        }
+                        else
+                        {
+                            <i onclick="AddFavorite(@Model.Product.Id,this)" class="h2 m-0 fa-heart text-warning fa-regular "></i>
+
+                        }
+                    }
+                </div>
+
+
+                <div class="d-flex justify-content-start align-items-end">
+                    <div class="rate d-inline-flex flex-nowrap align-items-start justify-content-start">
+                        @for (double rating = 5; rating >= 0.5; rating -= 0.5)
+                        {
+                            <input onclick="ShowInPopup('@Url.Action("AddReview", "Product", new { productId = Model.Product.Id }, Context.Request.Scheme)', @rating)"
+                                   type="radio" name="@guid" value="@rating" @(roundedRate == rating ? "checked" : "") />
+                        }
+                    </div>
+                    <a href="#reviews-container">Read reviews</a>
+                </div>
+
+                <p class="my-2 text-muted detail-product-descriptions">
+                    @Html.Raw(Model.Product.Description)
+                </p>
+            </div>
+            <div class="d-flex justify-content-between ">
+                <div class="align-items-end">
+                    @if (Model.Product.SalesPrice > Model.Product.DiscountedPrice)
+                    {
+                        <small class="discountedPrice">$@Model.Product.SalesPrice</small>
+                    }
+                    <p class="Price"><small>$</small>@Model.Product.DiscountedPrice</p>
+                </div>
+                <button onclick="addToCart(@Model.Product.Id)" class="align-self-end btn add-to-cart">
+                    <span>Add to cart</span>
+                    <i class="fa-solid fa-cart-arrow-down"></i>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="container-lg mb-3">
+    <div class="review-header row">
+        <div class="col-12 col-md-6">
+            <div class="col-12 d-flex justify-content-around align-items-center">
+                <div>
+                    <h4 class="">Reviews</h4>
+                    <div class="text-muted">
+                        <span>Based on @Reviews.Count() @(Reviews.Count() <= 1 ? "review" : "reviews")</span>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <div class="text-center h4"> @(Math.Round(Model.Product.Rate(), 1))</div>
+                    <div class="text-dark d-flex justify-content-start align-items-center">
+                        <div class="smallrate d-inline-flex flex-nowrap align-items-start justify-content-start">
+                            @{
+                                guid = Guid.NewGuid();
+                            }
+                            @for (double rating = 5; rating >= 0.5; rating -= 0.5)
+                            {
+                                <input type="radio" disabled name="@guid" value="@rating" @(roundedRate == rating ? "checked" : "") />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @for (int i = 5; i >= 1; i--)
+            {
+                int countWithRate = Reviews.Count(x => x.Rate >= i && x.Rate < i + 1);
+                int totalCount = Reviews.Count();
+                double percentage = totalCount > 0 && countWithRate > 0 ? 100 * countWithRate / totalCount : 0;
+                <div class="row align-items-center justify-content-between flex-nowrap fs-14">
+
+                    <div class="text-muted d-flex justify-content-end col-1 p-0">
+                        <small>@i <i class="fas fa-star text-warning"></i></small>
+                    </div>
+                    <div class="col-10">
+                        <div class="progress w-100 p-0">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: @percentage%"
+                                 aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-muted ms-1 col-1 p-0">
+                        @percentage%
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-12 col-md-6 d-flex justify-content-end ">
+            <img class="m-2 w-100"
+                 src="https://cdn.shopify.com/s/files/1/0769/0373/files/reviews-banner_8dcea80a-a3c2-465b-83bd-bd2b94bd9d20.gif?v=1651869287"
+                 alt="">
+        </div>
+
+    </div>
+    <form id="filterReviewForm" method="get">
+        <input type="hidden" name="productId" value="@Model.ProductId" />
+        <div class="position-relative">
+            <div id="reviews-container" class="review-content">
+                @await Html.PartialAsync("Product/_ReviewsBox", Model)
+            </div>
+            <div class="spinner-wrapper" id="DetailPageSpinner">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <div id="pagination-Detail-page">
+            @await Html.PartialAsync("Product/_Pagination",Model.PaginationViewModel)
+        </div>
+    </form>
+</div>
+@section Scripts{
+
+    <script>
+        $(function () {
+            var timeoutId;
+
+            function filterReviews() {
+                clearTimeout(timeoutId);
+
+                timeoutId = setTimeout(function () {
+                    var formData = $('#filterReviewForm').serialize();
+                    const spinner = document.querySelector('#DetailPageSpinner')
+
+                    $.ajax({
+                        url: '@Url.Action("AjaxGetReviews", "Product")',
+                        type: 'GET',
+                        data: formData,
+                        beforeSend: function () {
+                            spinner.style.display = "flex";
+                            spinner.style.opasity = "1";
+                        },
+                        success: function (result) {
+                            $('#reviews-container').html(result.reviewListPartialView);
+                            $('#pagination-Detail-page').html(result.paginationPartialView);
+                            $('.filter-control').on('change', function () {
+                                filterReviews();
+                            });
+
+                            spinner.style.opasity = "0";
+                            spinner.style.display = "none";
+                        },
+                        error: function () {
+                            console.log('An error occurred while filtering reviews.');
+                            spinner.style.opasity = "0";
+                            spinner.style.display = "none";
+                        }
+                    });
+                }, 900);
+            }
+
+            $('.filter-control').on('click', function () {
+                filterReviews();
+            });
+        });
+    </script>
+}

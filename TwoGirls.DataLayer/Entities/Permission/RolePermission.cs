@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwoGirls.DataLayer.Entities
+﻿namespace TwoGirls.DataLayer.Entities
 {
     public class RolePermission
     {
@@ -15,8 +9,8 @@ namespace TwoGirls.DataLayer.Entities
 
 
         #region Relation
-        public Role Role { get; set; }
-        public Permission Permission { get; set; }
+        public Role? Role { get; set; }
+        public Permission? Permission { get; set; }
         #endregion
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwoGirls.DataLayer.Entities;
+﻿using TwoGirls.DataLayer.Entities;
 
 namespace TwoGirls.Core.Services.Interfaces
 {
@@ -12,11 +7,11 @@ namespace TwoGirls.Core.Services.Interfaces
         #region Role
         public ICollection<Role> GetAllRoles();
         public ICollection<Role> GetAllDeletedRoles();
-        public int AddRole (Role role);
+        public int AddRole(Role role);
         public bool EditRole(Role role);
         public Role GetRoleById(int id);
         public Role GetRoleByIdIgnorequeryFilter(int id);
-        public bool DeleteRole (int id);
+        public bool DeleteRole(int id);
         public bool RecoverRole(int id);
         #endregion
 
@@ -27,9 +22,9 @@ namespace TwoGirls.Core.Services.Interfaces
 
 
         #region RolePermission
-        public int AddRolePermission(int roleId , int permissionId);
+        public int AddRolePermission(int roleId, int permissionId);
         public void RemoveExistingPermission(int roleId);
-        public bool PermissionCheker(int userId,int permissionId);
+        public bool PermissionCheker(int userId, int permissionId);
         #endregion
 
     }

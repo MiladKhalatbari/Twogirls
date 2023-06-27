@@ -1,0 +1,74 @@
+﻿@using TwoGirls.DataLayer.Entities;
+@model IEnumerable<Product>;
+@{
+    var favorites = ViewData["Favorites"] as List<Favorite>;
+}
+
+<i class="fa-solid fa-angle-left rounded-circle position-absolute top-50 start-0 translate-middle-y text-warning arrow"></i>
+<div class="overflow-hidden  custom-carousel flex-nowrap row m-0 ">
+
+
+    @foreach (var item in Model)
+    {
+        double roundedRate = Math.Round(item.Rate() * 2) / 2;
+        string firstImageSrc = item.ImagePaths.FirstOrDefault().Url.ToString();
+        string secoundImageSrc = item.ImagePaths.Skip(1).Take(1).FirstOrDefault().Url.ToString();
+        Guid guid = Guid.NewGuid();
+
+        <div class="card custom-carousel-item position-relative border-0">
+            <div class="d-flex justify-content-between">
+                <a asp-action="Detail" asp-controller="Product" asp-route-id="@item?.Id">
+                    <p class="ms-4 sunglasses-title">@item?.Title</p>
+                </a>
+
+                @{
+                    if (favorites != null)
+                    {
+                        <i onclick="AddFavorite(@item.Id,this)" class="favoriteIcon nav-icon fa-heart text-warning @(favorites.Any(x => x.ProductId == item.Id) ? "fa-solid" :"fa-regular" )"></i>
+                    }
+                    else
+                    {
+                        <i onclick="AddFavorite(@item.Id,this)" class="favoriteIcon nav-icon fa-heart text-warning fa-regular "></i>
+
+                    }
+                }
+            </div>
+            <div class="">
+                <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.Id">
+                    <img src='@firstImageSrc' onmouseover="secondImg(this,'@secoundImageSrc')"
+                         onmouseleave="FirstImg(this,'@firstImageSrc')"
+                         class="card-img-top custom-carousel-image img-fluid rounded-2" alt="...">
+                </a>
+
+            </div>
+            <img src="@ViewData["cornerImage"]" class="position-absolute top-0 start-0 " style="width: 3vw;">
+
+            <div class="card-body p-0 d-flex justify-content-between border-1">
+
+                <div class="align-items-end">
+                    <small class="discountedPrice">$@item.SalesPrice</small>
+                    <p class="Price"><small>$</small>@item.DiscountedPrice</p>
+                </div>
+                <div>
+
+                    <div class="rate d-inline-flex flex-nowrap align-items-start justify-content-start">
+                        @for (double rating = 5; rating >= 0.5; rating -= 0.5)
+                        {
+                            <input onclick="ShowInPopup('@Url.Action("AddReview", "Product", new { productId = item.Id }, Context.Request.Scheme)', @rating)"
+                                   type="radio" name="@guid" value="@rating" @(roundedRate == rating ? "checked" : "") />
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+            <a onclick="addToCart(@item.Id)" class="add-to-cart pe-auto">
+                Add to cart <i class="fa-solid fa-cart-arrow-down"></i>
+            </a>
+
+        </div>
+
+    }
+</div>
+<i class="fa-solid fa-angle-right rounded-circle position-absolute top-50 end-0 text-warning translate-middle-y arrow"></i>
+

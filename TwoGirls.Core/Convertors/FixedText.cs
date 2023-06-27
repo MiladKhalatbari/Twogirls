@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwoGirls.Core.Convertors
+﻿namespace TwoGirls.Core.Convertors
 {
     public static class FixedText
     {

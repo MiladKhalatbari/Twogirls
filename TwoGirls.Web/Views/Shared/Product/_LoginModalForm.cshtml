@@ -1,0 +1,38 @@
+﻿@model TwoGirls.Core.DTOs.LoginViewModel
+@{
+    Layout = "_LayoutPartialviews";
+}
+@section style{
+    <link rel="stylesheet" href="~/css/Account-Style.css" asp-append-version="true">
+}
+
+
+<div class="alert alert-warning">
+    To proceed with this action, you need to be logged in. Please login to continue.
+</div>
+<p class="h1">Login</p>
+<form asp-controller="Account" asp-action="AjaxLogin" method="post" onsubmit="return jQueryAjaxPost(this);">
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">E-mail address *</label>
+        <input asp-for="Email" type="email" placeholder="Email *" class="form-control">
+        <span asp-validation-for="Email" class="text-tomato"></span>
+
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+
+        <label asp-for="Password" class="form-label">Password *</label>
+        <input asp-for="Password" type="password" placeholder="Password *" class="form-control">
+        <span asp-validation-for="Password" class="text-tomato"></span>
+
+        <a asp-action="ForgotPassword" asp-controller="Account">Forgot your password?</a>
+
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for=RememberMe type="checkbox" class="form-check-input" id="remember-me"><label asp-for=RememberMe>Remember me</label>
+    </div>
+    <button type="submit" class="btn-login"> Login </button>
+    <a class="btn-create-new-account" asp-area="" asp-controller="Account" asp-action="Register">Create New Account</a>
+
+</form>

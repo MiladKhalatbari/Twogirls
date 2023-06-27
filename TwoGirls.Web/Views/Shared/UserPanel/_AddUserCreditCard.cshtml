@@ -1,0 +1,40 @@
+﻿@using TwoGirls.DataLayer.Entities;
+@model CreditCard
+@{
+    Layout = null;
+}
+<form id="form-AddcreditCard" method="post" asp-controller="UserPanel" asp-action="AddCreditCard" onsubmit="return jQueryAjaxCreditCard(this);">
+    <input type="hidden" asp-for="UserId"/>
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="OwnerName"  class="form-label">Owner Name *</label>
+            <input asp-for="OwnerName" class="form-control" placeholder="Owner Name *">
+            <span asp-validation-for="OwnerName" class="text-tomato"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12 col-xl-6">
+            <label asp-for="CreditCardNumber" class="form-label">Card number *</label>
+            <input asp-for="CreditCardNumber" class="form-control" placeholder="****-****-****-****">
+            <span asp-validation-for="CreditCardNumber" class="text-tomato"></span>
+
+        </div>
+        <div class="col-6 col-xl-4">
+            <label asp-for="Month" class="form-label">Valid Date *</label>
+            <div class="input-group">
+                <input class="form-control" asp-for="Month" placeholder="MM" maxlength="2" size="2">
+                <span class="input-group-text">/</span>
+                <input class="form-control" asp-for="Year" placeholder="YYYY" maxlength="4" size="4">
+            </div>
+            <span asp-validation-for="Month" class="text-tomato"></span>
+            <span asp-validation-for="Year" class="text-tomato"></span>
+
+        </div>
+        <div class="col-6 col-xl-2">
+            <label asp-for="CVV" class="form-label">CVV *</label>
+            <input asp-for ="CVV" class="form-control" placeholder="CVV">
+            <span asp-validation-for="CVV" class="text-tomato"></span>
+        </div>
+    </div>
+    <button class="btn btn-warning w-100 mb-3" type="submit"><b>Add card</b></button>
+</form>

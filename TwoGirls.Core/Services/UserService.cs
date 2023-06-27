@@ -1,12 +1,5 @@
-﻿//using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using TwoGirls.Core.Convertors;
 using TwoGirls.Core.DTOs;
 using TwoGirls.Core.Generator;
@@ -19,7 +12,7 @@ namespace TwoGirls.Core.Services
 {
     public class UserService : IUserService
     {
-        TwogirsContext _context;
+        private readonly TwogirsContext _context;
         public UserService(TwogirsContext context)
         {
             _context = context;
@@ -123,8 +116,12 @@ namespace TwoGirls.Core.Services
         }
         public User GetUserByIdIncludeRole(int userId)
         {
-            return _context.Users.Include(x=> x.UserRole)
+            return _context.Users.Include(x => x.UserRole)
                                .FirstOrDefault(u => u.Id == userId);
+        }
+        public User GetUserByIdIncludeFavorites(int userId)
+        {
+            return _context.Users.Include(x => x.Favorites).FirstOrDefault(x => x.Id == userId);
         }
         public User GetUserByIdIgnoreQueryFilters(int userId)
         {
@@ -170,7 +167,7 @@ namespace TwoGirls.Core.Services
         }
         public bool CheckAddressId(int userId, int addressId)
         {
-           return _context.Addresses.Any(a=> a.Id == addressId && a.UserId == userId);
+            return _context.Addresses.Any(a => a.Id == addressId && a.UserId == userId);
         }
         public bool RemoveUserAddress(int userId, int addressId)
         {
@@ -227,14 +224,14 @@ namespace TwoGirls.Core.Services
         #region User Wallet
         public decimal GetAccountBalance(int UserId)
         {
-            var Deposit = _context.Transactions.Where(t => t.UserId == UserId && t.TypeId == 1&& t.Finaly==true).Select(t => t.Amount).ToList();
+            var Deposit = _context.Transactions.Where(t => t.UserId == UserId && t.TypeId == 1 && t.Finaly == true).Select(t => t.Amount).ToList();
             var Withdraw = _context.Transactions.Where(t => t.UserId == UserId && t.TypeId == 2 && t.Finaly == true).Select(t => t.Amount).ToList();
 
             return Deposit.Sum() - Withdraw.Sum();
         }
         public List<Transaction> GetAllTransactions(int UserId)
         {
-            return  _context.Transactions.Where(t => t.UserId == UserId && t.Finaly == true).Include(x=>x.TransactionType).ToList();
+            return _context.Transactions.Where(t => t.UserId == UserId && t.Finaly == true).Include(x => x.TransactionType).ToList();
         }
         public void AddTransaction(Transaction transaction)
         {
@@ -246,34 +243,49 @@ namespace TwoGirls.Core.Services
         #region User Favorites
         public List<Favorite> GetUserFavorites(int userId)
         {
-           return  _context.Users.Where(x => x.Id == userId).Include(x => x.Favorites).SelectMany(x => x.Favorites).ToList();
+            return _context.Users.Where(x => x.Id == userId).Include(x => x.Favorites).SelectMany(x => x.Favorites).ToList();
+        }
+        public bool IsInUserFavorites(int userId, int productId)
+        {
+            return _context.Favorites.Any(f => f.UserId == userId && f.ProductId == productId);
+        }
+        public void AddFavorite(Favorite favorite)
+        {
+            _context.Favorites.Add(favorite);
+            _context.SaveChanges();
+        }
+        public void DeleteFavorite(int userId, int productId)
+        {
+            var favorite = _context.Favorites.FirstOrDefault(f => f.UserId == userId && f.ProductId == productId);
+            _context.Favorites.Remove(favorite);
+            _context.SaveChanges();
         }
         #endregion
 
         #region User for Admin
 
-        public UsersForAdminViewModel GetUsersByFilterForAdminViewModel(int pageId = 1, string filter="")
+        public UsersForAdminViewModel GetUsersByFilterForAdminViewModel(int pageId = 1, string filter = "")
         {
             IQueryable<User> result = _context.Users;
 
             if (!filter.IsNullOrEmpty())
             {
-                result = result.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter)|| x.Email.Contains(filter));
+                result = result.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter) || x.Email.Contains(filter));
             }
-           
-            int take = 20;
-            int skip = (pageId - 1) * take;
-            UsersForAdminViewModel list = new UsersForAdminViewModel()
+
+            var take = 20;
+            var skip = (pageId - 1) * take;
+            var list = new UsersForAdminViewModel()
             {
                 CurrentPage = pageId,
                 PageCount = (int)Math.Ceiling(result.Count() / (double)take),
-                Users = result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take).Include(x=> x.UserRole).ToList()
+                Users = result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take).Include(x => x.UserRole).ToList()
             };
             return list;
         }
         public UsersForAdminViewModel GetDeletedUsersByFilterForAdminViewModel(int pageId = 1, string filter = "")
         {
-            IQueryable<User> result = _context.Users.IgnoreQueryFilters().Where(x => x.IsDelete);
+            var result = _context.Users.IgnoreQueryFilters().Where(x => x.IsDelete);
 
 
             if (!filter.IsNullOrEmpty())
@@ -281,9 +293,9 @@ namespace TwoGirls.Core.Services
                 result = result.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter) || x.Email.Contains(filter));
             }
 
-            int take = 20;
-            int skip = (pageId - 1) * take;
-            UsersForAdminViewModel list = new UsersForAdminViewModel()
+            var take = 20;
+            var skip = (pageId - 1) * take;
+            var list = new UsersForAdminViewModel()
             {
                 CurrentPage = pageId,
                 PageCount = (int)Math.Ceiling(result.Count() / (double)take),
@@ -309,7 +321,7 @@ namespace TwoGirls.Core.Services
         {
             try
             {
-             var user = GetUserById(userId);
+                var user = GetUserById(userId);
                 user.IsDelete = true;
                 _context.SaveChanges();
                 return true;
@@ -334,7 +346,7 @@ namespace TwoGirls.Core.Services
                 Console.WriteLine(ex.Message);
                 return false;
             }
-        }      
+        }
         public List<Role> GetAllRoles()
         {
             return _context.Roles.ToList();

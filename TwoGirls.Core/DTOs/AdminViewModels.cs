@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TwoGirls.DataLayer.Entities;
 
 namespace TwoGirls.Core.DTOs
@@ -60,4 +55,31 @@ namespace TwoGirls.Core.DTOs
     }
     #endregion
 
+    #region Order 
+    public class OrdersForAdminViewModel
+    {
+        public List<Order> Orders { get; set; }
+        public string Filter { get; set; }
+        public int CurrentPage { get; set; }
+        public int PageCount { get; set; }
+    }
+    #endregion
+    public class DiscountsForAdminViewModel
+    {
+        public List<DiscountCode> Discounts { get; set; }
+        public string Filter { get; set; }
+        public int CurrentPage { get; set; }
+        public int PageCount { get; set; }
+    }
+    #region  
+    #endregion TransactionsForAdminViewModels
+    public class TransactionsForAdminViewModel
+    {
+        public List<Transaction> Transactions { get; set; }
+        public string Filter { get; set; }
+        public int CurrentPage { get; set; }
+        public int PageCount { get; set; }
+    }
+    #region  
+    #endregion
 }

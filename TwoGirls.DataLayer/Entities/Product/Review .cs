@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
-using System.ComponentModel.DataAnnotations;
-using TwoGirls.DataLayer.Entities;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -13,7 +11,7 @@ namespace TwoGirls.DataLayer.Entities
         public string Comment { get; set; }
         [Range(0.5, 5)]
         [Required]
-        public Double Rate { get; set; }
+        public double Rate { get; set; }
         public int UserId { get; set; }
         public int ProductId { get; set; }
         public DateTime Date { get; set; }

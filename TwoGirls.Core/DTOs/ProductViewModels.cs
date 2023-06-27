@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwoGirls.DataLayer.Entities;
+﻿using TwoGirls.DataLayer.Entities;
 
 namespace TwoGirls.Core.DTOs
 {
     public class FilterProductViewModel
     {
         public int ProdcutTypeId { get; set; } = 0;
-        public List<int> SelectedCategories { get; set; }= new List<int>();
+        public List<int> SelectedCategories { get; set; } = new List<int>();
         public int MinPrice { get; set; } = 0;
         public int MaxPrice { get; set; } = 100;
         public List<Product> Products { get; set; } = new();
@@ -31,6 +26,15 @@ namespace TwoGirls.Core.DTOs
         public int MinPrice { get; set; } = 0;
         public int MaxPrice { get; set; } = 100;
         public List<Product> Products { get; set; } = new();
+        public PaginationViewModel? PaginationViewModel { get; set; }
+    }
+
+    public class DetailProductViewModel
+    {
+        public int SelectedStarAmount { get; set; }
+        public int ProductId { get; set; }
+        public Product? Product { get; set; }
+        public List<Review>? Reviews { get; set; }
         public PaginationViewModel? PaginationViewModel { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TwoGirls.DataLayer.Entities;
 
 namespace TwoGirls.DataLayer.Entities
 {
@@ -40,15 +39,15 @@ namespace TwoGirls.DataLayer.Entities
         public double Rate()
         {
 
-                if (Reviews.Count != 0)
-                {
-                    return Reviews.Average(x => x.Rate);
-                }
-                else
-                {
-                    return 5;
-                }
-           
+            if (Reviews != null && Reviews.Count != 0)
+            {
+                return Reviews.Average(x => x.Rate);
+            }
+            else
+            {
+                return 5;
+            }
+
 
         }
         public int ProductTypeId { get; set; }
